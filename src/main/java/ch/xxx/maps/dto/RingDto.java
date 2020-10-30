@@ -10,32 +10,25 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package ch.xxx.maps.model;
+package ch.xxx.maps.dto;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-@Entity
-public class Ring {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+public class RingDto {
 	private Long id;
 	private boolean primary;
-	@OneToMany(mappedBy = "ring", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<Location> locations = new HashSet<>();
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "polygon_id")
-	private Polygon polygon;
+	private List<LocationDto> locations = new ArrayList<>();
+
+	public RingDto() {
+	}
+
+	public RingDto(Long id, boolean primary, List<LocationDto> locations) {
+		super();
+		this.id = id;
+		this.primary = primary;
+		this.locations = locations;
+	}
 
 	public Long getId() {
 		return id;
@@ -53,11 +46,11 @@ public class Ring {
 		this.primary = primary;
 	}
 
-	public Set<Location> getLocations() {
+	public List<LocationDto> getLocations() {
 		return locations;
 	}
 
-	public void setLocations(Set<Location> locations) {
+	public void setLocations(List<LocationDto> locations) {
 		this.locations = locations;
 	}
 }

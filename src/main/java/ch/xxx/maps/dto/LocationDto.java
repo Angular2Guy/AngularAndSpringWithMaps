@@ -10,46 +10,23 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package ch.xxx.maps.model;
+package ch.xxx.maps.dto;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-
-@Entity
-public class Location {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+public class LocationDto {
 	private Long id;
 	private BigDecimal longitude;
 	private BigDecimal latitude;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ring_id")
-	private Ring ring;
-	@OneToOne(mappedBy = "centerLocation", fetch = FetchType.LAZY, optional = true)
-	private Polygon polygonCenter;
 
-	public Polygon getPolygonCenter() {
-		return polygonCenter;
+	public LocationDto() {
 	}
 
-	public void setPolygonCenter(Polygon polygonCenter) {
-		this.polygonCenter = polygonCenter;
-	}
-
-	public Ring getRing() {
-		return ring;
-	}
-
-	public void setRing(Ring ring) {
-		this.ring = ring;
+	public LocationDto(Long id, BigDecimal longitude, BigDecimal latitude) {
+		super();
+		this.id = id;
+		this.longitude = longitude;
+		this.latitude = latitude;
 	}
 
 	public Long getId() {
@@ -75,4 +52,5 @@ public class Location {
 	public void setLatitude(BigDecimal latitude) {
 		this.latitude = latitude;
 	}
+
 }

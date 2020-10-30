@@ -10,35 +10,26 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package ch.xxx.maps.model;
+package ch.xxx.maps.dto;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-@Entity
-public class CompanySite {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+public class CompanySiteDto {
 	private Long id;
 	private String title;
 	private LocalDate atDate;
-	@OneToMany(mappedBy = "companySite", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<Polygon> polygons = new HashSet<>();
+	private List<PolygonDto> polygons = new ArrayList<>();
 
-	public Set<Polygon> getPolygons() {
-		return polygons;
+	public CompanySiteDto() {
 	}
 
-	public void setPolygons(Set<Polygon> polygons) {
+	public CompanySiteDto(Long id, String title, LocalDate atDate, List<PolygonDto> polygons) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.atDate = atDate;
 		this.polygons = polygons;
 	}
 
@@ -64,5 +55,13 @@ public class CompanySite {
 
 	public void setAtDate(LocalDate atDate) {
 		this.atDate = atDate;
+	}
+
+	public List<PolygonDto> getPolygons() {
+		return polygons;
+	}
+
+	public void setPolygons(List<PolygonDto> polygons) {
+		this.polygons = polygons;
 	}
 }

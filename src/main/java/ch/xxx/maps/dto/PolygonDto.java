@@ -10,52 +10,30 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package ch.xxx.maps.model;
+package ch.xxx.maps.dto;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
-@Entity
-public class Polygon {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+public class PolygonDto {
 	private Long id;
 	private String fillColor;
 	private String borderColor;
 	private String title;
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "center_location")
-	private Location centerLocation;
-	@OneToMany(mappedBy = "polygon", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<Ring> rings = new HashSet<>();
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "company_site_id")
-	private CompanySite companySite;
+	private LocationDto centerLocation;
+	private List<RingDto> rings = new ArrayList<>();
 
-	public CompanySite getCompanySite() {
-		return companySite;
+	public PolygonDto() {
 	}
 
-	public void setCompanySite(CompanySite companySite) {
-		this.companySite = companySite;
-	}
-
-	public Set<Ring> getRings() {
-		return rings;
-	}
-
-	public void setRings(Set<Ring> rings) {
+	public PolygonDto(Long id, String fillColor, String borderColor, String title, LocationDto centerLocation,
+			List<RingDto> rings) {
+		super();
+		this.id = id;
+		this.fillColor = fillColor;
+		this.borderColor = borderColor;
+		this.title = title;
+		this.centerLocation = centerLocation;
 		this.rings = rings;
 	}
 
@@ -91,11 +69,19 @@ public class Polygon {
 		this.title = title;
 	}
 
-	public Location getCenterLocation() {
+	public LocationDto getCenterLocation() {
 		return centerLocation;
 	}
 
-	public void setCenterLocation(Location centerLocation) {
+	public void setCenterLocation(LocationDto centerLocation) {
 		this.centerLocation = centerLocation;
+	}
+
+	public List<RingDto> getRings() {
+		return rings;
+	}
+
+	public void setRings(List<RingDto> rings) {
+		this.rings = rings;
 	}
 }
