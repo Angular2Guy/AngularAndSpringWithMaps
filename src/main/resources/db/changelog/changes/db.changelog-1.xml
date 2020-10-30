@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2019 Sven Loesekann Licensed under the Apache License, Version 
+	2.0 (the "License"); you may not use this file except in compliance with 
+	the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+	<changeSet author="angular2guy" id="1">
+		<createSequence sequenceName="hibernate_sequence"
+			startValue="1000" />
+		<createTable tableName="company_site">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="title" type="varchar(255)" />
+			<column name="at_date" type="date" />
+		</createTable>
+		<createTable tableName="polygon">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="fill_color" type="varchar(10)" />
+			<column name="border_color" type="varchar(10)" />
+			<column name="title" type="varchar(255)" />
+			<column name="center_location" type="bigint">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+		<createTable tableName="ring">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="primary" type="boolean">
+				<constraints nullable="false" />
+			</column>
+			<column name="polygon_id" type="bigint">
+				<constraints nullable="false"
+					foreignKeyName="fk_polygon_id1" references="polygon(id)" />
+			</column>
+		</createTable>
+		<createTable tableName="location">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="longitude" type="numeric(18,15)" />
+			<column name="latitude" type="numeric(18,15)" />
+			<column name="ring_id" type="bigint">
+				<constraints nullable="true"
+					foreignKeyName="fk_ring_id1" references="ring(id)" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint baseTableName="polygon" baseColumnNames="center_location" constraintName="fk_polygon_center_location_id1"
+			referencedColumnNames="id" referencedTableName="location" />
+	</changeSet>
+</databaseChangeLog>
