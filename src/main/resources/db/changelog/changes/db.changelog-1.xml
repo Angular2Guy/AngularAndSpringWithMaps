@@ -31,6 +31,9 @@
 			<column name="center_location" type="bigint">
 				<constraints nullable="true" />
 			</column>
+			<column name="company_site_id" type="bigint">
+				<constraints nullable="false" foreignKeyName="fk_company_site_id1" references="company_site(id)"/>
+			</column>
 		</createTable>
 		<createTable tableName="ring">
 			<column name="id" type="bigint">
