@@ -1,0 +1,102 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.5.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+	id 'com.palantir.docker' version '0.25.0'
+}
+
+group = 'ch.xxx'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.liquibase:liquibase-core'
+	implementation 'org.tuckey:urlrewritefilter:4.0.4'	
+	implementation 'io.springfox:springfox-swagger2:2.9.2'
+	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+	implementation 'commons-net:commons-net:3.6'		
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation 'org.springframework.security:spring-security-test'
+	if(project.hasProperty('withAngular')) {
+		runtimeOnly 'io.r2dbc:r2dbc-postgresql'
+		runtimeOnly 'org.postgresql:postgresql'
+		testImplementation 'com.h2database:h2'
+		testImplementation 'io.r2dbc:r2dbc-h2'
+	} else {
+		runtimeOnly 'com.h2database:h2'
+		runtimeOnly 'io.r2dbc:r2dbc-h2'
+	}
+}
+
+bootJar {
+   archiveFileName = 'angularAndSpringWithMaps.jar'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+task cleanAngular {
+	if(project.hasProperty('withAngular')) {		
+		delete('src/angular/maps/node_modules')
+	}
+}
+
+task buildAngular {
+	if(project.hasProperty('withAngular')) {		
+		exec {
+			workingDir 'src/angular/maps'
+			if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+				commandLine('npm.cmd', 'install')
+			} else {
+				commandLine('npm', 'install')
+			}
+		}
+		exec {
+			workingDir 'src/angular/maps'
+			if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+				commandLine('npm.cmd', 'run', 'build')
+			} else {
+				commandLine('npm', 'run', 'build')
+			}		
+		}
+	}
+}
+
+task testAngular {
+	if(project.hasProperty('withAngular')) {		
+		exec {
+			workingDir 'src/angular/maps'
+			if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+				commandLine('npm.cmd', 'run', 'test')
+			} else {
+				if(project.hasProperty("useChromium")) { 
+					commandLine('npm', 'run', 'test-chromium')
+				} else {
+					commandLine('npm', 'run', 'test')
+				}
+			}
+		}
+	}
+}
+
+task buildDockerImage {
+	if(project.hasProperty('buildDockerImage')) {		
+		docker {
+			name 'angular2guy/AngularAndSpringWithMaps:latest'
+			buildArgs([JAR_FILE: 'angularAndSpringWithMaps.jar'])
+			files bootJar.archivePath
+			pull true
+    		noCache true
+		}
+	}
+}

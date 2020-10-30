@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="splash.welcome" datatype="html">
+        <source>Welcome to AngularAndSpringWithMaps</source>
+        <target>Welcome to AngularAndSpringWithMaps</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/splash/splash.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
