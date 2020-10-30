@@ -101,7 +101,7 @@ task testAngular {
 task buildDockerImage {
 	if(project.hasProperty('buildDockerImage')) {		
 		docker {
-			name 'angular2guy/AngularAndSpringWithMaps:latest'
+			name 'angular2guy/angularandspringwithmaps:latest'
 			buildArgs([JAR_FILE: 'angularAndSpringWithMaps.jar'])
 			files bootJar.archivePath
 			pull true
