@@ -1,5 +1,3 @@
-
-
 /**
  *    Copyright 2016 Sven Loesekann
 
@@ -15,19 +13,11 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Routes, RouterModule } from '@angular/router';
-import { NgModule } from '@angular/core';
-import { CompanySiteService } from './services/company-site.service';
-import { CompanySiteComponent } from './company-site/company-site.component';
+import { Injectable } from '@angular/core';
+import { MapsModule } from '../maps.module';
 
-const routes: Routes = [
-    {path: 'companySite', component: CompanySiteComponent},
-    {path: '', redirectTo: 'companySite', pathMatch: 'full'}
-];
+@Injectable({providedIn: MapsModule})
+export class CompanySiteService {
 
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  providers: [CompanySiteService],
-  exports: [RouterModule]
-})
-export class MapsRoutingModule { }
+  constructor() { }
+}

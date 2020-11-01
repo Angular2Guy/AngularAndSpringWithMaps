@@ -1,11 +1,7 @@
 const PROXY_CONFIG = [
     {
         context: [
-            "/bitstamp",
-            "/coinbase",
-            "/itbit",
-            "/bitfinex",
-            "/myuser"
+            "/rest",
         ],
         target: "http://localhost:8080",
         secure: false

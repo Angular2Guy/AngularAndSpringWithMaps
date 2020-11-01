@@ -1,5 +1,3 @@
-
-
 /**
  *    Copyright 2016 Sven Loesekann
 
@@ -15,19 +13,21 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Routes, RouterModule } from '@angular/router';
-import { NgModule } from '@angular/core';
-import { CompanySiteService } from './services/company-site.service';
-import { CompanySiteComponent } from './company-site/company-site.component';
+import { TestBed } from '@angular/core/testing';
 
-const routes: Routes = [
-    {path: 'companySite', component: CompanySiteComponent},
-    {path: '', redirectTo: 'companySite', pathMatch: 'full'}
-];
+import { CompanySiteService } from './company-site.service';
 
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  providers: [CompanySiteService],
-  exports: [RouterModule]
-})
-export class MapsRoutingModule { }
+/*
+describe('CompanySiteService', () => {
+  let service: CompanySiteService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(CompanySiteService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});
+*/
