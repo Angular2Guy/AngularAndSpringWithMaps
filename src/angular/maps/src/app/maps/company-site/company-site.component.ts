@@ -13,18 +13,18 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AuthGuardService } from './services/auth-guard.service';
-import { SplashComponent } from "./splash/splash.component";
+import { Component, OnInit } from '@angular/core';
 
-const routes: Routes = [
-    {path: 'maps', loadChildren: () => import('./maps/maps.module').then(m => m.MapsModule)},
-    {path: '**', component: SplashComponent},
-];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+@Component({
+  selector: 'app-company-site',
+  templateUrl: './company-site.component.html',
+  styleUrls: ['./company-site.component.scss']
 })
-export class AppRoutingModule { }
+export class CompanySiteComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}

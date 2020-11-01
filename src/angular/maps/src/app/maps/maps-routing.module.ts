@@ -1,3 +1,5 @@
+
+
 /**
  *    Copyright 2016 Sven Loesekann
 
@@ -13,18 +15,17 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuardService } from './services/auth-guard.service';
-import { SplashComponent } from "./splash/splash.component";
+import { CompanySiteComponent } from './company-site/company-site.component';
+import { NgModule } from '@angular/core';
 
 const routes: Routes = [
-    {path: 'maps', loadChildren: () => import('./maps/maps.module').then(m => m.MapsModule)},
-    {path: '**', component: SplashComponent},
+    {path: 'companySite', component: CompanySiteComponent},
+    {path: '', redirectTo: 'companySite', pathMatch: 'full'}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class MapsRoutingModule { }

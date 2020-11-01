@@ -14,17 +14,13 @@
    limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AuthGuardService } from './services/auth-guard.service';
-import { SplashComponent } from "./splash/splash.component";
-
-const routes: Routes = [
-    {path: 'maps', loadChildren: () => import('./maps/maps.module').then(m => m.MapsModule)},
-    {path: '**', component: SplashComponent},
-];
+import { CommonModule } from '@angular/common';
+import { CompanySiteComponent } from './company-site/company-site.component';
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  declarations: [CompanySiteComponent],
+  imports: [
+    CommonModule
+  ]
 })
-export class AppRoutingModule { }
+export class MapsModule { }
