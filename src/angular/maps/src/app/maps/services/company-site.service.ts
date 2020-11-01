@@ -19,7 +19,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CompanySite } from '../model/company-site';
 
-@Injectable({providedIn: MapsModule})
+@Injectable()
 export class CompanySiteService {
 
   constructor(private http: HttpClient) { }

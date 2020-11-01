@@ -16,11 +16,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CompanySiteComponent } from './company-site/company-site.component';
+import { CompanySiteService } from './services/company-site.service';
 
 @NgModule({
   declarations: [CompanySiteComponent],
   imports: [
     CommonModule
-  ]
+  ],
+  providers: [CompanySiteService]
 })
 export class MapsModule { }

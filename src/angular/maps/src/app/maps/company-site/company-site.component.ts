@@ -14,6 +14,7 @@
    limitations under the License.
  */
 import { Component, OnInit } from '@angular/core';
+import { CompanySiteService } from '../services/company-site.service';
 
 @Component({
   selector: 'app-company-site',
@@ -22,7 +23,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CompanySiteComponent implements OnInit {
 
-  constructor() { }
+  constructor(private companySiteService: CompanySiteService) { }
 
   ngOnInit(): void {
   }
