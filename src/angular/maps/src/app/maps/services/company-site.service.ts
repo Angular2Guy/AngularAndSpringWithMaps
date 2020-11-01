@@ -15,9 +15,20 @@
  */
 import { Injectable } from '@angular/core';
 import { MapsModule } from '../maps.module';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { CompanySite } from '../model/company-site';
 
 @Injectable({providedIn: MapsModule})
 export class CompanySiteService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
+
+  public findById(id: number): Observable<CompanySite> {
+	return this.http.get<CompanySite>(`/rest/companySite/id/${id}`);
+  }
+
+  public findByTitle(title: string): Observable<CompanySite> {
+	return this.http.get<CompanySite>(`/rest/companySite/title/${title}`)
+  }
 }
