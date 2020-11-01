@@ -13,17 +13,21 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CompanySiteComponent } from './company-site/company-site.component';
-import { CompanySiteService } from './services/company-site.service';
-import { ConfigurationService } from './services/configuration.service';
+import { TestBed } from '@angular/core/testing';
 
-@NgModule({
-  declarations: [CompanySiteComponent],
-  imports: [
-    CommonModule
-  ],
-  providers: [CompanySiteService, ConfigurationService]
-})
-export class MapsModule { }
+import { ConfigurationService } from './configuration.service';
+
+/*
+describe('ConfigurationService', () => {
+  let service: ConfigurationService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(ConfigurationService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});
+*/

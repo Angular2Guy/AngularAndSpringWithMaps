@@ -13,17 +13,17 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CompanySiteComponent } from './company-site/company-site.component';
-import { CompanySiteService } from './services/company-site.service';
-import { ConfigurationService } from './services/configuration.service';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { MainConfiguration } from '../model/main-configuration';
 
-@NgModule({
-  declarations: [CompanySiteComponent],
-  imports: [
-    CommonModule
-  ],
-  providers: [CompanySiteService, ConfigurationService]
-})
-export class MapsModule { }
+@Injectable()
+export class ConfigurationService {
+
+  constructor(private http: HttpClient) { }
+
+  public importConfiguration(): Observable<MainConfiguration> {
+	return this.http.get<MainConfiguration>(`/rest/configuration/main`);
+  }
+}

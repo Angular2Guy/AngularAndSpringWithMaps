@@ -14,7 +14,6 @@
    limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { MapsModule } from '../maps.module';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CompanySite } from '../model/company-site';
