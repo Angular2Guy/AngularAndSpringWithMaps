@@ -15,6 +15,8 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { CompanySiteService } from '../services/company-site.service';
+import * as BingMaps from 'bing-maps';
+
 
 @Component({
   selector: 'app-company-site',
@@ -26,6 +28,7 @@ export class CompanySiteComponent implements OnInit {
   constructor(private companySiteService: CompanySiteService) { }
 
   ngOnInit(): void {
+	
   }
 
 }
