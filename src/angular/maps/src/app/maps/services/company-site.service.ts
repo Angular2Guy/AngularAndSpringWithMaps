@@ -27,7 +27,7 @@ export class CompanySiteService {
 	return this.http.get<CompanySite>(`/rest/companySite/id/${id}`);
   }
 
-  public findByTitle(title: string, year: number): Observable<CompanySite> {
-	return this.http.get<CompanySite>(`/rest/companySite/title/${title}/year/${year}`)
+  public findByTitleAndYear(title: string, year: number): Observable<CompanySite[]> {
+	return this.http.get<CompanySite[]>(`/rest/companySite/title/${title}/year/${year}`)
   }
 }

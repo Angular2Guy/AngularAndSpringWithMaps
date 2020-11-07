@@ -1,1 +1,17 @@
-<p>company-site works!</p>
+<div>
+<form class="example-form" [formGroup]="componentForm">
+  <mat-form-field class="example-full-width">
+    <input type="text"
+           placeholder="Pick one"
+           aria-label="Number"
+           matInput
+           formControlName="companySiteName"           
+           [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayTitle">
+      <mat-option *ngFor="let option of companySiteOptions | async" [value]="option">
+        {{option.title}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+</div>

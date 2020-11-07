@@ -18,12 +18,16 @@ import { CommonModule } from '@angular/common';
 import { CompanySiteComponent } from './company-site/company-site.component';
 import { CompanySiteService } from './services/company-site.service';
 import { ConfigurationService } from './services/configuration.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
-  declarations: [CompanySiteComponent],
-  imports: [
-    CommonModule
-  ],
-  providers: [CompanySiteService, ConfigurationService]
+	declarations: [CompanySiteComponent],
+	imports: [
+		CommonModule,
+		MatAutocompleteModule,
+		MatFormFieldModule,
+	],
+	providers: [CompanySiteService, ConfigurationService]
 })
 export class MapsModule { }
