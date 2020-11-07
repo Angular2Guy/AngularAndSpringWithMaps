@@ -20,13 +20,17 @@ import { CompanySiteService } from './services/company-site.service';
 import { ConfigurationService } from './services/configuration.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSliderModule } from '@angular/material/slider';
+import { MapsRoutingModule } from './maps-routing.module';
 
 @NgModule({
 	declarations: [CompanySiteComponent],
 	imports: [
 		CommonModule,
+		MapsRoutingModule,
 		MatAutocompleteModule,
 		MatFormFieldModule,
+		MatSliderModule,
 	],
 	providers: [CompanySiteService, ConfigurationService]
 })

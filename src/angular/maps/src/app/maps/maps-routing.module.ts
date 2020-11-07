@@ -17,17 +17,15 @@
  */
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { CompanySiteService } from './services/company-site.service';
 import { CompanySiteComponent } from './company-site/company-site.component';
 
 const routes: Routes = [
+    {path: '', redirectTo: 'companySite', pathMatch: 'full'},
     {path: 'companySite', component: CompanySiteComponent},
-    {path: '', redirectTo: 'companySite', pathMatch: 'full'}
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  providers: [CompanySiteService],
   exports: [RouterModule]
 })
 export class MapsRoutingModule { }

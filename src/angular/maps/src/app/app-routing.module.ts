@@ -19,8 +19,9 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { SplashComponent } from "./splash/splash.component";
 
 const routes: Routes = [
+    {path: '', redirectTo: '/splash', pathMatch: 'full'},
     {path: 'maps', loadChildren: () => import('./maps/maps.module').then(m => m.MapsModule)},
-    {path: '**', component: SplashComponent},
+    {path: 'splash', component: SplashComponent},
 ];
 
 @NgModule({

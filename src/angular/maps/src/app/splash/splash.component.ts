@@ -35,7 +35,7 @@ export class SplashComponent implements AfterViewInit {
   constructor(private router: Router) { }
 
   ngAfterViewInit(): void {
-	this.router.navigateByUrl("maps");
+	this.router.navigate(['/maps']);	
     setTimeout(() => this.myState = true);
   }
 
