@@ -18,10 +18,10 @@ import { CompanySiteService } from '../services/company-site.service';
 import * as BingMaps from 'bing-maps';
 import { ConfigurationService } from '../services/configuration.service';
 import { MainConfiguration } from '../model/main-configuration';
-import { Observable } from 'rxjs';
+import { Observable, of, iif } from 'rxjs';
 import { CompanySite } from '../model/company-site';
 import { FormBuilder } from '@angular/forms';
-import { switchMap, debounceTime } from 'rxjs/operators';
+import { switchMap, debounceTime, flatMap } from 'rxjs/operators';
 
 
 @Component({
@@ -46,8 +46,11 @@ export class CompanySiteComponent implements OnInit {
 		this.configurationService.importConfiguration().subscribe(config => this.mainConfiguration = config);
 		this.companySiteOptions = this.componentForm.valueChanges.pipe(
 			debounceTime(300),
-			switchMap(() => this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), this.componentForm.get(this.SLIDER_YEAR).value).pipe())
-		);
+			switchMap(() => 			 
+			iif(() => (!this.getCompanySiteTitle() || this.getCompanySiteTitle().length < 3 || !this.componentForm.get(this.SLIDER_YEAR).value), 
+				of<CompanySite[]>([]), 
+				this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), this.componentForm.get(this.SLIDER_YEAR).value)) 
+		));
 	}
 
 	private getCompanySiteTitle(): string {
