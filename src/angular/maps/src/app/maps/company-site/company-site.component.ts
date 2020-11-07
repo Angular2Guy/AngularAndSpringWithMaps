@@ -58,7 +58,7 @@ export class CompanySiteComponent implements OnInit {
 	}
 
     formatLabel(value: number): string {
-		return 'Year '+value;
+		return ''+value;
  	}
 
 	displayTitle(companySite: CompanySite): string {

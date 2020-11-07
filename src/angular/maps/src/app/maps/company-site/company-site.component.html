@@ -11,8 +11,9 @@
 				{{option.title}} </mat-option> </mat-autocomplete> </mat-form-field>
 			</div>
 			<div>
-				<mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="10"
+				<mat-slider class="my-slider" thumbLabel [displayWith]="formatLabel" step="10"
 					min="1970" max="2020" formControlName="sliderYear"></mat-slider>
+				<span class="my-year" i18n="@@companysite.slideryear">Year: {{ componentForm.get('sliderYear').value }}</span>
 			</div>
 		</div>
 	</form>
