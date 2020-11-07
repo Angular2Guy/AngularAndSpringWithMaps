@@ -22,7 +22,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SplashComponent } from './splash/splash.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -36,7 +35,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 		BrowserAnimationsModule,
 		HttpClientModule,
 		MatProgressSpinnerModule,
-		ReactiveFormsModule,
 	],
 	bootstrap: [AppComponent]
 })
