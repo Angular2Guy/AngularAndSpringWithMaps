@@ -12,8 +12,10 @@
  */
 package ch.xxx.maps.service;
 
-
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,15 +27,23 @@ import ch.xxx.maps.repository.CompanySiteRepository;
 @Service
 public class CompanySiteService {
 	private final CompanySiteRepository companySiteRepository;
-	
+
 	public CompanySiteService(CompanySiteRepository companySiteRepository) {
 		this.companySiteRepository = companySiteRepository;
 	}
-	
-	public Optional<CompanySite> findCompanySiteByTitle(String title) {
-		return this.companySiteRepository.findByTitle(title);
+
+	public List<CompanySite> findCompanySiteByTitleAndYear(String title, Long year) {
+		if(title == null || title.length() > 2) {
+			return List.of();
+		}
+		LocalDate beginOfYear = LocalDate.of(year.intValue(), 1, 1);
+		LocalDate endOfYear = LocalDate.of(year.intValue(), 12, 31);
+		return this.companySiteRepository.findByTitle(title.toLowerCase()).stream()
+				.filter(companySite -> beginOfYear.isBefore(companySite.getAtDate())
+						&& endOfYear.isAfter(companySite.getAtDate()))
+				.collect(Collectors.toList());
 	}
-	
+
 	public Optional<CompanySite> findCompanySiteById(Long id) {
 		return this.companySiteRepository.findById(id);
 	}

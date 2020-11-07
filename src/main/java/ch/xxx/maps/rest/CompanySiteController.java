@@ -12,6 +12,9 @@
  */
 package ch.xxx.maps.rest;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,25 +29,27 @@ import ch.xxx.maps.model.CompanySite;
 import ch.xxx.maps.service.CompanySiteService;
 import ch.xxx.maps.service.EntityToDtoMapper;
 
-
 @RestController
 @RequestMapping("rest/companySite")
 public class CompanySiteController {
 	private final CompanySiteService companySiteService;
-	
+
 	public CompanySiteController(CompanySiteService companySiteService) {
 		this.companySiteService = companySiteService;
 	}
-	
-	@RequestMapping(value = "/title/{title}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<CompanySiteDto> getCompanySiteByTitle(@PathVariable("title") String title) {
-		CompanySite companySite = this.companySiteService.findCompanySiteByTitle(title).orElseThrow(() -> new ResourceNotFoundException(String.format("No CompanySite found for title: %s", title)));
-		return new ResponseEntity<CompanySiteDto>(EntityToDtoMapper.mapToDto(companySite), HttpStatus.OK);
+
+	@RequestMapping(value = "/title/{title}/year/{year}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<CompanySiteDto>> getCompanySiteByTitle(@PathVariable("title") String title,
+			@PathVariable("year") Long year) {
+		List<CompanySiteDto> companySiteDtos = this.companySiteService.findCompanySiteByTitleAndYear(title, year)
+				.stream().map(companySite -> EntityToDtoMapper.mapToDto(companySite)).collect(Collectors.toList());
+		return new ResponseEntity<List<CompanySiteDto>>(companySiteDtos, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CompanySiteDto> getCompanySiteByTitle(@PathVariable("id") Long id) {
-		CompanySite companySite = this.companySiteService.findCompanySiteById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("No CompanySite found for id: %d", id)));
+		CompanySite companySite = this.companySiteService.findCompanySiteById(id)
+				.orElseThrow(() -> new ResourceNotFoundException(String.format("No CompanySite found for id: %d", id)));
 		return new ResponseEntity<CompanySiteDto>(EntityToDtoMapper.mapToDto(companySite), HttpStatus.OK);
 	}
 }

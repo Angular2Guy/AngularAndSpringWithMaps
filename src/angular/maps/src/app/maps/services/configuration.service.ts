@@ -15,15 +15,24 @@
  */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MainConfiguration } from '../model/main-configuration';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class ConfigurationService {
+  private mainConfiguration: MainConfiguration = null;
 
   constructor(private http: HttpClient) { }
 
   public importConfiguration(): Observable<MainConfiguration> {
-	return this.http.get<MainConfiguration>(`/rest/configuration/main`);
+	if(!this.mainConfiguration) {
+	  return this.http.get<MainConfiguration>(`/rest/configuration/main`).pipe(tap(config => {
+		this.mainConfiguration = config;
+		return this.mainConfiguration;
+		}));
+	} else {
+		return of(this.mainConfiguration);
+	}
   }
 }

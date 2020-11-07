@@ -16,6 +16,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CompanySiteService } from '../services/company-site.service';
 import * as BingMaps from 'bing-maps';
+import { ConfigurationService } from '../services/configuration.service';
+import { MainConfiguration } from '../model/main-configuration';
 
 
 @Component({
@@ -24,8 +26,9 @@ import * as BingMaps from 'bing-maps';
   styleUrls: ['./company-site.component.scss']
 })
 export class CompanySiteComponent implements OnInit {
+  private mainConfiguration: MainConfiguration = null;
 
-  constructor(private companySiteService: CompanySiteService) { }
+  constructor(private companySiteService: CompanySiteService, private configurationService: ConfigurationService) { }
 
   ngOnInit(): void {
 	

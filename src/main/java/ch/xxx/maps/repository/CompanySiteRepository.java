@@ -12,12 +12,14 @@
  */
 package ch.xxx.maps.repository;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import ch.xxx.maps.model.CompanySite;
 
 public interface CompanySiteRepository extends JpaRepository<CompanySite, Long>{
-	Optional<CompanySite> findByTitle(String title);	
+	@Query("select cs from CompanySite cs where cs.title like %:title%")
+	List<CompanySite> findByTitle(String title);	
 }
