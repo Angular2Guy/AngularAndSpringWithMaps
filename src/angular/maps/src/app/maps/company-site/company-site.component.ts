@@ -33,7 +33,7 @@ export class CompanySiteComponent implements OnInit {
 	private mainConfiguration: MainConfiguration = null;
 	private readonly COMPANY_SITE = 'companySite';
 	private readonly SLIDER_YEAR = 'sliderYear';
-	
+
 	companySiteOptions: Observable<CompanySite[]>;
 	componentForm = this.formBuilder.group({
 		companySite: [''],
@@ -46,10 +46,10 @@ export class CompanySiteComponent implements OnInit {
 		this.configurationService.importConfiguration().subscribe(config => this.mainConfiguration = config);
 		this.companySiteOptions = this.componentForm.valueChanges.pipe(
 			debounceTime(300),
-			switchMap(() => 			 
-			iif(() => (!this.getCompanySiteTitle() || this.getCompanySiteTitle().length < 3 || !this.componentForm.get(this.SLIDER_YEAR).value), 
-				of<CompanySite[]>([]), 
-				this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), this.componentForm.get(this.SLIDER_YEAR).value)) 
+			switchMap(() =>
+			iif(() => (!this.getCompanySiteTitle() || this.getCompanySiteTitle().length < 3 || !this.componentForm.get(this.SLIDER_YEAR).value),
+				of<CompanySite[]>([]),
+				this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), this.componentForm.get(this.SLIDER_YEAR).value))
 		));
 	}
 

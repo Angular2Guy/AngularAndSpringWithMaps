@@ -28,6 +28,6 @@ export class CompanySiteService {
   }
 
   public findByTitleAndYear(title: string, year: number): Observable<CompanySite[]> {
-	return this.http.get<CompanySite[]>(`/rest/companySite/title/${title}/year/${year}`)
+	return this.http.get<CompanySite[]>(`/rest/companySite/title/${title}/year/${year}`);
   }
 }

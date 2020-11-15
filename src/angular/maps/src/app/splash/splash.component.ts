@@ -14,7 +14,7 @@
    limitations under the License.
  */
 import { Component, AfterViewInit } from '@angular/core';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { trigger, state, animate, transition, style } from '@angular/animations';
 
 @Component({
@@ -27,15 +27,15 @@ import { trigger, state, animate, transition, style } from '@angular/animations'
                    state( 'false', style( { opacity: 0 } ) ),
                    transition( '1 => 0', animate( '750ms' ) ),
                    transition( '0 => 1', animate( '750ms' ) )
-               ])]  
+               ])]
 })
-export class SplashComponent implements AfterViewInit {    
+export class SplashComponent implements AfterViewInit {
   myState = false;
-  
+
   constructor(private router: Router) { }
 
   ngAfterViewInit(): void {
-	this.router.navigate(['/maps']);	
+	this.router.navigate(['/maps']);
     setTimeout(() => this.myState = true);
   }
 

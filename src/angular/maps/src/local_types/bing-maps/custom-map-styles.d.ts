@@ -1,81 +1,81 @@
 /*
- * Copyright(c) 2017 Microsoft Corporation. All rights reserved. 
- * 
- * This code is licensed under the MIT License (MIT). 
- * 
+ * Copyright(c) 2017 Microsoft Corporation. All rights reserved.
+ *
+ * This code is licensed under the MIT License (MIT).
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal 
+ * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do 
- * so, subject to the following conditions: 
- * 
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software. 
- * 
+ * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE. 
+ * THE SOFTWARE.
 */
 
 /*
 * The following are TypeScript definitions for the custom map styles JSON object which can be used witht he Bing Maps V8 SDK.
 */
 
-declare module "bing-maps" {
+declare module 'bing-maps' {
 
     /** The styles options that can be applied to map elements. */
     export interface IMapElementStyle {
         /**
-        * Hex color used for filling polygons, the background of point icons, and for the center of lines if they have split.
-        */
+         * Hex color used for filling polygons, the background of point icons, and for the center of lines if they have split.
+         */
         fillColor?: string;
 
         /**
-        * The hex color of a map label.
-        */
+         * The hex color of a map label.
+         */
         labelColor?: string;
 
         /**
-        * The outline hex color of a map label.
-        */
+         * The outline hex color of a map label.
+         */
         labelOutlineColor?: string;
 
         /**
-        * Species if a map label type is visible or not.
-        */
+         * Species if a map label type is visible or not.
+         */
         labelVisible?: boolean;
 
         /**
-        * Hex color used for the outline around polygons, the outline around point icons, and the color of lines.
-        */
+         * Hex color used for the outline around polygons, the outline around point icons, and the color of lines.
+         */
         strokeColor?: string;
 
         /**
-        * Specifies if the map element is visible or not.
-        */
+         * Specifies if the map element is visible or not.
+         */
         visible?: boolean;
     }
 
     /** The style options that can be appliction to bordered map elements. */
     export interface IBorderedMapElementStyle extends IMapElementStyle {
         /**
-        * Secondary/casing line hex color of the border of a filled polygon.
-        */
+         * Secondary/casing line hex color of the border of a filled polygon.
+         */
         borderOutlineColor?: string;
 
         /**
-        * Primary line hex color of the border of a filled polygon.
-        */
+         * Primary line hex color of the border of a filled polygon.
+         */
         borderStrokeColor?: string;
 
         /**
-        * Specifies if a border is visible or not.
-        */
+         * Specifies if a border is visible or not.
+         */
         borderVisible?: boolean;
     }
 
@@ -83,7 +83,7 @@ declare module "bing-maps" {
     export interface ISettingsStyle {
         /** A hex color value that all land is first flushed to before things are drawn on it. */
         landColor?: string;
-		
+
 		/** Specifies whether or not to draw elevation shading on the map. */
 		shadedReliefVisible?: boolean;
     }
@@ -171,7 +171,7 @@ declare module "bing-maps" {
 
         /** A building which provides medical services. */
         medicalBuilding?: IMapElementStyle;
-	
+
 		/** A military area. */
         military?: IMapElementStyle;
 
@@ -237,7 +237,7 @@ declare module "bing-maps" {
 
 		/** Area of a stadium. */
 		stadium?: IMapElementStyle;
-		
+
         /** A street. */
         street?: IMapElementStyle;
 

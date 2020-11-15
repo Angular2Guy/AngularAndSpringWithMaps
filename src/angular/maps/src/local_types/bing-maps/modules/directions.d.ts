@@ -1,33 +1,33 @@
 /*
- * Copyright(c) 2017 Microsoft Corporation. All rights reserved. 
- * 
- * This code is licensed under the MIT License (MIT). 
- * 
+ * Copyright(c) 2017 Microsoft Corporation. All rights reserved.
+ *
+ * This code is licensed under the MIT License (MIT).
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal 
+ * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do 
- * so, subject to the following conditions: 
- * 
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software. 
- * 
+ * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE. 
+ * THE SOFTWARE.
 */
 
 /// <reference path="../bing-maps.d.ts"/>
 
-import { IPolylineOptions, IPushpinOptions, Pushpin } from "bing-maps";
+import { IPolylineOptions, IPushpinOptions, Pushpin } from 'bing-maps';
 
-declare module "bing-maps" {
-	module Directions {
+declare module 'bing-maps' {
+	namespace Directions {
     /////////////////////////////////////
     /// Enumerations
     ////////////////////////////////////
@@ -96,15 +96,15 @@ declare module "bing-maps" {
         cannotFindNearbyRoad = 2,
 
         /**
-        * The distance between two route waypoints, or the total length of the route exceeds the limit of the route mode.
-        * Modify the waypoint locations so that they are closer together.
-        */
+         * The distance between two route waypoints, or the total length of the route exceeds the limit of the route mode.
+         * Modify the waypoint locations so that they are closer together.
+         */
         tooFar = 3,
 
         /**
-        * A route cannot be calculated for the specified waypoints. For example, this code is returned when a route between
-        * “Seattle, WA” and “Honolulu, HI” is requested.
-        */
+         * A route cannot be calculated for the specified waypoints. For example, this code is returned when a route between
+         * “Seattle, WA” and “Honolulu, HI” is requested.
+         */
         noSolution = 4,
 
         /** There is no route data for the specified waypoints. */
@@ -120,18 +120,18 @@ declare module "bing-maps" {
         walkingBestAlternative = 9,
 
         /**
-        * There is no transit data available for the route or for one or more of the specified waypoints,
-        * or the waypoints are in different transit areas that do not overlap.
-        */
+         * There is no transit data available for the route or for one or more of the specified waypoints,
+         * or the waypoints are in different transit areas that do not overlap.
+         */
         outOfTransitBounds = 10,
 
         /** The directions calculation request has timed out. */
         timeOut = 11,
 
         /**
-        * One or more waypoints need to be disambiguated. This error does not occur if the
-        * autoDisplayDisambiguation directions render option is set to true.
-        */
+         * One or more waypoints need to be disambiguated. This error does not occur if the
+         * autoDisplayDisambiguation directions render option is set to true.
+         */
         waypointDisambiguation = 12,
 
         /** One or more waypoints do not have an address or location specified. */
@@ -349,13 +349,13 @@ declare module "bing-maps" {
         time: number;
 
         /**
-        * The total travel time, in seconds, taking into account traffic delays, for the route.
-        * This property is 0 if the avoidTraffic property of the IDirectionsRequestOptions is set to false.
-        */
+         * The total travel time, in seconds, taking into account traffic delays, for the route.
+         * This property is 0 if the avoidTraffic property of the IDirectionsRequestOptions is set to false.
+         */
         timeWithTraffic: number;
     }
 
-    /** Contains information about a transit line. */ 
+    /** Contains information about a transit line. */
     export interface ITransitLine {
         /** The short name for the transit line. */
         abbreviatedName: string;
@@ -384,15 +384,15 @@ declare module "bing-maps" {
 
     /** Options that can be used to define a waypoint. */
     export interface IWaypointOptions {
-        /** 
-        * The address string of the waypoint. For example, the following strings are valid for this parameter: "Seattle", "1 Microsoft Way, Redmond, WA". Either the address or location property must be specified.
-        */
+        /**
+         * The address string of the waypoint. For example, the following strings are valid for this parameter: "Seattle", "1 Microsoft Way, Redmond, WA". Either the address or location property must be specified.
+         */
         address?: string;
 
-        /** 
-        * A boolean indicating whether the waypoint is a via point. A via point is a point along the route that is not a stop point. Set this property to
-        * true if you just want the route to pass through this location. Default: false
-        */
+        /**
+         * A boolean indicating whether the waypoint is a via point. A via point is a point along the route that is not a stop point. Set this property to
+         * true if you just want the route to pass through this location. Default: false
+         */
         isViaPoint?: boolean;
 
         /** The location of the waypoint. Either the address or location property must be specified. */
@@ -447,9 +447,9 @@ declare module "bing-maps" {
         displayPostItineraryItemHints?: boolean;
 
         /**
-        * A boolean indicating whether to display direction hints that describe what to look for before you come to the next
-        * direction step. The default value is true.
-        */
+         * A boolean indicating whether to display direction hints that describe what to look for before you come to the next
+         * direction step. The default value is true.
+         */
         displayPreItineraryItemHints?: boolean;
 
         /** A boolean indicating whether to display the route selector control. Default: true */
@@ -489,17 +489,17 @@ declare module "bing-maps" {
     /** Specifies the vehicle attributes to use when calculating a truck route. */
     export interface IVehicleSpec {
         /**
-        * The unit of measurement of width, height, length. Can be one of the following values:
-        * •	meter or m [default]
-        * •	foot or ft
-        */
+         * The unit of measurement of width, height, length. Can be one of the following values:
+         * •	meter or m [default]
+         * •	foot or ft
+         */
         dimensionUnit?: string;
 
         /**
-        * The unit of measurement of weight. Can be one of the following values:
-        * •	kilogram or kg [default]
-        * •	pound or lb
-        */
+         * The unit of measurement of weight. Can be one of the following values:
+         * •	kilogram or kg [default]
+         * •	pound or lb
+         */
         weightUnit?: string;
 
         /** The height of the vehicle in the specified dimension units. */
@@ -510,7 +510,7 @@ declare module "bing-maps" {
 
         /** The length of the vehicle in the specified dimension units. */
         vehicleLength?: number;
-        
+
         /** The weight of the vehicle in the specified weight units. */
         vehicleWeight?: number;
 
@@ -536,44 +536,44 @@ declare module "bing-maps" {
         vehicleAvoidGroundingRisk?: boolean;
 
         /**
-        * A comma separated and case-sensitive list of one or more hazardous materials for which the vehicle is transporting. Possible values and their aliases are:
-        *
-        * •	Combustable or C
-        * •	Corrosive or Cr
-        * •	Explosive or E
-        * •	Flammable or F
-        * •	FlammableSolid or FS
-        * •	Gas or G
-        * •	GoodsHarmfulToWater or WH
-        * •	Organic or O
-        * •	Other
-        * •	Poison or P
-        * •	PoisonousInhalation or PI
-        * •	Radioactive or R
-        * •	None
-        * 
-        * Example: "WH,R,Poison"
-        */
+         * A comma separated and case-sensitive list of one or more hazardous materials for which the vehicle is transporting. Possible values and their aliases are:
+         *
+         * •	Combustable or C
+         * •	Corrosive or Cr
+         * •	Explosive or E
+         * •	Flammable or F
+         * •	FlammableSolid or FS
+         * •	Gas or G
+         * •	GoodsHarmfulToWater or WH
+         * •	Organic or O
+         * •	Other
+         * •	Poison or P
+         * •	PoisonousInhalation or PI
+         * •	Radioactive or R
+         * •	None
+         *
+         * Example: "WH,R,Poison"
+         */
         vehicleHazardousMaterials?: string;
 
-        /** 
-        * A comma separated and case-sensitive list of one or more hazardous materials for which the vehicle has a permit. Possible values and their aliases are: 
-        * 
-        * •	AllAppropriateForLoad
-        * •	Combustible or C 
-        * •	Corrosive or Cr 
-        * •	Explosive or E 
-        * •	Flammable or F 
-        * •	FlammableSolid or FS 
-        * •	Gas or G 
-        * •	Organic or O 
-        * •	Poison or P 
-        * •	PoisonousInhalation or PI 
-        * •	Radioactive or R 
-        * •	None
-        * 
-        * Example: "C,Explosive,Corrosive" 
-        */
+        /**
+         * A comma separated and case-sensitive list of one or more hazardous materials for which the vehicle has a permit. Possible values and their aliases are:
+         *
+         * •	AllAppropriateForLoad
+         * •	Combustible or C
+         * •	Corrosive or Cr
+         * •	Explosive or E
+         * •	Flammable or F
+         * •	FlammableSolid or FS
+         * •	Gas or G
+         * •	Organic or O
+         * •	Poison or P
+         * •	PoisonousInhalation or PI
+         * •	Radioactive or R
+         * •	None
+         *
+         * Example: "C,Explosive,Corrosive"
+         */
         vehicleHazardousPermits?: string;
     }
 
@@ -594,24 +594,28 @@ declare module "bing-maps" {
 
         /**
          * Gets the address associated with the waypoint.
+         *
          * @returns The address associated with the waypoint.
          */
         public getAddress(): string;
 
         /**
          * Gets the location of the waypoint.
+         *
          * @returns The location of the waypoint.
          */
         public getLocation(): Location;
 
         /**
          * Gets a boolean value indicating whether the waypoint is a via point.
+         *
          * @returns A boolean value indicating whether the waypoint is a via point.
          */
         public isViapoint(): boolean;
 
         /**
          * Sets options for the waypoint. For these options to take effect, you must recalculate the route.
+         *
          * @param options Options used to define the Waypoint.
          */
         public setOptions(options: IWaypointOptions): void;
@@ -629,13 +633,14 @@ declare module "bing-maps" {
 
         /**
          * Adds a waypoint to the route at the given index, if specified. If an index is not specified, the waypoint is added as the last waypoint in the route. The maximum number of walking or driving waypoints is 25. The maximum number of transit waypoints is 2. Up to 10 via points are allowed between two stop waypoints. To recalculate the route, use calculateDirections.
+         *
          * @param waypoint The waypoint to be added to the directions manager.
          * @param index An index at which the waypoint is to be added.
          */
         public addWaypoint(waypoint: Waypoint, index?: number): void;
 
         /**
-         * Calculates directions based on request and render options set 
+         * Calculates directions based on request and render options set
          */
         public calculateDirections(): void;
 
@@ -643,8 +648,8 @@ declare module "bing-maps" {
         public clearAll(): void;
 
         /**
-         * Clears the directions displayed and removes the route line from the map. 
-         * This method does not remove waypoints from the route and retains all calculated direction information and option settings. 
+         * Clears the directions displayed and removes the route line from the map.
+         * This method does not remove waypoints from the route and retains all calculated direction information and option settings.
          */
         public clearDisplay(): void;
 
@@ -654,80 +659,90 @@ declare module "bing-maps" {
         /**
          * Returns all current pushpins for the rendered route.This includes pushpins created by addWaypoint and viaPoints created due to drag and drop.
          */
-        public getAllPushpins(): Pushpin[];	
+        public getAllPushpins(): Pushpin[];
 
         /**
          * Gets all the waypoints in the directions manager.
+         *
          * @returns All the waypoints in the directions manager.
          */
         public getAllWaypoints(): Waypoint[];
 
         /**
          * Gets the currently displayed route information.
+         *
          * @returns The currently displayed route information.
          */
         public getCurrentRoute(): IRoute;
 
         /**
-        * Gets the route render options.
-        * @returns The route render options
-        */
+         * Gets the route render options.
+         *
+         * @returns The route render options
+         */
         public getRenderOptions(): IDirectionsRenderOptions;
 
         /**
          * Gets the directions request options.
+         *
          * @returns The directions request options.
          */
         public getRequestOptions(): IDirectionsRequestOptions;
-        
+
         /**
          * Gets the current calculated route(s)
+         *
          * @returns The current calculated route(s). If the route was not successfully calculated, null is returned.
          */
         public getRouteResult(): IRoute[];
 
         /**
-        * Removes the given waypoint or the waypoint identified by the given index from the route. 
-        * @param waypointOrIndex A Waypoint object to be removed or the index of the waypoint to be removed
-        */
+         * Removes the given waypoint or the waypoint identified by the given index from the route.
+         *
+         * @param waypointOrIndex A Waypoint object to be removed or the index of the waypoint to be removed
+         */
         public removeWaypoint(waypointOrIndex: Waypoint | number): void;
 
         /**
          * Sets the specified render options for the route.
+         *
          * @param options The options that customize the rendering of the calculated route.
          */
         public setRenderOptions(options: IDirectionsRenderOptions): void;
 
         /**
          * Sets the specified route calculation options.
+         *
          * @param options The route calculation options.
          */
         public setRequestOptions(options: IDirectionsRequestOptions): void;
 
        /**
         * Displays an input panel for calculating directions in the specified container. Provides autosuggest for location inputs.
+        *
         * @param inputContainerId The id name of the HTML container in which to render the directions input panel.
         */
-        public showInputPanel(inputContainerId: string): void;        
+        public showInputPanel(inputContainerId: string): void;
     }
 }
 }
-declare module "bing-maps" {
+declare module 'bing-maps' {
     /** A static class that manages events within the map SDK. */
-    module Events {
+    namespace Events {
         /////////////////////////////////////
         /// addHandler Definitions
         ////////////////////////////////////
 
         /**
-        * Attaches the handler for the event that is thrown by the target. Use the return object to remove the handler using the removeHandler method.
-        * @param target The object to attach the event to; Map, IPrimitive, Infobox, Layer, DrawingTools, DrawingManager, DirectionsManager, etc.
-        * @param eventName The type of event to attach. Supported Events:
-        * • directionsError
-        * • directionsUpdated
-        * @param handler The callback function to handle the event when triggered. 
-        * @returns The handler id.
-        */
+         * Attaches the handler for the event that is thrown by the target. Use the return object to remove the handler using the removeHandler method.
+         *
+         * @param target The object to attach the event to; Map, IPrimitive, Infobox, Layer, DrawingTools, DrawingManager, DirectionsManager, etc.
+         * @param eventName The type of event to attach. Supported Events:
+         * • directionsError
+         * • directionsUpdated
+         * @param handler The callback function to handle the event when triggered.
+         * @returns The handler id.
+         */
         export function addHandler(target: Directions.DirectionsManager, eventName: string, handler: (eventArg?: Directions.IDirectionsEventArgs | Directions.IDirectionsErrorEventArgs) => void): IHandlerId;
 
         /////////////////////////////////////
@@ -736,6 +751,7 @@ declare module "bing-maps" {
 
         /**
          * Attaches the handler for the event that is thrown by the target, but only triggers the handler the first once after being attached.
+         *
          * @param target The object to attach the event to; Map, IPrimitive, Infobox, Layer, DrawingTools, DrawingManager, DirectionsManager, etc.
          * @param eventName The type of event to attach. Supported Events:
          * • directionsError
@@ -750,6 +766,7 @@ declare module "bing-maps" {
 
         /**
          * Attaches the handler for the event that is thrown by the target, where the minimum interval between events (in milliseconds) is specified as a parameter.
+         *
          * @param target The object to attach the event to; Map, IPrimitive, Infobox, Layer, DrawingTools, DrawingManager, DirectionsManager, etc.
          * @param eventName The type of event to attach. Supported Events:
          * • directionsError

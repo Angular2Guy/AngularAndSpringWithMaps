@@ -1,32 +1,32 @@
 /*
- * Copyright(c) 2017 Microsoft Corporation. All rights reserved. 
- * 
- * This code is licensed under the MIT License (MIT). 
- * 
+ * Copyright(c) 2017 Microsoft Corporation. All rights reserved.
+ *
+ * This code is licensed under the MIT License (MIT).
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal 
+ * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do 
- * so, subject to the following conditions: 
- * 
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software. 
- * 
+ * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE. 
+ * THE SOFTWARE.
 */
 
 /// <reference path="../bing-maps.d.ts"/>
 
-declare module "bing-maps" {
+declare module 'bing-maps' {
 
-    /** 
+    /**
      * The contour layer options
      */
     interface IContourLayerOptions {
@@ -82,30 +82,35 @@ declare module "bing-maps" {
 
         /**
          * Gets the contour lines of this layer.
+         *
          * @returns The contour lines of this layer.
          */
         public getContourLines(): ContourLine[];
 
         /**
          * Gets the polygons that were generated from the contour lines in this layer.
+         *
          * @returns The polygons that were generated from the contour lines in this layer.
          */
         public getContourPolygons(): Polygon[];
 
         /**
          * Retrieves the options of this contour layer.
+         *
          * @returns The options of this contour layer.
          */
         public getOptions(): IContourLayerOptions;
 
         /**
          * Sets the contour lines used to calculate the polygon areas of this layer.
+         *
          * @param contourLines The contour lines used to calculate the polygon areas of this layer.
          */
         public setContourLines(contourLines: ContourLine[]): void;
 
         /**
          * Sets the options of the contour layer.
+         *
          * @param options The new options to update the layer.
          */
         public setOptions(options: IContourLayerOptions): void;

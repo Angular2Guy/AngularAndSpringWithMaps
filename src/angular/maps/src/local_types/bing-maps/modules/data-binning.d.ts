@@ -1,31 +1,31 @@
 /*
- * Copyright(c) 2017 Microsoft Corporation. All rights reserved. 
- * 
- * This code is licensed under the MIT License (MIT). 
- * 
+ * Copyright(c) 2017 Microsoft Corporation. All rights reserved.
+ *
+ * This code is licensed under the MIT License (MIT).
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal 
+ * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do 
- * so, subject to the following conditions: 
- * 
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software. 
- * 
+ * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE. 
+ * THE SOFTWARE.
 */
 
 /// <reference path="../bing-maps.d.ts"/>
 /// <reference path="spatial-math.d.ts"/>
 
-declare module "bing-maps" {
+declare module 'bing-maps' {
 
     /**
      * Specifies the shape of data bin rendered in the layer.
@@ -83,8 +83,8 @@ declare module "bing-maps" {
     }
 
     /**
-    * A set of values calculated from the pushpins in a data bin.
-    */
+     * A set of values calculated from the pushpins in a data bin.
+     */
     export interface IDataBinMetrics {
 
         /* The average value of the aggregation property of the pushpins in a data bin. */
@@ -104,8 +104,8 @@ declare module "bing-maps" {
     }
 
     /**
-    * The result of a calculated data bin.
-    */
+     * The result of a calculated data bin.
+     */
     export interface IDataBinInfo {
         /* An array of all the pushpins that are in the data bin. */
         containedPushpins: Pushpin[];
@@ -115,7 +115,7 @@ declare module "bing-maps" {
     }
 
     /**
-     *  A polygon which represents a data bin on the map and contains the data bin information. 
+     *  A polygon which represents a data bin on the map and contains the data bin information.
      */
 
     export class DataBinPolygon extends Polygon {
@@ -131,6 +131,7 @@ declare module "bing-maps" {
     export class DataBinningLayer extends Layer {
         /**
          * Initializes the data binning layer.
+         *
          * @param pushpins The array of pushpins that are used to generate the data bins.
          * @param options The options used for calculating and rendering the data bins.
          */
@@ -138,18 +139,21 @@ declare module "bing-maps" {
 
         /**
          * Gets the options used for calculating and rendering the data bins.
+         *
          * @returns The options used for calculating and rendering the data bins.
          */
         public getOptions(): IDataBinningOptions;
 
         /**
          * Gets all pushpins that are in the layers.
+         *
          * @returns All pushpins that are in the layers.
          */
         public getPushpins(): Pushpin[];
 
         /**
          * Sets the array of pushpins that are used to generate the data bins.
+         *
          * @param pushpins The array of pushpins that are used to generate the data bins.
          */
         public setPushpins(pushpins: Pushpin[]): void;
@@ -166,6 +170,7 @@ declare module "bing-maps" {
 
         /**
          * Sets the options used for calculating and rendering the data bins.
+         *
          * @param options The options used for calculating and rendering the data bins.
          */
         public setOptions(options: IDataBinningOptions): void;

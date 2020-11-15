@@ -1,36 +1,37 @@
 /*
- * Copyright(c) 2017 Microsoft Corporation. All rights reserved. 
- * 
- * This code is licensed under the MIT License (MIT). 
- * 
+ * Copyright(c) 2017 Microsoft Corporation. All rights reserved.
+ *
+ * This code is licensed under the MIT License (MIT).
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal 
+ * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do 
- * so, subject to the following conditions: 
- * 
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software. 
- * 
+ * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE. 
+ * THE SOFTWARE.
 */
 
 /// <reference path="../bing-maps.d.ts"/>
 
 /**
  * This module wraps the Query and GeoData REST API’s in the Bing Spatial Dara Services and expose them as an easy to use JavaScript library.
+ *
  * @requires The Microsoft.Maps.SpatialDataService module.
  */
-declare module "bing-maps" {
+declare module 'bing-maps' {
 
-	module SpatialDataService {
+	namespace SpatialDataService {
 		//////////////////////////////////////////////
 		/// GeoData API
 		//////////////////////////////////////////////
@@ -38,41 +39,41 @@ declare module "bing-maps" {
 		/** Represents the options for requests boundary data from the GeoData API in the Bing Spatial Data Services. */
 		export interface IGetBoundaryRequestOptions {
 			/**
-			* The level of detail for the boundary polygons returned. An integer between 0 and 3, where 0 specifies the coarsest level of boundary detail and 3
-			* specifies the best. Default: 0
-			*/
+			 * The level of detail for the boundary polygons returned. An integer between 0 and 3, where 0 specifies the coarsest level of boundary detail and 3
+			 * specifies the best. Default: 0
+			 */
 			lod?: number;
 
 			/**
-			* The entity type to return. Default: CountryRegion
-			* Supported entity types:
-			* AdminDivision1, AdminDivision2, CountryRegion, eighborhood, PopulatedPlace, Postcode1, Postcode2, Postcode3, Postcode4
-			* Note: Not all entity types are available in all areas.
-			*/
+			 * The entity type to return. Default: CountryRegion
+			 * Supported entity types:
+			 * AdminDivision1, AdminDivision2, CountryRegion, eighborhood, PopulatedPlace, Postcode1, Postcode2, Postcode3, Postcode4
+			 * Note: Not all entity types are available in all areas.
+			 */
 			entityType?: string;
 
 			/**
-			* Specifies the preferred language to use for any metadata text about the entity or polygons. Defaults to the culture used by the map control, which
-			* usually automatically detected based on user's browser settings. Setting this property will override the default value.
-			*/
+			 * Specifies the preferred language to use for any metadata text about the entity or polygons. Defaults to the culture used by the map control, which
+			 * usually automatically detected based on user's browser settings. Setting this property will override the default value.
+			 */
 			culture?: string;
 
 			/**
-			* Specifies whether the response should include all of the boundary polygons for the requested entity or just return a single polygon that represents
-			* the main outline of the entity. Default: false
-			*/
+			 * Specifies whether the response should include all of the boundary polygons for the requested entity or just return a single polygon that represents
+			 * the main outline of the entity. Default: false
+			 */
 			getAllPolygons?: boolean;
 
 			/**
-			* Specifies whether the response should include metadata about the entity, such as AreaSqKm and others. Default: false
-			*/
+			 * Specifies whether the response should include metadata about the entity, such as AreaSqKm and others. Default: false
+			 */
 			getEntityMetadata?: boolean;
 
 			/**
-			* Specifies the user’s home country or region.Defaults to the region setting of the user who loads the map.
-			* Warning: Setting this property will override the default value, which is the region the user is actually in, and will allow the user to see boundaries
-			* which may not align with the views of their region.This could result in geopolitically sensitive borders being returned.
-			*/
+			 * Specifies the user’s home country or region.Defaults to the region setting of the user who loads the map.
+			 * Warning: Setting this property will override the default value, which is the region the user is actually in, and will allow the user to see boundaries
+			 * which may not align with the views of their region.This could result in geopolitically sensitive borders being returned.
+			 */
 			userRegion?: string;
 		}
 
@@ -82,18 +83,18 @@ declare module "bing-maps" {
 			PrimitiveID: string;
 
 			/**
-			* A comma-delimited sequence starting with the version number of the polygon set followed by a list of compressed polygon
+			 * A comma-delimited sequence starting with the version number of the polygon set followed by a list of compressed polygon
 			 * "rings" (closed paths represented by sequences of latitude and-longitude points).
-			*/
+			 */
 			Shape: string;
 
 			/** The number of vertex points used to define the polygon. */
 			NumPoints: string;
 
 			/**
-			* An ID identifying the data provider that supplied the data. This ID number will reference one of the sources listed in the
-			* array of CopyrightSources in the Copyright property of the GeoDataResultSet object.
-			*/
+			 * An ID identifying the data provider that supplied the data. This ID number will reference one of the sources listed in the
+			 * array of CopyrightSources in the Copyright property of the GeoDataResultSet object.
+			 */
 			SourceID: string;
 		}
 
@@ -136,9 +137,9 @@ declare module "bing-maps" {
 			AreaSqKm: string;
 
 			/**
-			* An area on the Earth that provides the best map view for this entity. This area is defined as a bounding box in the format of a
-			* “MULTIPOINT ((WestLongitude SouthLatitude), (EastLongitude NorthLatitude))”.
-			*/
+			 * An area on the Earth that provides the best map view for this entity. This area is defined as a bounding box in the format of a
+			 * “MULTIPOINT ((WestLongitude SouthLatitude), (EastLongitude NorthLatitude))”.
+			 */
 			BestMapViewBox: string;
 
 			/** The culture associated with this entity. Example: en */
@@ -160,9 +161,9 @@ declare module "bing-maps" {
 			EntityID: string;
 
 			/**
-			* A collection of metadata information associated with the entity. The getEntityMetadata option of the request must be set
-			* to true. Note, not all boundaries will return this metadata.
-			*/
+			 * A collection of metadata information associated with the entity. The getEntityMetadata option of the request must be set
+			 * to true. Note, not all boundaries will return this metadata.
+			 */
 			EntityMetadata: IMetadata;
 
 			/** Information about the name of the boundary location. */
@@ -191,12 +192,14 @@ declare module "bing-maps" {
 		 * This is a static class that provides the ability to request polygons that describe the boundaries of a geographic entities, such as an AdminDivision1
 		 * (such as a state or province) or a Postcode1 (such as a zip code) that contain a given point (latitude and longitude) or address. This uses the GeoData
 		 * API in the Bing Spatial Data Services.
+		 *
 		 * @requires The Microsoft.Maps.SpatialDataService module.
 		 */
-		export module GeoDataAPIManager {
+		export namespace GeoDataAPIManager {
 			/**
 			 * Gets a boundary for the specified request. If the specified location value is a string, it will be geocoded and the coordinates of the result will
 			 * be used to find a boundary of the specified entityType that intersects with this coordinate.
+			 *
 			 * @requires The Microsoft.Maps.SpatialDataService module.
 			 * @param locations The locations to retrieve boundaries for. If the specified location value is a string, it will be geocoded and the coordinates of
 			 * the result will be used to find a boundary of the specified entityType that intersects with this coordinate.
@@ -205,7 +208,7 @@ declare module "bing-maps" {
 			 * to be loaded with a bing maps key that has access to the data source.
 			 * @param callback A callback function to return the results to. If an array of locations are specified the callback function will be triggered for each location in the array.
 			 * @param styles The polygon styling settings to apply to the boundary polygon.
-			 * @param errorCallback A callback function to trigger when an error occurs when searching for a boundary. 
+			 * @param errorCallback A callback function to trigger when an error occurs when searching for a boundary.
 			 */
 			export function getBoundary(locations: string | Location | (string | Location)[],
 				request: IGetBoundaryRequestOptions,
@@ -221,9 +224,10 @@ declare module "bing-maps" {
 		//////////////////////////////////////////////
 
 		/**
-		* An enumeration that defines how to compare the filters value against the corresponding property value.
-		* @requires The Microsoft.Maps.SpatialDataService module.
-		*/
+		 * An enumeration that defines how to compare the filters value against the corresponding property value.
+		 *
+		 * @requires The Microsoft.Maps.SpatialDataService module.
+		 */
 		export enum FilterCompareOperator {
 			/** Determines if a string value ends with a specified string value. */
 			endsWith,
@@ -260,9 +264,10 @@ declare module "bing-maps" {
 		}
 
 		/**
-		* An enumeration that defines how two or more filters are linked together.
-		* @requires The Microsoft.Maps.SpatialDataService module.
-		*/
+		 * An enumeration that defines how two or more filters are linked together.
+		 *
+		 * @requires The Microsoft.Maps.SpatialDataService module.
+		 */
 		export enum FilterLogicalOperator {
 			/** Connects two or more filters that both must be true. */
 			and,
@@ -272,26 +277,29 @@ declare module "bing-maps" {
 		}
 
 		/**
-		* A Fitler object that defines the logic behind a filter expression that can be executed against a JSON object or generate
-		* a filter string that can be used with the Bing Spatial Data Services.
-		*/
+		 * A Fitler object that defines the logic behind a filter expression that can be executed against a JSON object or generate
+		 * a filter string that can be used with the Bing Spatial Data Services.
+		 */
 		export interface IFilter {
 			/**
-			* Executes the filter logic against a JSON object and returns a boolean indicating if the object meets the requirements of the Filter.
-			* @returns A boolean indicating if the specified object meets the requirements of the Filter.
-			*/
+			 * Executes the filter logic against a JSON object and returns a boolean indicating if the object meets the requirements of the Filter.
+			 *
+			 * @returns A boolean indicating if the specified object meets the requirements of the Filter.
+			 */
 			execute(object: any): boolean;
 
 			/**
-			* Converts the filter logic into a string format that is compatible with the Bing Spatial Data Services.
-			* @returns A filter string that is formatted such that it is compatible with the Bing Spatial Data Services.
-			*/
+			 * Converts the filter logic into a string format that is compatible with the Bing Spatial Data Services.
+			 *
+			 * @returns A filter string that is formatted such that it is compatible with the Bing Spatial Data Services.
+			 */
 			toString(): string;
 		}
 
 		/**
 		 * The Fitler class defines the logic behind a filter expression that can be executed against a JSON object or generate
 		 * a filter string that can be used with the Bing Spatial Data Services.
+		 *
 		 * @requires The Microsoft.Maps.SpatialDataService module.
 		 */
 		export class Filter implements IFilter {
@@ -305,49 +313,54 @@ declare module "bing-maps" {
 			constructor(propertyName: string, operator: string | FilterCompareOperator, value: any);
 
 			/**
-			* Executes the filter logic against a JSON object and returns a boolean indicating if the object meets the requirements of the Filter.
-			* @returns A boolean indicating if the specified object meets the requirements of the Filter.
-			*/
+			 * Executes the filter logic against a JSON object and returns a boolean indicating if the object meets the requirements of the Filter.
+			 *
+			 * @returns A boolean indicating if the specified object meets the requirements of the Filter.
+			 */
 			public execute(object: any): boolean;
 
 			/**
-			* Converts the filter logic into a string format that is compatible with the Bing Spatial Data Services.
-			* @returns A filter string that is formatted such that it is compatible with the Bing Spatial Data Services.
-			*/
+			 * Converts the filter logic into a string format that is compatible with the Bing Spatial Data Services.
+			 *
+			 * @returns A filter string that is formatted such that it is compatible with the Bing Spatial Data Services.
+			 */
 			public toString(): string;
 		}
 
 		/**
 		 * A class that groups two or more logical filters or filter groups together. It can be executed against a JSON or generate
 		 * a filter string that can be used with the Bing Spatial Data Services.
+		 *
 		 * @requires The Microsoft.Maps.SpatialDataService module.
 		 */
 		export class FilterGroup implements IFilter {
 			/**
-			* @constructor
-			* @requires The Microsoft.Maps.SpatialDataService module.
-			* @param filters An array consisting of Filter or FilterGroup objects to combine.
-			* @param operator The logical operator for combining the filters together.
-			* @param not A boolean is the logical inverse should of the filter should be used.
-			*/
+			 * @constructor
+			 * @requires The Microsoft.Maps.SpatialDataService module.
+			 * @param filters An array consisting of Filter or FilterGroup objects to combine.
+			 * @param operator The logical operator for combining the filters together.
+			 * @param not A boolean is the logical inverse should of the filter should be used.
+			 */
 			constructor(filters: IFilter[], operator: FilterLogicalOperator, not?: boolean)
 
 			/**
-			* Executes the filter logic against a JSON object and returns a boolean indicating if the object meets the requirements of the Filter.
-			* @returns A boolean indicating if the specified object meets the requirements of the Filter.
-			*/
+			 * Executes the filter logic against a JSON object and returns a boolean indicating if the object meets the requirements of the Filter.
+			 *
+			 * @returns A boolean indicating if the specified object meets the requirements of the Filter.
+			 */
 			public execute(object: any): boolean;
 
 			/**
-			* Converts the filter logic into a string format that is compatible with the Bing Spatial Data Services.
-			* @returns A filter string that is formatted such that it is compatible with the Bing Spatial Data Services.
-			*/
+			 * Converts the filter logic into a string format that is compatible with the Bing Spatial Data Services.
+			 *
+			 * @returns A filter string that is formatted such that it is compatible with the Bing Spatial Data Services.
+			 */
 			public toString(): string;
 		}
 
 		/** Options for find near route query API. */
 		export interface ISpatialFilterOptions {
-			/** 
+			/**
 			 * One of the following values:
 			 * • nearby – Searches in a radius around a location.
 			 * • nearRoute – Searches for results that are within 1 mile of a route.
@@ -359,7 +372,7 @@ declare module "bing-maps" {
 			/** Location at which the filter should be applied (only for nearby filter). */
 			location?: string | Location;
 
-			/** 
+			/**
 			 * Radius to use when performing a nearby search. The distance in kilometers and must be between 0.16 and 1000 kilometers
 			 * (only for nearby filter).
 			 */
@@ -377,23 +390,23 @@ declare module "bing-maps" {
 
 		/** Options for find near route query API. */
 		export interface IFindNearRouteOptions extends ISpatialFilterOptions {
-			/** 
+			/**
 			 * One of the following values:
 			 *  • Driving [default]
 			 *  • Walking
 			 */
 			travelMode?: string;
 
-			/** 
-			 * An integer value between 0 and 359 that represents degrees from north 
-			 * where north is 0 degrees and the heading is specified clockwise from north. 
-			 * For example, setting the heading of 270 degrees creates a route that initially heads west 
+			/**
+			 * An integer value between 0 and 359 that represents degrees from north
+			 * where north is 0 degrees and the heading is specified clockwise from north.
+			 * For example, setting the heading of 270 degrees creates a route that initially heads west
 			 */
 			heading?: number;
 
 			/**
 			 * An integer distance specified in meters.
-			 * Use this parameter to make sure that the moving vehicle has enough distance 
+			 * Use this parameter to make sure that the moving vehicle has enough distance
 			 * to make the first turn
 			 */
 			distanceBeforeFirstTurn?: number;
@@ -432,7 +445,7 @@ declare module "bing-maps" {
 			isStaging?: boolean;
 
 			/**
-			 * Specifies one or more properties to use to sort the results of a query. 
+			 * Specifies one or more properties to use to sort the results of a query.
 			 * You can specify up to three (3) properties. Results are sorted in ascending order.
 			 * Note: You cannot use the latitude and longitude properties to sort results. You can use the elevation property.
 			 */
@@ -456,18 +469,20 @@ declare module "bing-maps" {
 
 		/**
 		 * This is a static class that provides that ability to query data sources that are hosted by the Bing Spatial Data Services using the Query API.
+		 *
 		 * @requires The Microsoft.Maps.SpatialDataService module.
 		 */
-		export module QueryAPIManager {
+		export namespace QueryAPIManager {
 			/**
 			 * Perform a search
+			 *
 			 * @requires The Microsoft.Maps.SpatialDataService module.
 			 * @param queryOptions - Options for the query
 			 * @param credentials - Credentials for the query
 			 * @param callback - The function to call once the results are retrieved
 			 * @param styles - (Optional) Styles of the data that needs to be rendered on map
 			 * @param withoutLocationInfo -
-			 * @param errorCallback - 
+			 * @param errorCallback -
 			 */
 			export function search(queryOptions: IQueryAPIOptions,
 				credentials: string | Map,

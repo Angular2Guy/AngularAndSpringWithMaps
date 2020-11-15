@@ -16,7 +16,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuardService } from './services/auth-guard.service';
-import { SplashComponent } from "./splash/splash.component";
+import { SplashComponent } from './splash/splash.component';
 
 const routes: Routes = [
     {path: '', redirectTo: '/splash', pathMatch: 'full'},

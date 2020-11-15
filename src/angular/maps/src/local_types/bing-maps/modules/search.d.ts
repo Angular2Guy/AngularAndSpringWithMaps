@@ -1,39 +1,41 @@
 /*
- * Copyright(c) 2017 Microsoft Corporation. All rights reserved. 
- * 
- * This code is licensed under the MIT License (MIT). 
- * 
+ * Copyright(c) 2017 Microsoft Corporation. All rights reserved.
+ *
+ * This code is licensed under the MIT License (MIT).
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal 
+ * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do 
- * so, subject to the following conditions: 
- * 
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software. 
- * 
+ * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE. 
+ * THE SOFTWARE.
 */
 
 /// <reference path="../bing-maps.d.ts"/>
 
-import { LocationRect, IAddress } from "bing-maps";
+import { LocationRect, IAddress } from 'bing-maps';
 
 /**
  * Provides an easy method for geocoding address and searching for points of interest from JavaScript.
+ *
  * @requires The Microsoft.Maps.Search module.
  */
-declare module BingMaps.Search {
+declare namespace BingMaps.Search {
 
-    /** 
+    /**
      * Defines the geocoding level of the location match found by the geocoder.
+     *
      * @requires The Microsoft.Maps.Search module.
      */
     export enum MatchCode {
@@ -53,8 +55,9 @@ declare module BingMaps.Search {
         modified
     }
 
-    /** 
+    /**
      * Defines the confidence of the location match found by the geocoding service.
+     *
      * @requires The Microsoft.Maps.Search module.
      */
     export enum MatchConfidence {
@@ -75,17 +78,17 @@ declare module BingMaps.Search {
     export interface IGeocodeLocation {
         /** The latitude of the location. */
         latitude: number;
-		
+
 		/** The longitude of the location. */
 		longitude: number;
 
         /** The name of this geocode location match. */
         name: string;
 
-        /** 
-		 * The precision of this geocode location match. 
-		 * Possible Values: Interpolated, InterpolatedOffset, Rooftop, Parcel
-		 */
+        /**
+         * The precision of this geocode location match.
+         * Possible Values: Interpolated, InterpolatedOffset, Rooftop, Parcel
+         */
         precision: string ;
     }
 
@@ -124,16 +127,16 @@ declare module BingMaps.Search {
 
     /** The options for a geocode request. */
     export interface IGeocodeRequestOptions {
-        /** 
-         * A location rectangle that defines the boundaries of the area in which to search for 
-         * location results. The default is the bounds of the map view associated with this 
+        /**
+         * A location rectangle that defines the boundaries of the area in which to search for
+         * location results. The default is the bounds of the map view associated with this
          * instance of the SearchManager, which is usually the current map view.
          */
         bounds?: LocationRect;
 
         /**
-         * The name of the function to call when a successful result is returned from the 
-         * geocode request. The callback function must accept two parameters: result, which is 
+         * The name of the function to call when a successful result is returned from the
+         * geocode request. The callback function must accept two parameters: result, which is
          * a GeocodeResult type, and a userData object.
          */
         callback: (geocodeResult: IGeocodeResult, userData: any) => void;
@@ -142,7 +145,7 @@ declare module BingMaps.Search {
         count?: number;
 
         /**
-         * The name of the function to call when the request is returned with an error. The 
+         * The name of the function to call when the request is returned with an error. The
          * error callback function must accept an IGeocodeRequestOptions object.
          */
         errorCallback?: (geocodeRequestOptions: IGeocodeRequestOptions) => void;
@@ -213,9 +216,10 @@ declare module BingMaps.Search {
     }
 
     /**
-    * A class that contains methods for returning search and location results.
-    * @requires The Microsoft.Maps.Search module.
-    */
+     * A class that contains methods for returning search and location results.
+     *
+     * @requires The Microsoft.Maps.Search module.
+     */
     export class SearchManager {
         /**
          * @constructor
@@ -225,16 +229,18 @@ declare module BingMaps.Search {
         constructor(map: Map<any,any>);
 
         /**
-         * Matches the address or place query in the specified request 
-         * options to a location and returns the results to the request 
+         * Matches the address or place query in the specified request
+         * options to a location and returns the results to the request
          * options callback function.
+         *
          * @param request Options for sending geocode request
          */
         public geocode(request: IGeocodeRequestOptions): void;
 
         /**
-         * Matches the specified location to an address and returns the 
+         * Matches the specified location to an address and returns the
          * address results to the specified request options callback function.
+         *
          * @param request Options for sending reverse geocode request
          */
         public reverseGeocode(request: ReverseGeocodeRequestOptions): void;

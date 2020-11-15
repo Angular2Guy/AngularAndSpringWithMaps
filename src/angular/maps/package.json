@@ -29,13 +29,13 @@
     "@angular/platform-browser": "^11.0.0",
     "@angular/platform-browser-dynamic": "^11.0.0",
     "@angular/router": "^11.0.0",
+    "bingmaps": "^2.0.3",
     "core-js": "^2.5.7",
     "material-design-icons": "3.0.1",
     "rxjs": "^6.6.3",
     "tslib": "^2.0.0",
     "web-animations-js": "^2.3.2",
-    "zone.js": "~0.10.3",
-    "bingmaps": "^2.0.3"
+    "zone.js": "~0.10.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1100.1",
@@ -59,9 +59,19 @@
     "npm-run-all": "^4.1.5",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
-    "tslint": "~6.1.0",
     "typescript": "~4.0.5",
     "rimraf": "^3.0.2",
-    "webpack-bundle-analyzer": "^3.3.2"
+    "webpack-bundle-analyzer": "^3.3.2",
+    "eslint": "^7.6.0",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jsdoc": "30.7.6",
+    "eslint-plugin-prefer-arrow": "1.2.2",
+    "@angular-eslint/builder": "0.8.0-beta.0",
+    "@angular-eslint/eslint-plugin": "0.8.0-beta.0",
+    "@angular-eslint/eslint-plugin-template": "0.8.0-beta.0",
+    "@angular-eslint/schematics": "^0.8.0-beta.0",
+    "@angular-eslint/template-parser": "0.8.0-beta.0",
+    "@typescript-eslint/eslint-plugin": "4.3.0",
+    "@typescript-eslint/parser": "4.3.0"
   }
 }
