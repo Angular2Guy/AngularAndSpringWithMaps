@@ -1,5 +1,3 @@
-
-
 /**
  *    Copyright 2016 Sven Loesekann
 
