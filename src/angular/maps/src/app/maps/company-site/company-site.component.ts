@@ -13,9 +13,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { CompanySiteService } from '../services/company-site.service';
-import * as BingMaps from 'bing-maps';
+import 'bingmaps';
 import { ConfigurationService } from '../services/configuration.service';
 import { MainConfiguration } from '../model/main-configuration';
 import { Observable, of, iif } from 'rxjs';
@@ -29,21 +29,24 @@ import { switchMap, debounceTime, flatMap } from 'rxjs/operators';
 	templateUrl: './company-site.component.html',
 	styleUrls: ['./company-site.component.scss']
 })
-export class CompanySiteComponent implements OnInit {
+export class CompanySiteComponent implements OnInit, AfterViewInit {
 	private mainConfiguration: MainConfiguration = null;
 	private readonly COMPANY_SITE = 'companySite';
 	private readonly SLIDER_YEAR = 'sliderYear';
+	map: Microsoft.Maps.Map = null;
 
 	companySiteOptions: Observable<CompanySite[]>;
 	componentForm = this.formBuilder.group({
 		companySite: [''],
 		sliderYear: [2020],
 	});
+	
+	@ViewChild('bingMap')
+	bingMapContainer: ElementRef;
 
 	constructor(private formBuilder: FormBuilder, private companySiteService: CompanySiteService, private configurationService: ConfigurationService) { }
 
-	ngOnInit(): void {
-		this.configurationService.importConfiguration().subscribe(config => this.mainConfiguration = config);
+	ngOnInit(): void {		
 		this.companySiteOptions = this.componentForm.valueChanges.pipe(
 			debounceTime(300),
 			switchMap(() =>
@@ -53,6 +56,13 @@ export class CompanySiteComponent implements OnInit {
 		));
 	}
 
+    ngAfterViewInit(): void {
+        this.configurationService.importConfiguration().subscribe(config => {
+			this.mainConfiguration = config; 
+			this.map = new Microsoft.Maps.Map(this.bingMapContainer.nativeElement as HTMLElement, {credentials: config.mapKey} as Microsoft.Maps.IMapLoadOptions);
+		});		
+    }
+	
 	private getCompanySiteTitle(): string {
 		return typeof this.componentForm.get(this.COMPANY_SITE).value === 'string' ? this.componentForm.get(this.COMPANY_SITE).value as string : (this.componentForm.get(this.COMPANY_SITE).value as CompanySite).title;
 	}
