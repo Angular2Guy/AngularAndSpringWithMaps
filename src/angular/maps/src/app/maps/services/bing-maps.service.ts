@@ -17,10 +17,10 @@ export class BingMapsService {
 		script.defer = true;
 		script.src = scriptUrl;
 		script.charset = 'utf-8';
+		document.head.appendChild(script);				
 		const scriptPromise = new Promise<boolean>((resolve: Function, reject: Function) => {
             (window)[callBackName] = () => {
 				this.initialized = true;
-				document.head.appendChild(script);
                 resolve(true);
             };
             script.onerror = (error: Event) => { console.log(error); reject(false); };
