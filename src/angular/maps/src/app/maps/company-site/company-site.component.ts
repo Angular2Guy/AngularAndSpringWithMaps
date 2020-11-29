@@ -21,7 +21,8 @@ import { MainConfiguration } from '../model/main-configuration';
 import { Observable, of, iif } from 'rxjs';
 import { CompanySite } from '../model/company-site';
 import { FormBuilder } from '@angular/forms';
-import { switchMap, debounceTime, flatMap } from 'rxjs/operators';
+import { switchMap, debounceTime, flatMap, tap } from 'rxjs/operators';
+import { BingMapsService } from '../services/bing-maps.service';
 
 
 @Component({
@@ -44,7 +45,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit {
 	@ViewChild('bingMap')
 	bingMapContainer: ElementRef;
 
-	constructor(private formBuilder: FormBuilder, private companySiteService: CompanySiteService, private configurationService: ConfigurationService) { }
+	constructor(private formBuilder: FormBuilder,private bingMapsService: BingMapsService, private companySiteService: CompanySiteService, private configurationService: ConfigurationService) { }
 
 	ngOnInit(): void {		
 		this.companySiteOptions = this.componentForm.valueChanges.pipe(
@@ -57,10 +58,8 @@ export class CompanySiteComponent implements OnInit, AfterViewInit {
 	}
 
     ngAfterViewInit(): void {
-        this.configurationService.importConfiguration().subscribe(config => {
-			this.mainConfiguration = config; 
-			this.map = new Microsoft.Maps.Map(this.bingMapContainer.nativeElement as HTMLElement, {credentials: config.mapKey} as Microsoft.Maps.IMapLoadOptions);
-		});		
+        this.configurationService.importConfiguration().pipe(tap(value => this.mainConfiguration = value),flatMap(config => this.bingMapsService.initialize(config.mapKey))).subscribe(() => 			
+			this.map = new Microsoft.Maps.Map(this.bingMapContainer.nativeElement as HTMLElement, {} as Microsoft.Maps.IMapLoadOptions));		
     }
 	
 	private getCompanySiteTitle(): string {
