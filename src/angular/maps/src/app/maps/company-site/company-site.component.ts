@@ -58,8 +58,22 @@ export class CompanySiteComponent implements OnInit, AfterViewInit {
 	}
 
     ngAfterViewInit(): void {
-        this.configurationService.importConfiguration().pipe(tap(value => this.mainConfiguration = value),flatMap(config => this.bingMapsService.initialize(config.mapKey))).subscribe(() => 			
-			this.map = new Microsoft.Maps.Map(this.bingMapContainer.nativeElement as HTMLElement, {} as Microsoft.Maps.IMapLoadOptions));		
+        this.configurationService.importConfiguration().pipe(tap(value => this.mainConfiguration = value),flatMap(config => this.bingMapsService.initialize(config.mapKey))).subscribe(() => { 			
+			this.map = new Microsoft.Maps.Map(this.bingMapContainer.nativeElement as HTMLElement, {
+				center: new Microsoft.Maps.Location(53.541224, 9.828763),
+			} as Microsoft.Maps.IMapLoadOptions);
+			const center = this.map.getCenter();	
+			const polygon = new Microsoft.Maps.Polygon([	
+		        [new Microsoft.Maps.Location(center.latitude + 0.1, center.longitude - 0.1),
+        		    new Microsoft.Maps.Location(center.latitude + 0.1, center.longitude + 0.1),
+            		new Microsoft.Maps.Location(center.latitude - 0.1, center.longitude + 0.1),
+            		new Microsoft.Maps.Location(center.latitude - 0.1, center.longitude - 0.1)],
+        		[new Microsoft.Maps.Location(center.latitude + 0.05, center.longitude - 0.05),
+            		new Microsoft.Maps.Location(center.latitude - 0.05, center.longitude - 0.05),
+            		new Microsoft.Maps.Location(center.latitude - 0.05, center.longitude + 0.05),
+            		new Microsoft.Maps.Location(center.latitude + 0.05, center.longitude + 0.05)]]);
+			this.map.entities.push(polygon);
+		});				
     }
 	
 	private getCompanySiteTitle(): string {
