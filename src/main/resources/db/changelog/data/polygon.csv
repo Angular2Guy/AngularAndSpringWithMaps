@@ -1,1 +1,2 @@
-id,fill_color,border_color,title,center_location
+id,fill_color,border_color,title,center_location_id,company_site_id
+1,#FFFFFF,#00FFFF,Finkenwerder,25,1

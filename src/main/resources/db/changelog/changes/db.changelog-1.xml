@@ -28,7 +28,7 @@
 			<column name="fill_color" type="varchar(10)" />
 			<column name="border_color" type="varchar(10)" />
 			<column name="title" type="varchar(255)" />
-			<column name="center_location" type="bigint">
+			<column name="center_location_id" type="bigint">
 				<constraints nullable="true" />
 			</column>
 			<column name="company_site_id" type="bigint">
@@ -58,7 +58,5 @@
 					foreignKeyName="fk_ring_id1" references="ring(id)" />
 			</column>
 		</createTable>
-		<addForeignKeyConstraint baseTableName="polygon" baseColumnNames="center_location" constraintName="fk_polygon_center_location_id1"
-			referencedColumnNames="id" referencedTableName="location" />
 	</changeSet>
 </databaseChangeLog>

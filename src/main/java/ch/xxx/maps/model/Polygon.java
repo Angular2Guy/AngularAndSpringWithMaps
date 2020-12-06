@@ -35,7 +35,7 @@ public class Polygon {
 	private String borderColor;
 	private String title;
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "center_location")
+	@JoinColumn(name = "center_location_id")
 	private Location centerLocation;
 	@OneToMany(mappedBy = "polygon", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Ring> rings = new HashSet<>();

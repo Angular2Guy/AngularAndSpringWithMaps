@@ -14,30 +14,30 @@
 	<changeSet id="init-data" author="angular2guy">
 		<loadData file="data/company_site.csv" tableName="company_site"
 			relativeToChangelogFile="true">
-			<column name="id" type="bigint"/>
-			<column name="title" type="varchar(255)"/>
+			<column name="id" type="numeric"/>
+			<column name="title" type="string"/>
 			<column name="at_date" type="date" />
 		</loadData>
 		<loadData file="data/polygon.csv" tableName="polygon"
 			relativeToChangelogFile="true">
-			<column name="id" type="bigint" />
-			<column name="fill_color" type="varchar(10)" />
-			<column name="border_color" type="varchar(10)" />
-			<column name="title" type="varchar(255)" />
-			<column name="center_location" type="bigint" />
+			<column name="id" type="numeric" />
+			<column name="fill_color" type="string" />
+			<column name="border_color" type="string" />
+			<column name="title" type="string" />
+			<column name="center_location" type="numeric" />
 		</loadData>
 		<loadData file="data/ring.csv" tableName="ring"
 			relativeToChangelogFile="true">
-			<column name="id" type="bigint" />
+			<column name="id" type="numeric" />
 			<column name="primary" type="boolean" />
-			<column name="polygon_id" type="bigint" />
+			<column name="polygon_id" type="numeric" />
 		</loadData>
 		<loadData file="data/location.csv" tableName="location"
 			relativeToChangelogFile="true">
-			<column name="id" type="bigint" />
-			<column name="longitude" type="numeric(3,15)" />
-			<column name="latitude" type="numeric(3,15)" />
-			<column name="ring_id" type="bigint" />
+			<column name="id" type="numeric" />
+			<column name="longitude" type="numeric" />
+			<column name="latitude" type="numeric" />
+			<column name="ring_id" type="numeric" />
 		</loadData>
 	</changeSet>
 </databaseChangeLog>
