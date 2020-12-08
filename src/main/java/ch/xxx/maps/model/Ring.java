@@ -30,10 +30,10 @@ public class Ring {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
-	private boolean primary;
+	private boolean primaryRing;
 	@OneToMany(mappedBy = "ring", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Location> locations = new HashSet<>();
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	@JoinColumn(name = "polygon_id")
 	private Polygon polygon;
 
@@ -45,14 +45,6 @@ public class Ring {
 		this.id = id;
 	}
 
-	public boolean isPrimary() {
-		return primary;
-	}
-
-	public void setPrimary(boolean primary) {
-		this.primary = primary;
-	}
-
 	public Set<Location> getLocations() {
 		return locations;
 	}
@@ -60,4 +52,22 @@ public class Ring {
 	public void setLocations(Set<Location> locations) {
 		this.locations = locations;
 	}
+
+	public boolean isPrimaryRing() {
+		return primaryRing;
+	}
+
+	public void setPrimaryRing(boolean primaryRing) {
+		this.primaryRing = primaryRing;
+	}
+
+	public Polygon getPolygon() {
+		return polygon;
+	}
+
+	public void setPolygon(Polygon polygon) {
+		this.polygon = polygon;
+	}
+	
+	
 }

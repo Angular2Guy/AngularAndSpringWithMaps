@@ -47,7 +47,7 @@ public class EntityToDtoMapper {
 	public static RingDto mapToDto(Ring ring) {
 		List<LocationDto> myLocations = ring.getLocations().stream()
 				.map(location -> EntityToDtoMapper.mapToDto(location)).collect(Collectors.toList());
-		RingDto dto = new RingDto(ring.getId(), ring.isPrimary(), myLocations);
+		RingDto dto = new RingDto(ring.getId(), ring.isPrimaryRing(), myLocations);
 		return dto;
 	}
 

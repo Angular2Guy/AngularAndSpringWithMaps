@@ -39,7 +39,7 @@
 			<column name="id" type="bigint">
 				<constraints primaryKey="true" />
 			</column>
-			<column name="primary" type="boolean">
+			<column name="primary_ring" type="boolean">
 				<constraints nullable="false" />
 			</column>
 			<column name="polygon_id" type="bigint">
