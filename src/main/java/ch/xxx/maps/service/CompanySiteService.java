@@ -13,6 +13,7 @@
 package ch.xxx.maps.service;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ch.xxx.maps.model.CompanySite;
+import ch.xxx.maps.model.Location;
 import ch.xxx.maps.repository.CompanySiteRepository;
 
 @Transactional
@@ -33,7 +35,7 @@ public class CompanySiteService {
 	}
 
 	public List<CompanySite> findCompanySiteByTitleAndYear(String title, Long year) {
-		if(title == null || title.length() < 2) {
+		if (title == null || title.length() < 2) {
 			return List.of();
 		}
 		LocalDate beginOfYear = LocalDate.of(year.intValue(), 1, 1);
@@ -41,6 +43,11 @@ public class CompanySiteService {
 		return this.companySiteRepository.findByTitle(title.toLowerCase()).stream()
 				.filter(companySite -> beginOfYear.isBefore(companySite.getAtDate())
 						&& endOfYear.isAfter(companySite.getAtDate()))
+				.peek(companySite -> companySite.getPolygons()
+						.forEach(polygon -> polygon.getRings()
+								.forEach(ring -> ring.setLocations(new LinkedHashSet<Location>(ring.getLocations()
+										.stream().sorted((Location l1, Location l2) -> l1.getId().compareTo(l2.getId()))
+										.collect(Collectors.toList()))))))
 				.collect(Collectors.toList());
 	}
 

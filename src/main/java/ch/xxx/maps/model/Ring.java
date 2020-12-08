@@ -12,7 +12,7 @@
  */
 package ch.xxx.maps.model;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -32,7 +32,7 @@ public class Ring {
 	private Long id;
 	private boolean primaryRing;
 	@OneToMany(mappedBy = "ring", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<Location> locations = new HashSet<>();
+	private Set<Location> locations = new LinkedHashSet<>();
 	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	@JoinColumn(name = "polygon_id")
 	private Polygon polygon;
