@@ -18,12 +18,16 @@ import { CompanySiteService } from '../services/company-site.service';
 import 'bingmaps';
 import { ConfigurationService } from '../services/configuration.service';
 import { MainConfiguration } from '../model/main-configuration';
-import { Observable, of, iif } from 'rxjs';
+import { Observable, of, iif, Subject, forkJoin } from 'rxjs';
 import { CompanySite } from '../model/company-site';
 import { FormBuilder } from '@angular/forms';
-import { switchMap, debounceTime, flatMap, tap } from 'rxjs/operators';
+import { switchMap, debounceTime, flatMap, tap, map } from 'rxjs/operators';
 import { BingMapsService } from '../services/bing-maps.service';
 
+interface Container {
+	companySite: CompanySite;
+	mainConfiguration: MainConfiguration;
+}
 
 @Component({
 	selector: 'app-company-site',
@@ -34,55 +38,55 @@ export class CompanySiteComponent implements OnInit, AfterViewInit {
 	private mainConfiguration: MainConfiguration = null;
 	private readonly COMPANY_SITE = 'companySite';
 	private readonly SLIDER_YEAR = 'sliderYear';
+	private readonly containerSubject = new Subject<Container>();
 	map: Microsoft.Maps.Map = null;
 
 	companySiteOptions: Observable<CompanySite[]>;
 	componentForm = this.formBuilder.group({
-		companySite: [''],
+		companySite: ['Airbus'],
 		sliderYear: [2020],
 	});
-	
+
 	@ViewChild('bingMap')
 	bingMapContainer: ElementRef;
 
-	constructor(private formBuilder: FormBuilder,private bingMapsService: BingMapsService, private companySiteService: CompanySiteService, private configurationService: ConfigurationService) { }
+	constructor(private formBuilder: FormBuilder, private bingMapsService: BingMapsService, private companySiteService: CompanySiteService, private configurationService: ConfigurationService) { }
 
-	ngOnInit(): void {		
+	ngOnInit(): void {
 		this.companySiteOptions = this.componentForm.valueChanges.pipe(
 			debounceTime(300),
 			switchMap(() =>
-			iif(() => (!this.getCompanySiteTitle() || this.getCompanySiteTitle().length < 3 || !this.componentForm.get(this.SLIDER_YEAR).value),
-				of<CompanySite[]>([]),
-				this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), this.componentForm.get(this.SLIDER_YEAR).value))
-		));
+				iif(() => (!this.getCompanySiteTitle() || this.getCompanySiteTitle().length < 3 || !this.componentForm.get(this.SLIDER_YEAR).value),
+					of<CompanySite[]>([]),
+					this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), this.componentForm.get(this.SLIDER_YEAR).value))
+			));
+		forkJoin(this.configurationService.importConfiguration(), this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), this.componentForm.controls[this.COMPANY_SITE].value)).subscribe(values => {
+			this.mainConfiguration = values[0];
+			this.containerSubject.next({ companySite: values[1][0], mainConfiguration: values[0] } as Container);
+		});
 	}
 
-    ngAfterViewInit(): void {
-        this.configurationService.importConfiguration().pipe(tap(value => this.mainConfiguration = value),flatMap(config => this.bingMapsService.initialize(config.mapKey))).subscribe(() => { 			
-			this.map = new Microsoft.Maps.Map(this.bingMapContainer.nativeElement as HTMLElement, {
-				center: new Microsoft.Maps.Location(53.541224, 9.828763),
-			} as Microsoft.Maps.IMapLoadOptions);
-			const center = this.map.getCenter();	
-			const polygon = new Microsoft.Maps.Polygon([	
-		        [new Microsoft.Maps.Location(center.latitude + 0.1, center.longitude - 0.1),
-        		    new Microsoft.Maps.Location(center.latitude + 0.1, center.longitude + 0.1),
-            		new Microsoft.Maps.Location(center.latitude - 0.1, center.longitude + 0.1),
-            		new Microsoft.Maps.Location(center.latitude - 0.1, center.longitude - 0.1)],
-        		[new Microsoft.Maps.Location(center.latitude + 0.05, center.longitude - 0.05),
-            		new Microsoft.Maps.Location(center.latitude - 0.05, center.longitude - 0.05),
-            		new Microsoft.Maps.Location(center.latitude - 0.05, center.longitude + 0.05),
-            		new Microsoft.Maps.Location(center.latitude + 0.05, center.longitude + 0.05)]]);
-			this.map.entities.push(polygon);
-		});				
-    }
-	
+	ngAfterViewInit(): void {
+		this.containerSubject
+			.pipe(flatMap(container => this.bingMapsService.initialize(container.mainConfiguration.mapKey).pipe(flatMap(() => of(container)))))
+				.subscribe(container => {
+					this.map = new Microsoft.Maps.Map(this.bingMapContainer.nativeElement as HTMLElement, {
+						center: new Microsoft.Maps.Location(container.companySite.polygons[0].centerLocation.latitude, container.companySite.polygons[0].centerLocation.longitude),
+					} as Microsoft.Maps.IMapLoadOptions);
+					console.log(this.map.getCenter());
+					const ringLocations = container.companySite.polygons[0].rings[0].locations.map(myLocation => new Microsoft.Maps.Location(myLocation.latitude, myLocation.longitude));
+					const polygon = new Microsoft.Maps.Polygon(ringLocations);
+					this.map.entities.push(polygon);
+		});
+	}
+
 	private getCompanySiteTitle(): string {
 		return typeof this.componentForm.get(this.COMPANY_SITE).value === 'string' ? this.componentForm.get(this.COMPANY_SITE).value as string : (this.componentForm.get(this.COMPANY_SITE).value as CompanySite).title;
 	}
 
-    formatLabel(value: number): string {
-		return ''+value;
- 	}
+	formatLabel(value: number): string {
+		return '' + value;
+	}
 
 	displayTitle(companySite: CompanySite): string {
 		return companySite && companySite.title ? companySite.title : '';
