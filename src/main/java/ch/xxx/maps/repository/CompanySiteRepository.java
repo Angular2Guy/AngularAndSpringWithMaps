@@ -16,10 +16,11 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import ch.xxx.maps.model.CompanySite;
 
 public interface CompanySiteRepository extends JpaRepository<CompanySite, Long>{
 	@Query("select cs from CompanySite cs where cs.title like %:title%")
-	List<CompanySite> findByTitle(String title);	
+	List<CompanySite> findByTitle(@Param("title") String title);	
 }

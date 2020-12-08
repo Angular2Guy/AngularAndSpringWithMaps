@@ -21,7 +21,7 @@ import { MainConfiguration } from '../model/main-configuration';
 import { Observable, of, iif, Subject, forkJoin } from 'rxjs';
 import { CompanySite } from '../model/company-site';
 import { FormBuilder } from '@angular/forms';
-import { switchMap, debounceTime, flatMap, tap, map } from 'rxjs/operators';
+import { switchMap, debounceTime, flatMap, tap, map, filter } from 'rxjs/operators';
 import { BingMapsService } from '../services/bing-maps.service';
 
 interface Container {
@@ -60,7 +60,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit {
 					of<CompanySite[]>([]),
 					this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), this.componentForm.get(this.SLIDER_YEAR).value))
 			));
-		forkJoin(this.configurationService.importConfiguration(), this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), this.componentForm.controls[this.COMPANY_SITE].value)).subscribe(values => {
+		forkJoin(this.configurationService.importConfiguration(), this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), this.componentForm.controls[this.SLIDER_YEAR].value)).subscribe(values => {
 			this.mainConfiguration = values[0];
 			this.containerSubject.next({ companySite: values[1][0], mainConfiguration: values[0] } as Container);
 		});
@@ -68,7 +68,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit {
 
 	ngAfterViewInit(): void {
 		this.containerSubject
-			.pipe(flatMap(container => this.bingMapsService.initialize(container.mainConfiguration.mapKey).pipe(flatMap(() => of(container)))))
+			.pipe(filter(container => !!container && !!container.companySite && !!container.mainConfiguration),flatMap(container => this.bingMapsService.initialize(container.mainConfiguration.mapKey).pipe(flatMap(() => of(container)))))
 				.subscribe(container => {
 					this.map = new Microsoft.Maps.Map(this.bingMapContainer.nativeElement as HTMLElement, {
 						center: new Microsoft.Maps.Location(container.companySite.polygons[0].centerLocation.latitude, container.companySite.polygons[0].centerLocation.longitude),

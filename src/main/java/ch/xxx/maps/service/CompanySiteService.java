@@ -33,7 +33,7 @@ public class CompanySiteService {
 	}
 
 	public List<CompanySite> findCompanySiteByTitleAndYear(String title, Long year) {
-		if(title == null || title.length() > 2) {
+		if(title == null || title.length() < 2) {
 			return List.of();
 		}
 		LocalDate beginOfYear = LocalDate.of(year.intValue(), 1, 1);
