@@ -73,7 +73,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit {
 					this.map = new Microsoft.Maps.Map(this.bingMapContainer.nativeElement as HTMLElement, {
 						center: new Microsoft.Maps.Location(container.companySite.polygons[0].centerLocation.latitude, container.companySite.polygons[0].centerLocation.longitude),
 					} as Microsoft.Maps.IMapLoadOptions);
-					console.log(this.map.getCenter());
+					//console.log(this.map.getCenter());
 					const ringLocations = container.companySite.polygons[0].rings[0].locations.map(myLocation => new Microsoft.Maps.Location(myLocation.latitude, myLocation.longitude));
 					const polygon = new Microsoft.Maps.Polygon(ringLocations);
 					this.map.entities.push(polygon);
