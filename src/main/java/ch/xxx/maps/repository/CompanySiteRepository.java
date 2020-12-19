@@ -21,6 +21,6 @@ import org.springframework.data.repository.query.Param;
 import ch.xxx.maps.model.CompanySite;
 
 public interface CompanySiteRepository extends JpaRepository<CompanySite, Long>{
-	@Query("select cs from CompanySite cs where cs.title like %:title%")
+	@Query("select cs from CompanySite cs where lower(cs.title) like %:title%")
 	List<CompanySite> findByTitle(@Param("title") String title);	
 }

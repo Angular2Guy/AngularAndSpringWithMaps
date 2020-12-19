@@ -13,12 +13,12 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CompanySiteService } from '../services/company-site.service';
 import 'bingmaps';
 import { ConfigurationService } from '../services/configuration.service';
 import { MainConfiguration } from '../model/main-configuration';
-import { Observable, of, iif, Subject, forkJoin } from 'rxjs';
+import { Observable, of, iif, Subject, forkJoin, Subscription } from 'rxjs';
 import { CompanySite } from '../model/company-site';
 import { FormBuilder } from '@angular/forms';
 import { switchMap, debounceTime, flatMap, tap, map, filter } from 'rxjs/operators';
@@ -34,16 +34,17 @@ interface Container {
 	templateUrl: './company-site.component.html',
 	styleUrls: ['./company-site.component.scss']
 })
-export class CompanySiteComponent implements OnInit, AfterViewInit {
+export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	private mainConfiguration: MainConfiguration = null;
 	private readonly COMPANY_SITE = 'companySite';
 	private readonly SLIDER_YEAR = 'sliderYear';
-	private readonly containerSubject = new Subject<Container>();
+	private readonly containerInitSubject = new Subject<Container>();
+	private containerInitSubjectSubcription: Subscription;
 	map: Microsoft.Maps.Map = null;
 
 	companySiteOptions: Observable<CompanySite[]>;
 	componentForm = this.formBuilder.group({
-		companySite: ['Airbus'],
+		companySite: ['Finkenwerder'],
 		sliderYear: [2020],
 	});
 
@@ -51,6 +52,11 @@ export class CompanySiteComponent implements OnInit, AfterViewInit {
 	bingMapContainer: ElementRef;
 
 	constructor(private formBuilder: FormBuilder, private bingMapsService: BingMapsService, private companySiteService: CompanySiteService, private configurationService: ConfigurationService) { }
+	
+    ngOnDestroy(): void {
+      this.containerInitSubject.complete();
+	  this.containerInitSubjectSubcription.unsubscribe();
+    }
 
 	ngOnInit(): void {
 		this.companySiteOptions = this.componentForm.valueChanges.pipe(
@@ -60,14 +66,15 @@ export class CompanySiteComponent implements OnInit, AfterViewInit {
 					of<CompanySite[]>([]),
 					this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), this.componentForm.get(this.SLIDER_YEAR).value))
 			));
+		
 		forkJoin(this.configurationService.importConfiguration(), this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), this.componentForm.controls[this.SLIDER_YEAR].value)).subscribe(values => {
 			this.mainConfiguration = values[0];
-			this.containerSubject.next({ companySite: values[1][0], mainConfiguration: values[0] } as Container);
+			this.containerInitSubject.next({ companySite: values[1][0], mainConfiguration: values[0] } as Container);
 		});
 	}
 
 	ngAfterViewInit(): void {
-		this.containerSubject
+		this.containerInitSubjectSubcription = this.containerInitSubject
 			.pipe(filter(container => !!container && !!container.companySite && !!container.mainConfiguration),flatMap(container => this.bingMapsService.initialize(container.mainConfiguration.mapKey).pipe(flatMap(() => of(container)))))
 				.subscribe(container => {
 					this.map = new Microsoft.Maps.Map(this.bingMapContainer.nativeElement as HTMLElement, {
@@ -78,6 +85,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit {
 					const polygon = new Microsoft.Maps.Polygon(ringLocations);
 					this.map.entities.push(polygon);
 		});
+		//this.
 	}
 
 	private getCompanySiteTitle(): string {
