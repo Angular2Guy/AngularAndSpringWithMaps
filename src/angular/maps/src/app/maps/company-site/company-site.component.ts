@@ -39,7 +39,9 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	private readonly COMPANY_SITE = 'companySite';
 	private readonly SLIDER_YEAR = 'sliderYear';
 	private readonly containerInitSubject = new Subject<Container>();
-	private containerInitSubjectSubcription: Subscription;
+	private containerInitSubjectSubscription: Subscription;
+	private companySiteSubscription: Subscription;
+	private sliderYearSubscription: Subscription;
 	map: Microsoft.Maps.Map = null;
 
 	companySiteOptions: Observable<CompanySite[]>;
@@ -52,11 +54,13 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	bingMapContainer: ElementRef;
 
 	constructor(private formBuilder: FormBuilder, private bingMapsService: BingMapsService, private companySiteService: CompanySiteService, private configurationService: ConfigurationService) { }
-	
-    ngOnDestroy(): void {
-      this.containerInitSubject.complete();
-	  this.containerInitSubjectSubcription.unsubscribe();
-    }
+
+	ngOnDestroy(): void {
+		this.containerInitSubject.complete();
+		this.containerInitSubjectSubscription.unsubscribe();
+		this.companySiteSubscription.unsubscribe();
+		this.sliderYearSubscription.unsubscribe();
+	}
 
 	ngOnInit(): void {
 		this.companySiteOptions = this.componentForm.valueChanges.pipe(
@@ -66,7 +70,16 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 					of<CompanySite[]>([]),
 					this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), this.componentForm.get(this.SLIDER_YEAR).value))
 			));
-		
+		this.companySiteSubscription = this.componentForm.controls[this.COMPANY_SITE].valueChanges
+			.pipe(debounceTime(500), 
+				filter(companySite => typeof companySite === 'string'), 
+				switchMap(companySite => this.companySiteService.findByTitleAndYear((companySite as CompanySite).title, this.componentForm.controls[this.SLIDER_YEAR].value as number)), 
+				filter(companySite => companySite?.length && companySite?.length > 0)).subscribe(companySite => this.updateMap(companySite[0]));
+		this.sliderYearSubscription = this.componentForm.controls[this.SLIDER_YEAR].valueChanges
+			.pipe(debounceTime(500), 
+				filter(year => typeof this.componentForm.get(this.COMPANY_SITE).value === 'string'), 
+				switchMap(year => this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), year as number)), 
+				filter(companySite => companySite?.length && companySite?.length > 0)).subscribe(companySite => this.updateMap(companySite[0]));
 		forkJoin(this.configurationService.importConfiguration(), this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), this.componentForm.controls[this.SLIDER_YEAR].value)).subscribe(values => {
 			this.mainConfiguration = values[0];
 			this.containerInitSubject.next({ companySite: values[1][0], mainConfiguration: values[0] } as Container);
@@ -74,18 +87,29 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	ngAfterViewInit(): void {
-		this.containerInitSubjectSubcription = this.containerInitSubject
-			.pipe(filter(container => !!container && !!container.companySite && !!container.mainConfiguration),flatMap(container => this.bingMapsService.initialize(container.mainConfiguration.mapKey).pipe(flatMap(() => of(container)))))
-				.subscribe(container => {
-					this.map = new Microsoft.Maps.Map(this.bingMapContainer.nativeElement as HTMLElement, {
-						center: new Microsoft.Maps.Location(container.companySite.polygons[0].centerLocation.latitude, container.companySite.polygons[0].centerLocation.longitude),
-					} as Microsoft.Maps.IMapLoadOptions);
-					//console.log(this.map.getCenter());
-					const ringLocations = container.companySite.polygons[0].rings[0].locations.map(myLocation => new Microsoft.Maps.Location(myLocation.latitude, myLocation.longitude));
-					const polygon = new Microsoft.Maps.Polygon(ringLocations);
-					this.map.entities.push(polygon);
-		});
-		//this.
+		this.containerInitSubjectSubscription = this.containerInitSubject
+			.pipe(filter(container => !!container && !!container.companySite && !!container.mainConfiguration), flatMap(container => this.bingMapsService.initialize(container.mainConfiguration.mapKey).pipe(flatMap(() => of(container)))))
+			.subscribe(container => {
+				this.map = new Microsoft.Maps.Map(this.bingMapContainer.nativeElement as HTMLElement, {
+					center: new Microsoft.Maps.Location(container.companySite.polygons[0].centerLocation.latitude, container.companySite.polygons[0].centerLocation.longitude),
+				} as Microsoft.Maps.IMapLoadOptions);
+				//console.log(this.map.getCenter());
+				const ringLocations = container.companySite.polygons[0].rings[0].locations.map(myLocation => new Microsoft.Maps.Location(myLocation.latitude, myLocation.longitude));
+				const polygon = new Microsoft.Maps.Polygon(ringLocations);
+				this.map.entities.push(polygon);
+			});
+	}
+
+	private updateMap(companySite: CompanySite) {
+		if (this.map) {
+			this.map.setOptions({
+				center: new Microsoft.Maps.Location(companySite.polygons[0].centerLocation.latitude, companySite.polygons[0].centerLocation.longitude),
+			} as Microsoft.Maps.IMapLoadOptions);
+			const ringLocations = companySite.polygons[0].rings[0].locations.map(myLocation => new Microsoft.Maps.Location(myLocation.latitude, myLocation.longitude));
+			const polygon = new Microsoft.Maps.Polygon(ringLocations);
+			this.map.entities.clear();
+			this.map.entities.push(polygon);
+		}
 	}
 
 	private getCompanySiteTitle(): string {
