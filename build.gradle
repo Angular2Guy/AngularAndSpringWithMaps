@@ -11,10 +11,9 @@
    limitations under the License.
  */
 plugins {
-	id 'org.springframework.boot' version '2.3.5.RELEASE'
+	id 'org.springframework.boot' version '2.4.1'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
-	id 'com.palantir.docker' version '0.25.0'
 }
 
 group = 'ch.xxx'
@@ -26,6 +25,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'	
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -34,9 +34,7 @@ dependencies {
 	implementation 'io.springfox:springfox-swagger2:2.9.2'
 	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 	implementation 'commons-net:commons-net:3.6'		
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	if(project.hasProperty('withAngular')) {
 		runtimeOnly 'org.postgresql:postgresql'
@@ -97,15 +95,12 @@ task testAngular {
 		}
 	}
 }
-
 task buildDockerImage {
-	if(project.hasProperty('buildDockerImage')) {		
-		docker {
-			name 'angular2guy/angularandspringwithmaps:latest'
-			buildArgs([JAR_FILE: 'angularAndSpringWithMaps.jar'])
-			files bootJar.archivePath
-			pull true
-    		noCache true
+	if(project.hasProperty('buildDockerImage')) {	
+		bootBuildImage {
+			imageName = 'angular2guy/angularandspringwithmaps:latest'
+			environment = ["BPL_JVM_HEAD_ROOM" : "10","SPRING_PROFILES_ACTIVE" : "prod"]
+			publish = false
 		}
 	}
 }
