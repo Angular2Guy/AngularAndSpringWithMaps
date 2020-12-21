@@ -1,6 +1,6 @@
 <div>
 	<form class="example-form" [formGroup]="componentForm">
-		<div class="form-container">
+		<div class="form-container form-container-input">
 			<div>
 				<div>
 					<mat-form-field class="example-full-width"> <input
@@ -16,7 +16,7 @@
 						min="1970" max="2020" formControlName="sliderYear"></mat-slider>
 					<span class="my-year" i18n="@@companysite.slideryear">Year: {{ componentForm.get('sliderYear').value }}</span>
 				</div>
-			</div>
+			</div>			
 		</div>
 		<div class="form-container form-container-scroll">
 			<mat-selection-list class="new-locations" (selectionChange)="newLocationsChanged($event)">
@@ -24,6 +24,14 @@
     				{{newLocation.id}}: {{newLocation.location.latitude}} - {{newLocation.location.longitude}}
   				</mat-list-option>
 			</mat-selection-list>
+		</div>
+		<div class="form-container form-container-buttons">
+			<div>			
+	    		<button mat-raised-button color="primary" i18n="@@CompanySite.add">Add</button>
+			</div>
+			<div>
+				<button mat-raised-button i18n="@@CompanySite.clear">Clear</button>
+			</div>
 		</div>
 	</form>
 	<div #bingMap class="bing-map-container"></div>

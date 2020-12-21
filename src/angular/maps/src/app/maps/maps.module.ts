@@ -26,6 +26,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BingMapsService } from './services/bing-maps.service';
 import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
 	declarations: [CompanySiteComponent],
@@ -39,6 +40,7 @@ import { MatListModule } from '@angular/material/list';
 		MatSliderModule,
 		MatInputModule,
 		MatListModule,
+		MatButtonModule,
 	],
 	providers: [CompanySiteService, ConfigurationService, BingMapsService]
 })

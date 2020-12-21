@@ -10,10 +10,22 @@
 	height: 150px;	
 	
 }
+
+.form-container-input {
+	padding-right: 20px;	
+}
+
 .form-container-scroll {
 	overflow-y: auto;
 	flex-shrink: 0;	
 	padding-right: 20px;
+}
+
+.form-container-buttons {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: space-evenly;
+	padding-left: 30px;
 }
 
 .new-locations {
