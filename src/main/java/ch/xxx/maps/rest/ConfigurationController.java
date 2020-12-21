@@ -13,7 +13,7 @@ import ch.xxx.maps.dto.MainConfigurationDto;
 @RestController
 @RequestMapping("rest/configuration")
 public class ConfigurationController {
-	@Value("${bing.maps-key:xxx}")
+	@Value("${bing.maps-key}")
 	private String mapKey;
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
