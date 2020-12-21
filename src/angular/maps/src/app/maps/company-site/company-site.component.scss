@@ -11,8 +11,9 @@
 	
 }
 .form-container-scroll {
-	overflow-y: scroll;
+	overflow-y: auto;
 	flex-shrink: 0;	
+	padding-right: 20px;
 }
 
 .new-locations {
