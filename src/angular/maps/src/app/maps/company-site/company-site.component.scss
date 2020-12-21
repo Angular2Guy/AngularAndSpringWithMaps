@@ -1,7 +1,22 @@
 .example-form {
   min-width: 150px;
-  max-width: 500px;
+  max-width: 550px;
   width: 100%;
+  display: flex;
+  flex-wrap: nowrap
+}
+
+.form-container {
+	height: 150px;	
+	
+}
+.form-container-scroll {
+	overflow-y: scroll;
+	flex-shrink: 0;	
+}
+
+.new-locations {
+	width: 500px;
 }
 
 .example-full-width {

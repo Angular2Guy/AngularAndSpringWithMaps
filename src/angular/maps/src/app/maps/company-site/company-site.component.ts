@@ -23,10 +23,18 @@ import { CompanySite } from '../model/company-site';
 import { FormBuilder } from '@angular/forms';
 import { switchMap, debounceTime, flatMap, tap, map, filter } from 'rxjs/operators';
 import { BingMapsService } from '../services/bing-maps.service';
+import { MatSelectionListChange, MatListOption } from '@angular/material/list';
+import { SelectionModel } from '@angular/cdk/collections';
 
 interface Container {
 	companySite: CompanySite;
 	mainConfiguration: MainConfiguration;
+}
+
+interface NewLocation {
+	location: Microsoft.Maps.Location;
+	selected: boolean;
+	id: number;
 }
 
 @Component({
@@ -42,7 +50,9 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	private containerInitSubjectSubscription: Subscription;
 	private companySiteSubscription: Subscription;
 	private sliderYearSubscription: Subscription;
+	private newLocations: NewLocation[] = [];
 	map: Microsoft.Maps.Map = null;
+	selNewLocations: SelectionModel<MatListOption>;
 
 	companySiteOptions: Observable<CompanySite[]>;
 	componentForm = this.formBuilder.group({
@@ -103,7 +113,11 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	private onMapClick(e: Microsoft.Maps.IMouseEventArgs | Microsoft.Maps.IMapTypeChangeEventArgs): void {
-		console.log(e);
+		if((e as Microsoft.Maps.IMouseEventArgs).location) {
+			const myLocation =  {id: this.newLocations.length +1, location: (e as Microsoft.Maps.IMouseEventArgs).location, selected: true};
+			this.newLocations.push(myLocation);
+			this.map.entities.push(new Microsoft.Maps.Pushpin(myLocation.location, { title: ''+myLocation.id, icon: 'https://bingmapsisdk.blob.core.windows.net/isdksamples/defaultPushpin.png', anchor: new Microsoft.Maps.Point(12, 39) }));
+		}
 	}
 
 	private updateMap(companySite: CompanySite): void {
@@ -120,6 +134,15 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	private getCompanySiteTitle(): string {
 		return typeof this.componentForm.get(this.COMPANY_SITE).value === 'string' ? this.componentForm.get(this.COMPANY_SITE).value as string : (this.componentForm.get(this.COMPANY_SITE).value as CompanySite).title;
+	}
+
+	newLocationsChanged(e: MatSelectionListChange): void {
+		for(let i = 0; i < e.source.options.length; i++) {
+			const myOption = e.source.options.toArray()[i];
+			if(e.options.includes(myOption)) {
+				this.newLocations[i].selected = e.options[e.options.indexOf(myOption)].selected;
+			}
+		}
 	}
 
 	formatLabel(value: number): string {

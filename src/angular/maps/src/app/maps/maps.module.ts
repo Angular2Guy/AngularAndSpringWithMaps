@@ -25,6 +25,7 @@ import { MapsRoutingModule } from './maps-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BingMapsService } from './services/bing-maps.service';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
 	declarations: [CompanySiteComponent],
@@ -37,6 +38,7 @@ import { BingMapsService } from './services/bing-maps.service';
 		MatFormFieldModule,
 		MatSliderModule,
 		MatInputModule,
+		MatListModule,
 	],
 	providers: [CompanySiteService, ConfigurationService, BingMapsService]
 })
