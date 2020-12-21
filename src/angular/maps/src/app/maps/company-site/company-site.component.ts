@@ -50,9 +50,8 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	private containerInitSubjectSubscription: Subscription;
 	private companySiteSubscription: Subscription;
 	private sliderYearSubscription: Subscription;
-	private newLocations: NewLocation[] = [];
+	newLocations: NewLocation[] = [];
 	map: Microsoft.Maps.Map = null;
-	selNewLocations: SelectionModel<MatListOption>;
 
 	companySiteOptions: Observable<CompanySite[]>;
 	componentForm = this.formBuilder.group({
