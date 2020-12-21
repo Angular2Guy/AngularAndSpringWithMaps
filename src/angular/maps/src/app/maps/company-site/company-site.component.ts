@@ -60,6 +60,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.containerInitSubjectSubscription.unsubscribe();
 		this.companySiteSubscription.unsubscribe();
 		this.sliderYearSubscription.unsubscribe();
+		this.map.dispose();
 	}
 
 	ngOnInit(): void {
@@ -97,10 +98,15 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 				const ringLocations = container.companySite.polygons[0].rings[0].locations.map(myLocation => new Microsoft.Maps.Location(myLocation.latitude, myLocation.longitude));
 				const polygon = new Microsoft.Maps.Polygon(ringLocations);
 				this.map.entities.push(polygon);
+				Microsoft.Maps.Events.addHandler(this.map, 'click', (e) => this.onMapClick(e));				
 			});
 	}
 
-	private updateMap(companySite: CompanySite) {
+	private onMapClick(e: Microsoft.Maps.IMouseEventArgs | Microsoft.Maps.IMapTypeChangeEventArgs): void {
+		console.log(e);
+	}
+
+	private updateMap(companySite: CompanySite): void {
 		if (this.map) {
 			this.map.setOptions({
 				center: new Microsoft.Maps.Location(companySite.polygons[0].centerLocation.latitude, companySite.polygons[0].centerLocation.longitude),
