@@ -134,6 +134,32 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	private getCompanySiteTitle(): string {
 		return typeof this.componentForm.get(this.COMPANY_SITE).value === 'string' ? this.componentForm.get(this.COMPANY_SITE).value as string : (this.componentForm.get(this.COMPANY_SITE).value as CompanySite).title;
 	}
+	
+	private updateMapPushPins(): void {
+		const mapPinsToAdd: Microsoft.Maps.Pushpin[] = [];
+		const mapPinsToRemove: Microsoft.Maps.Pushpin[] = [];
+		const mapPins: Microsoft.Maps.Pushpin[] = [];
+		for(let i = 0;i<this.map.entities.getLength();i++) {
+			if(typeof (this.map.entities.get(i) as Microsoft.Maps.Pushpin).getIcon === 'function' && typeof (this.map.entities.get(i) as Microsoft.Maps.Pushpin).getTitle === 'function') {
+				mapPins.push(this.map.entities.get(i) as Microsoft.Maps.Pushpin);
+			}  	
+		}		
+		if(this.newLocations.length === 0) {
+			mapPins.forEach(myPin => mapPinsToRemove.push(myPin));
+		} else {
+			this.newLocations.forEach(newLocation => {
+				const mapPin = mapPins.filter(mapPin => mapPin.getLocation().latitude === newLocation.location.latitude && mapPin.getLocation().longitude === newLocation.location.longitude);
+				if(!!mapPin && mapPin.length > 0 && !newLocation.selected) {
+					mapPinsToRemove.push(mapPin[0]);
+				}
+				if(!mapPin || mapPin.length === 0 && newLocation.selected) {
+					mapPinsToAdd.push(new Microsoft.Maps.Pushpin(newLocation.location, { title: ''+newLocation.id, icon: 'https://bingmapsisdk.blob.core.windows.net/isdksamples/defaultPushpin.png', anchor: new Microsoft.Maps.Point(12, 39) }));					
+				}
+			});
+		}
+		mapPinsToRemove.forEach(myPin => this.map.entities.remove(myPin));
+		mapPinsToAdd.forEach(myPin => this.map.entities.add(myPin));
+	}
 
 	newLocationsChanged(e: MatSelectionListChange): void {
 		for(let i = 0; i < e.source.options.length; i++) {
@@ -142,6 +168,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 				this.newLocations[i].selected = e.options[e.options.indexOf(myOption)].selected;
 			}
 		}
+		this.updateMapPushPins();
 	}
 
 	formatLabel(value: number): string {

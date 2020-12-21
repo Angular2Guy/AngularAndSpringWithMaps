@@ -21,7 +21,7 @@
 		<div class="form-container form-container-scroll">
 			<mat-selection-list class="new-locations" (selectionChange)="newLocationsChanged($event)">
   				<mat-list-option *ngFor="let newLocation of newLocations" [selected]="newLocation.selected">
-    				{{newLocation.id}} : {{newLocation.location.latitude}} - {{newLocation.location.longitude}}
+    				{{newLocation.id}}: {{newLocation.location.latitude}} - {{newLocation.location.longitude}}
   				</mat-list-option>
 			</mat-selection-list>
 		</div>
