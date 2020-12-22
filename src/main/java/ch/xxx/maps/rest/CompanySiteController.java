@@ -55,8 +55,9 @@ public class CompanySiteController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<CompanySiteDto> upsertCompanySite(@RequestBody CompanySiteDto companySiteDto) {
-		
-		return new ResponseEntity<CompanySiteDto>(companySiteDto, HttpStatus.OK);
+	public ResponseEntity<CompanySiteDto> upsertCompanySite(@RequestBody CompanySiteDto companySiteDto) {		
+		CompanySite companySite = this.companySiteService.findCompanySiteById(companySiteDto.getId()).orElse(new CompanySite());
+		companySite = this.companySiteService.upsertCompanySite(EntityDtoMapper.mapToEntity(companySiteDto, companySite));
+		return new ResponseEntity<CompanySiteDto>(EntityDtoMapper.mapToDto(companySite), HttpStatus.OK);
 	}
 }

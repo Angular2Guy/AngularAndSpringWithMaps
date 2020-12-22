@@ -25,6 +25,10 @@ import ch.xxx.maps.model.Polygon;
 import ch.xxx.maps.model.Ring;
 
 public class EntityDtoMapper {
+	
+	public static CompanySite mapToEntity(CompanySiteDto dto, CompanySite entity) {
+		return entity;
+	}
 
 	public static CompanySiteDto mapToDto(CompanySite companySite) {
 		List<PolygonDto> myPolygons = companySite.getPolygons().stream()

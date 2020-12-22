@@ -54,4 +54,8 @@ public class CompanySiteService {
 	public Optional<CompanySite> findCompanySiteById(Long id) {
 		return this.companySiteRepository.findById(id);
 	}
+	
+	public CompanySite upsertCompanySite(CompanySite companySite) {
+		return this.companySiteRepository.save(companySite);
+	}
 }
