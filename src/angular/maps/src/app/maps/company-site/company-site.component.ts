@@ -20,11 +20,11 @@ import { ConfigurationService } from '../services/configuration.service';
 import { MainConfiguration } from '../model/main-configuration';
 import { Observable, of, iif, Subject, forkJoin, Subscription } from 'rxjs';
 import { CompanySite } from '../model/company-site';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { switchMap, debounceTime, flatMap, tap, map, filter } from 'rxjs/operators';
 import { BingMapsService } from '../services/bing-maps.service';
 import { MatSelectionListChange, MatListOption } from '@angular/material/list';
-import { SelectionModel } from '@angular/cdk/collections';
+import { Polygon } from '../model/polygon';
 
 interface Container {
 	companySite: CompanySite;
@@ -46,6 +46,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	private mainConfiguration: MainConfiguration = null;
 	private readonly COMPANY_SITE = 'companySite';
 	private readonly SLIDER_YEAR = 'sliderYear';
+	private readonly PROPERTY = 'property';
 	private readonly containerInitSubject = new Subject<Container>();
 	private containerInitSubjectSubscription: Subscription;
 	private companySiteSubscription: Subscription;
@@ -55,8 +56,9 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	companySiteOptions: Observable<CompanySite[]>;
 	componentForm = this.formBuilder.group({
-		companySite: ['Finkenwerder'],
+		companySite: ['Finkenwerder', Validators.required],
 		sliderYear: [2020],
+		property: ['add Property', Validators.required]
 	});
 
 	@ViewChild('bingMap')
@@ -87,9 +89,9 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 				filter(companySite => companySite?.length && companySite?.length > 0)).subscribe(companySite => this.updateMap(companySite[0]));
 		this.sliderYearSubscription = this.componentForm.controls[this.SLIDER_YEAR].valueChanges
 			.pipe(debounceTime(500), 
-				filter(year => typeof this.componentForm.get(this.COMPANY_SITE).value === 'string'), 
+				filter(year => !(typeof this.componentForm.get(this.COMPANY_SITE).value === 'string')), 
 				switchMap(year => this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), year as number)), 
-				filter(companySite => companySite?.length && companySite?.length > 0)).subscribe(companySite => this.updateMap(companySite[0]));
+				filter(companySite => companySite?.length && companySite.length > 0 && companySite[0].polygons.length > 0)).subscribe(companySite => this.updateMap(companySite[0]));
 		forkJoin(this.configurationService.importConfiguration(), this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), this.componentForm.controls[this.SLIDER_YEAR].value)).subscribe(values => {
 			this.mainConfiguration = values[0];
 			this.containerInitSubject.next({ companySite: values[1][0], mainConfiguration: values[0] } as Container);
@@ -98,17 +100,23 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	ngAfterViewInit(): void {
 		this.containerInitSubjectSubscription = this.containerInitSubject
-			.pipe(filter(container => !!container && !!container.companySite && !!container.mainConfiguration), flatMap(container => this.bingMapsService.initialize(container.mainConfiguration.mapKey).pipe(flatMap(() => of(container)))))
+			.pipe(filter(myContainer => !!myContainer && !!myContainer.companySite && !!myContainer.companySite.polygons && !!myContainer.mainConfiguration), flatMap(myContainer => this.bingMapsService.initialize(myContainer.mainConfiguration.mapKey).pipe(flatMap(() => of(myContainer)))))
 			.subscribe(container => {
-				this.map = new Microsoft.Maps.Map(this.bingMapContainer.nativeElement as HTMLElement, {
-					center: new Microsoft.Maps.Location(container.companySite.polygons[0].centerLocation.latitude, container.companySite.polygons[0].centerLocation.longitude),
-				} as Microsoft.Maps.IMapLoadOptions);
-				//console.log(this.map.getCenter());
-				const ringLocations = container.companySite.polygons[0].rings[0].locations.map(myLocation => new Microsoft.Maps.Location(myLocation.latitude, myLocation.longitude));
-				const polygon = new Microsoft.Maps.Polygon(ringLocations);
-				this.map.entities.push(polygon);
+				const mapOptions = container.companySite.polygons.length < 1 ? 
+				{} as Microsoft.Maps.IMapLoadOptions 
+				: {center: new Microsoft.Maps.Location(container.companySite.polygons[0].centerLocation.latitude, container.companySite.polygons[0].centerLocation.longitude)} as Microsoft.Maps.IMapLoadOptions;
+				this.map = new Microsoft.Maps.Map(this.bingMapContainer.nativeElement as HTMLElement, mapOptions);
+				this.componentForm.controls[this.COMPANY_SITE].setValue(container.companySite);				
+				container.companySite.polygons.forEach(polygon => this.addPolygon(polygon));
 				Microsoft.Maps.Events.addHandler(this.map, 'click', (e) => this.onMapClick(e));				
 			});
+	}
+
+	private addPolygon(polygon: Polygon):void {		
+		//console.log(this.map.getCenter());					
+		const polygonRings = polygon.rings.map(myRing => myRing.locations.map(myLocation => new Microsoft.Maps.Location(myLocation.latitude, myLocation.longitude)));
+		const mapPolygon = new Microsoft.Maps.Polygon(polygonRings);
+		this.map.entities.push(mapPolygon);
 	}
 
 	private onMapClick(e: Microsoft.Maps.IMouseEventArgs | Microsoft.Maps.IMapTypeChangeEventArgs): void {
@@ -120,14 +128,12 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	private updateMap(companySite: CompanySite): void {
-		if (this.map) {
+		if (this.map) {			
 			this.map.setOptions({
 				center: new Microsoft.Maps.Location(companySite.polygons[0].centerLocation.latitude, companySite.polygons[0].centerLocation.longitude),
 			} as Microsoft.Maps.IMapLoadOptions);
-			const ringLocations = companySite.polygons[0].rings[0].locations.map(myLocation => new Microsoft.Maps.Location(myLocation.latitude, myLocation.longitude));
-			const polygon = new Microsoft.Maps.Polygon(ringLocations);
 			this.map.entities.clear();
-			this.map.entities.push(polygon);
+			companySite.polygons.forEach(polygon => this.addPolygon(polygon));
 		}
 	}
 

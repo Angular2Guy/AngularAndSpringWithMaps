@@ -21,15 +21,24 @@
 	padding-right: 20px;
 }
 
-.form-container-buttons {
+.form-property-container {
 	display: flex;
 	flex-flow: column nowrap;
 	justify-content: space-evenly;
 	padding-left: 30px;
 }
 
+.form-container-buttons {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-evenly;
+}
+
 .new-locations {
 	width: 500px;
+}
+.input-property-name {
+	width: 200px;
 }
 
 .example-full-width {

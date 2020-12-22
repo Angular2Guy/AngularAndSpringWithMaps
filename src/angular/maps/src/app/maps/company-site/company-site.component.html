@@ -25,12 +25,16 @@
   				</mat-list-option>
 			</mat-selection-list>
 		</div>
-		<div class="form-container form-container-buttons">
-			<div>			
-	    		<button mat-raised-button color="primary" i18n="@@CompanySite.add">Add</button>
-			</div>
+		<div class="form-container form-property-container">
 			<div>
-				<button mat-raised-button i18n="@@CompanySite.clear">Clear</button>
+				<mat-form-field class="input-property-name">
+    				<mat-label i18n="@@companySite.property">Property</mat-label>
+    				<input matInput placeholder="Property Name" formControlName="property">
+  				</mat-form-field>
+  			</div>
+			<div class=" form-container-buttons">			
+	    		<button mat-raised-button color="primary" i18n="@@companySite.add">Add</button>			
+				<button mat-raised-button i18n="@@companySite.clear">Clear</button>
 			</div>
 		</div>
 	</form>
