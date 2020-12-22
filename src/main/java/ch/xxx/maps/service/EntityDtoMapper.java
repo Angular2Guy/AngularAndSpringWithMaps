@@ -24,21 +24,21 @@ import ch.xxx.maps.model.Location;
 import ch.xxx.maps.model.Polygon;
 import ch.xxx.maps.model.Ring;
 
-public class EntityToDtoMapper {
+public class EntityDtoMapper {
 
 	public static CompanySiteDto mapToDto(CompanySite companySite) {
 		List<PolygonDto> myPolygons = companySite.getPolygons().stream()
-				.map(polygon -> EntityToDtoMapper.mapToDto(polygon)).collect(Collectors.toList());
+				.map(polygon -> EntityDtoMapper.mapToDto(polygon)).collect(Collectors.toList());
 		CompanySiteDto dto = new CompanySiteDto(companySite.getId(), companySite.getTitle(), companySite.getAtDate(),
 				myPolygons);
 		return dto;
 	}
 
 	public static PolygonDto mapToDto(Polygon polygon) {
-		List<RingDto> myRings = polygon.getRings().stream().map(ring -> EntityToDtoMapper.mapToDto(ring))
+		List<RingDto> myRings = polygon.getRings().stream().map(ring -> EntityDtoMapper.mapToDto(ring))
 				.collect(Collectors.toList());
 		LocationDto centerLocationDto = polygon.getCenterLocation() == null ? null
-				: EntityToDtoMapper.mapToDto(polygon.getCenterLocation());
+				: EntityDtoMapper.mapToDto(polygon.getCenterLocation());
 		PolygonDto dto = new PolygonDto(polygon.getId(), polygon.getFillColor(), polygon.getBorderColor(),
 				polygon.getTitle(), centerLocationDto, myRings);
 		return dto;
@@ -46,7 +46,7 @@ public class EntityToDtoMapper {
 
 	public static RingDto mapToDto(Ring ring) {
 		List<LocationDto> myLocations = ring.getLocations().stream()
-				.map(location -> EntityToDtoMapper.mapToDto(location)).collect(Collectors.toList());
+				.map(location -> EntityDtoMapper.mapToDto(location)).collect(Collectors.toList());
 		RingDto dto = new RingDto(ring.getId(), ring.isPrimaryRing(), myLocations);
 		return dto;
 	}

@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +28,7 @@ import ch.xxx.maps.dto.CompanySiteDto;
 import ch.xxx.maps.exceptions.ResourceNotFoundException;
 import ch.xxx.maps.model.CompanySite;
 import ch.xxx.maps.service.CompanySiteService;
-import ch.xxx.maps.service.EntityToDtoMapper;
+import ch.xxx.maps.service.EntityDtoMapper;
 
 @RestController
 @RequestMapping("rest/companySite")
@@ -42,7 +43,7 @@ public class CompanySiteController {
 	public ResponseEntity<List<CompanySiteDto>> getCompanySiteByTitle(@PathVariable("title") String title,
 			@PathVariable("year") Long year) {
 		List<CompanySiteDto> companySiteDtos = this.companySiteService.findCompanySiteByTitleAndYear(title, year)
-				.stream().map(companySite -> EntityToDtoMapper.mapToDto(companySite)).collect(Collectors.toList());
+				.stream().map(companySite -> EntityDtoMapper.mapToDto(companySite)).collect(Collectors.toList());
 		return new ResponseEntity<List<CompanySiteDto>>(companySiteDtos, HttpStatus.OK);
 	}
 
@@ -50,6 +51,12 @@ public class CompanySiteController {
 	public ResponseEntity<CompanySiteDto> getCompanySiteByTitle(@PathVariable("id") Long id) {
 		CompanySite companySite = this.companySiteService.findCompanySiteById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(String.format("No CompanySite found for id: %d", id)));
-		return new ResponseEntity<CompanySiteDto>(EntityToDtoMapper.mapToDto(companySite), HttpStatus.OK);
+		return new ResponseEntity<CompanySiteDto>(EntityDtoMapper.mapToDto(companySite), HttpStatus.OK);
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<CompanySiteDto> upsertCompanySite(@RequestBody CompanySiteDto companySiteDto) {
+		
+		return new ResponseEntity<CompanySiteDto>(companySiteDto, HttpStatus.OK);
 	}
 }
