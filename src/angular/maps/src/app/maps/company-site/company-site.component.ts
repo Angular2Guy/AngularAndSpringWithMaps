@@ -177,6 +177,13 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.updateMapPushPins();
 	}
 
+	clearMapPins(): void {
+		while(this.newLocations.length > 0) {
+			this.newLocations.pop();
+		}
+		this.updateMapPushPins();
+	}
+
 	formatLabel(value: number): string {
 		return '' + value;
 	}
