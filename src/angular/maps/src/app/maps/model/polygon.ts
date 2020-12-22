@@ -17,7 +17,7 @@ import { Ring } from './ring';
 import { Location } from './location';
 
 export interface Polygon {
-	id: number;
+	id?: number;
 	fillColor: string;
 	borderColor: string;
 	title: string;

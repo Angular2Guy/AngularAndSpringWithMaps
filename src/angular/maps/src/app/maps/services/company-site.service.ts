@@ -30,4 +30,12 @@ export class CompanySiteService {
   public findByTitleAndYear(title: string, year: number): Observable<CompanySite[]> {
 	return this.http.get<CompanySite[]>(`/rest/companySite/title/${title}/year/${year}`);
   }
+
+  public addCompanySite(companySite: CompanySite): Observable<CompanySite> {
+	return this.http.post<CompanySite>('/rest/companySite', companySite);
+  }
+
+  public updateCompanySite(companySite: CompanySite): Observable<CompanySite> {
+	return this.http.put<CompanySite>('/rest/companySite', companySite);
+  }
 }

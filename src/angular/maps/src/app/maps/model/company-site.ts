@@ -16,7 +16,7 @@
 import { Polygon } from './polygon';
 
 export interface CompanySite {
-	id: number;
+	id?: number;
 	title: string;
 	atDate: Date;
 	polygons: Polygon[];

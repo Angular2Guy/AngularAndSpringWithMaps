@@ -25,6 +25,8 @@ import { switchMap, debounceTime, flatMap, tap, map, filter } from 'rxjs/operato
 import { BingMapsService } from '../services/bing-maps.service';
 import { MatSelectionListChange, MatListOption } from '@angular/material/list';
 import { Polygon } from '../model/polygon';
+import { Location } from '../model/location';
+import { Ring } from '../model/ring';
 
 interface Container {
 	companySite: CompanySite;
@@ -177,6 +179,23 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.updateMapPushPins();
 	}
 
+    upsertCompanySite(): void {
+		if(typeof this.componentForm.get(this.COMPANY_SITE).value === 'string') {
+			console.log('should create new company site: ' + this.componentForm.get(this.COMPANY_SITE).value);
+		} else {
+			const myCompanySite = this.componentForm.controls[this.COMPANY_SITE].value as CompanySite;
+			const newPolygonCenter = { latitude: this.newLocations[0].location.latitude, longitude: this.newLocations[0].location.longitude} as Location;
+			const newRing = { primaryRing: true, locations: this.newLocations.filter(myNewLocation => myNewLocation !== this.newLocations[0]).map(myNewLocation => ({latitude: myNewLocation.location.latitude, longitude: myNewLocation.location.longitude } as Location))} as Ring;
+			const newPolygon = { borderColor:'#00FFFF', fillColor: '#FFFFFF', centerLocation: newPolygonCenter, title: this.componentForm.controls[this.PROPERTY].value, rings: [newRing]} as Polygon;
+			myCompanySite.polygons.push(newPolygon);
+			this.companySiteService.updateCompanySite(myCompanySite).subscribe(newCompanySite => {
+				this.componentForm.controls[this.COMPANY_SITE].setValue(newCompanySite);
+				this.clearMapPins();
+				this.updateMap(newCompanySite);
+			});
+		}
+    }
+
 	clearMapPins(): void {
 		while(this.newLocations.length > 0) {
 			this.newLocations.pop();
@@ -190,5 +209,9 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	displayTitle(companySite: CompanySite): string {
 		return companySite && companySite.title ? companySite.title : '';
+	}
+	
+	selectedNewLocations(): NewLocation[] {
+		return this.newLocations.filter(nl => nl.selected === true);
 	}
 }
