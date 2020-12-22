@@ -185,10 +185,10 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 		} else {
 			const myCompanySite = this.componentForm.controls[this.COMPANY_SITE].value as CompanySite;
 			const newPolygonCenter = { latitude: this.newLocations[0].location.latitude, longitude: this.newLocations[0].location.longitude} as Location;
-			const newRing = { primaryRing: true, locations: this.newLocations.filter(myNewLocation => myNewLocation !== this.newLocations[0]).map(myNewLocation => ({latitude: myNewLocation.location.latitude, longitude: myNewLocation.location.longitude } as Location))} as Ring;
+			const newRing = { primaryRing: true, locations: this.newLocations.filter(myNewLocation => myNewLocation !== this.newLocations[0] && myNewLocation.selected).map(myNewLocation => ({latitude: myNewLocation.location.latitude, longitude: myNewLocation.location.longitude } as Location))} as Ring;
 			const newPolygon = { borderColor:'#00FFFF', fillColor: '#FFFFFF', centerLocation: newPolygonCenter, title: this.componentForm.controls[this.PROPERTY].value, rings: [newRing]} as Polygon;
 			myCompanySite.polygons.push(newPolygon);
-			this.companySiteService.updateCompanySite(myCompanySite).subscribe(newCompanySite => {
+			this.companySiteService.upsertCompanySite(myCompanySite).subscribe(newCompanySite => {
 				this.componentForm.controls[this.COMPANY_SITE].setValue(newCompanySite);
 				this.clearMapPins();
 				this.updateMap(newCompanySite);
