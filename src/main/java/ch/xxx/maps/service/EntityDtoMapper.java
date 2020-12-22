@@ -46,7 +46,7 @@ public class EntityDtoMapper {
 	public static Polygon mapToEntity(PolygonDto dto, Polygon entity, CompanySite companySite) {
 		entity.setBorderColor(dto.getBorderColor());
 		entity.setCenterLocation(
-				EntityDtoMapper.mapToEntity(dto.getCenterLocation(), entity.getCenterLocation(), entity, null));
+				EntityDtoMapper.mapToEntity(dto.getCenterLocation(), entity.getCenterLocation() == null ? new Location() : entity.getCenterLocation(), entity, null));
 		entity.setCompanySite(companySite);
 		entity.setFillColor(dto.getFillColor());
 		entity.setTitle(dto.getTitle());

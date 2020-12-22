@@ -211,7 +211,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 		return companySite && companySite.title ? companySite.title : '';
 	}
 	
-	selectedNewLocations(): NewLocation[] {
-		return this.newLocations.filter(nl => nl.selected === true);
+	newLocationsValid(): boolean {
+		return this.newLocations.filter(nl => nl.selected === true).length > 3 && this.componentForm.valid;
 	}
 }

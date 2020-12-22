@@ -13,7 +13,7 @@
 package ch.xxx.maps.model;
 
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -32,7 +32,7 @@ public class CompanySite {
 	private String title;
 	private LocalDate atDate;
 	@OneToMany(mappedBy = "companySite", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<Polygon> polygons = new HashSet<>();
+	private Set<Polygon> polygons = new LinkedHashSet<>();
 
 	public Set<Polygon> getPolygons() {
 		return polygons;

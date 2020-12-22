@@ -33,7 +33,7 @@
   				</mat-form-field>
   			</div>
 			<div *ngIf="newLocations.length > 0" class=" form-container-buttons">			
-	    		<button mat-raised-button color="primary" *ngIf="newLocations.length > 3 && selectedNewLocations().length > 3" i18n="@@companySite.add">Add</button>			
+	    		<button mat-raised-button color="primary" (click)="upsertCompanySite()" *ngIf="newLocationsValid()" i18n="@@companySite.add">Add</button>			
 				<button mat-raised-button (click)="clearMapPins()" i18n="@@companySite.clear">Clear</button>
 			</div>
 		</div>

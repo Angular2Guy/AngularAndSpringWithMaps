@@ -43,19 +43,23 @@ public class CompanySiteService {
 		return this.companySiteRepository.findByTitle(title.toLowerCase()).stream()
 				.filter(companySite -> beginOfYear.isBefore(companySite.getAtDate())
 						&& endOfYear.isAfter(companySite.getAtDate()))
-				.peek(companySite -> companySite.getPolygons()
-						.forEach(polygon -> polygon.getRings()
-								.forEach(ring -> ring.setLocations(new LinkedHashSet<Location>(ring.getLocations()
-										.stream().sorted((Location l1, Location l2) -> l1.getId().compareTo(l2.getId()))
-										.collect(Collectors.toList()))))))
-				.collect(Collectors.toList());
+				.peek(companySite -> this.orderCompanySite(companySite)).collect(Collectors.toList());
+	}
+
+	private CompanySite orderCompanySite(CompanySite companySite) {
+		companySite.getPolygons().forEach(polygon -> polygon.getRings().forEach(ring -> 
+			ring.setLocations(new LinkedHashSet<Location>(ring.getLocations().stream()
+					.sorted((Location l1, Location l2) -> l1.getId().compareTo(l2.getId()))
+					.collect(Collectors.toList())))
+		));
+		return companySite;
 	}
 
 	public Optional<CompanySite> findCompanySiteById(Long id) {
 		return id == null ? Optional.empty() : this.companySiteRepository.findById(id);
 	}
-	
+
 	public CompanySite upsertCompanySite(CompanySite companySite) {
-		return this.companySiteRepository.save(companySite);
+		return this.orderCompanySite(this.companySiteRepository.save(companySite));
 	}
 }
