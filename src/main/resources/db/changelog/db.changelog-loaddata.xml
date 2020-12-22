@@ -38,6 +38,7 @@
 			<column name="longitude" type="numeric" />
 			<column name="latitude" type="numeric" />
 			<column name="ring_id" type="numeric" />
+			<column name="order_id" type="numeric" />
 		</loadData>
 	</changeSet>
 </databaseChangeLog>

@@ -35,6 +35,7 @@ public class Location {
 	private Ring ring;
 	@OneToOne(mappedBy = "centerLocation", fetch = FetchType.LAZY, optional = true)
 	private Polygon polygonCenter;
+	private Integer orderId;
 
 	public Polygon getPolygonCenter() {
 		return polygonCenter;
@@ -74,5 +75,13 @@ public class Location {
 
 	public void setLatitude(BigDecimal latitude) {
 		this.latitude = latitude;
+	}
+
+	public Integer getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
 	}
 }

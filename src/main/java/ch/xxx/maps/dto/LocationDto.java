@@ -18,15 +18,17 @@ public class LocationDto {
 	private Long id;
 	private BigDecimal longitude;
 	private BigDecimal latitude;
+	private Integer orderId;
 
 	public LocationDto() {
 	}
 
-	public LocationDto(Long id, BigDecimal longitude, BigDecimal latitude) {
+	public LocationDto(Long id, BigDecimal longitude, BigDecimal latitude, Integer orderId) {
 		super();
 		this.id = id;
 		this.longitude = longitude;
 		this.latitude = latitude;
+		this.orderId = orderId;
 	}
 
 	public Long getId() {
@@ -51,6 +53,14 @@ public class LocationDto {
 
 	public void setLatitude(BigDecimal latitude) {
 		this.latitude = latitude;
+	}
+
+	public Integer getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
 	}
 
 }

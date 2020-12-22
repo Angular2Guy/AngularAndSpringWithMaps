@@ -63,6 +63,9 @@ public class EntityDtoMapper {
 	}
 
 	public static Ring mapToEntity(RingDto dto, Ring entity, Polygon polygon) {
+		for(int i = 0;i<dto.getLocations().size();i++) {
+			dto.getLocations().get(i).setOrderId(i+1);
+		}
 		entity.setPolygon(polygon);
 		entity.setPrimaryRing(dto.isPrimary());
 		entity.setLocations(dto.getLocations().stream()
@@ -81,6 +84,7 @@ public class EntityDtoMapper {
 		entity.setLongitude(dto.getLongitude());
 		entity.setPolygonCenter(polygonCenter);
 		entity.setRing(ring);
+		entity.setOrderId(polygonCenter == null ? dto.getOrderId() : null);
 		return entity;
 	}
 
@@ -110,7 +114,7 @@ public class EntityDtoMapper {
 	}
 
 	public static LocationDto mapToDto(Location location) {
-		LocationDto dto = new LocationDto(location.getId(), location.getLongitude(), location.getLatitude());
+		LocationDto dto = new LocationDto(location.getId(), location.getLongitude(), location.getLatitude(), location.getOrderId());
 		return dto;
 	}
 }

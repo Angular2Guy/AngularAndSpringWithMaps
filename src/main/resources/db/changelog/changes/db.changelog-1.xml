@@ -57,6 +57,9 @@
 				<constraints nullable="true"
 					foreignKeyName="fk_ring_id1" references="ring(id)" />
 			</column>
+			<column name="order_id" type="int">
+				<constraints nullable="true"/>
+			</column>
 		</createTable>
 	</changeSet>
 </databaseChangeLog>

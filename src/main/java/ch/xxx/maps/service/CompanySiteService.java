@@ -49,7 +49,7 @@ public class CompanySiteService {
 	private CompanySite orderCompanySite(CompanySite companySite) {
 		companySite.getPolygons().forEach(polygon -> polygon.getRings().forEach(ring -> 
 			ring.setLocations(new LinkedHashSet<Location>(ring.getLocations().stream()
-					.sorted((Location l1, Location l2) -> l1.getId().compareTo(l2.getId()))
+					.sorted((Location l1, Location l2) -> l1.getOrderId().compareTo(l2.getOrderId()))
 					.collect(Collectors.toList())))
 		));
 		return companySite;
