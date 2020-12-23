@@ -24,7 +24,7 @@ In the postgresql.sh file are the commands to pull and run Postgresql in a Docke
 A Bing Maps Key is availiable for development use here: https://www.bingmapsportal.com
 
 ## Testdata
-Testdata for a current industrial production site for the year 2020 is available. The testdata for the year 2010 is dummy data. 
+The testdata for the company site is Airbus Finkenwerder for the year 2020. The testdata for the year 2010 is dummy data. 
 
 ## Setup
 Java 11 or newer.
