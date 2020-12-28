@@ -60,4 +60,9 @@ public class CompanySiteController {
 		companySite = this.companySiteService.upsertCompanySite(EntityDtoMapper.mapToEntity(companySiteDto, companySite));
 		return new ResponseEntity<CompanySiteDto>(EntityDtoMapper.mapToDto(companySite), HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/reset",method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Boolean> resetDb() {
+		return new ResponseEntity<Boolean>(this.companySiteService.resetDb(), HttpStatus.OK);
+	}
 }

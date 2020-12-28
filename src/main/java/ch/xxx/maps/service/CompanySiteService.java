@@ -23,15 +23,27 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ch.xxx.maps.model.CompanySite;
 import ch.xxx.maps.model.Location;
+import ch.xxx.maps.model.Polygon;
+import ch.xxx.maps.model.Ring;
 import ch.xxx.maps.repository.CompanySiteRepository;
+import ch.xxx.maps.repository.LocationRepository;
+import ch.xxx.maps.repository.PolygonRepository;
+import ch.xxx.maps.repository.RingRepository;
 
 @Transactional
 @Service
 public class CompanySiteService {
 	private final CompanySiteRepository companySiteRepository;
+	private final PolygonRepository polygonRepository;
+	private final RingRepository ringRepository;
+	private final LocationRepository locationRepository;
 
-	public CompanySiteService(CompanySiteRepository companySiteRepository) {
+	public CompanySiteService(CompanySiteRepository companySiteRepository, PolygonRepository polygonRepository,
+			RingRepository ringRepository, LocationRepository locationRepository) {
 		this.companySiteRepository = companySiteRepository;
+		this.polygonRepository = polygonRepository;
+		this.ringRepository = ringRepository;
+		this.locationRepository = locationRepository;
 	}
 
 	public List<CompanySite> findCompanySiteByTitleAndYear(String title, Long year) {
@@ -47,11 +59,11 @@ public class CompanySiteService {
 	}
 
 	private CompanySite orderCompanySite(CompanySite companySite) {
-		companySite.getPolygons().forEach(polygon -> polygon.getRings().forEach(ring -> 
-			ring.setLocations(new LinkedHashSet<Location>(ring.getLocations().stream()
-					.sorted((Location l1, Location l2) -> l1.getOrderId().compareTo(l2.getOrderId()))
-					.collect(Collectors.toList())))
-		));
+		companySite.getPolygons()
+				.forEach(polygon -> polygon.getRings()
+						.forEach(ring -> ring.setLocations(new LinkedHashSet<Location>(ring.getLocations().stream()
+								.sorted((Location l1, Location l2) -> l1.getOrderId().compareTo(l2.getOrderId()))
+								.collect(Collectors.toList())))));
 		return companySite;
 	}
 
@@ -61,5 +73,21 @@ public class CompanySiteService {
 
 	public CompanySite upsertCompanySite(CompanySite companySite) {
 		return this.orderCompanySite(this.companySiteRepository.save(companySite));
+	}
+
+	public boolean resetDb() {
+		List<CompanySite> companySitesToDelete = this.companySiteRepository.findAll().stream()
+				.filter(companySite -> companySite.getId() >= 1000).collect(Collectors.toList());
+		this.companySiteRepository.deleteAll(companySitesToDelete);
+		List<Polygon> polygonsToDelete = this.polygonRepository.findAll().stream()
+				.filter(polygon -> polygon.getId() >= 1000).collect(Collectors.toList());
+		this.polygonRepository.deleteAll(polygonsToDelete);
+		List<Ring> ringsToDelete = this.ringRepository.findAll().stream().filter(ring -> ring.getId() >= 1000)
+				.collect(Collectors.toList());
+		this.ringRepository.deleteAll(ringsToDelete);
+		List<Location> locationsToDelete = this.locationRepository.findAll().stream()
+				.filter(location -> location.getId() >= 1000).collect(Collectors.toList());
+		this.locationRepository.deleteAll(locationsToDelete);
+		return true;
 	}
 }
