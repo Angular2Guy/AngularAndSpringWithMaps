@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -76,22 +77,31 @@ public class CompanySiteService {
 	}
 
 	public boolean resetDb() {
-		List<CompanySite> companySitesToDelete = this.companySiteRepository.findAll().stream()
+		List<CompanySite> allCompanySites = this.companySiteRepository.findAll();
+		List<CompanySite> companySitesToDelete = allCompanySites.stream()
 				.filter(companySite -> companySite.getId() >= 1000).collect(Collectors.toList());
-		this.companySiteRepository.deleteAll(companySitesToDelete);
-		this.companySiteRepository.flush();
-		List<Polygon> polygonsToDelete = this.polygonRepository.findAll().stream()
-				.filter(polygon -> polygon.getId() >= 1000).collect(Collectors.toList());
-		this.polygonRepository.deleteAll(polygonsToDelete);
-		this.polygonRepository.flush();
-		List<Ring> ringsToDelete = this.ringRepository.findAll().stream().filter(ring -> ring.getId() >= 1000)
+		List<Polygon> allPolygons = this.polygonRepository.findAll();
+		List<Polygon> polygonsToDelete = allPolygons.stream().filter(polygon -> polygon.getId() >= 1000)
 				.collect(Collectors.toList());
-		this.ringRepository.deleteAll(ringsToDelete);
-		this.ringRepository.flush();
-		List<Location> locationsToDelete = this.locationRepository.findAll().stream()
-				.filter(location -> location.getId() >= 1000).collect(Collectors.toList());
+		allCompanySites.forEach(myCompanySite -> myCompanySite.getPolygons().removeAll(polygonsToDelete));
+		List<Ring> allRings = this.ringRepository.findAll();
+		List<Ring> ringsToDelete = allRings.stream().filter(ring -> ring.getId() >= 1000).collect(Collectors.toList());
+		allPolygons.forEach(myPolygon -> myPolygon.getRings().removeAll(ringsToDelete));
+		polygonsToDelete.forEach(myPolygon -> myPolygon.setCenterLocation(null));
+		List<Location> allLocations = this.locationRepository.findAll();
+		List<Location> locationsToDelete = allLocations.stream().filter(location -> location.getId() >= 1000)
+				.collect(Collectors.toList());
+		locationsToDelete.forEach(myLocaton -> {
+			myLocaton.setPolygonCenter(null);
+			myLocaton.setRing(null);
+		});
+		allRings.forEach(myRing -> {
+			myRing.getLocations().removeAll(locationsToDelete);
+		});
 		this.locationRepository.deleteAll(locationsToDelete);
-		this.locationRepository.flush();
+		this.ringRepository.deleteAll(ringsToDelete);
+		this.polygonRepository.deleteAll(polygonsToDelete);
+		this.companySiteRepository.deleteAll(companySitesToDelete);
 		return true;
 	}
 }
