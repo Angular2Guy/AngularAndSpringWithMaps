@@ -79,15 +79,19 @@ public class CompanySiteService {
 		List<CompanySite> companySitesToDelete = this.companySiteRepository.findAll().stream()
 				.filter(companySite -> companySite.getId() >= 1000).collect(Collectors.toList());
 		this.companySiteRepository.deleteAll(companySitesToDelete);
+		this.companySiteRepository.flush();
 		List<Polygon> polygonsToDelete = this.polygonRepository.findAll().stream()
 				.filter(polygon -> polygon.getId() >= 1000).collect(Collectors.toList());
 		this.polygonRepository.deleteAll(polygonsToDelete);
+		this.polygonRepository.flush();
 		List<Ring> ringsToDelete = this.ringRepository.findAll().stream().filter(ring -> ring.getId() >= 1000)
 				.collect(Collectors.toList());
 		this.ringRepository.deleteAll(ringsToDelete);
+		this.ringRepository.flush();
 		List<Location> locationsToDelete = this.locationRepository.findAll().stream()
 				.filter(location -> location.getId() >= 1000).collect(Collectors.toList());
 		this.locationRepository.deleteAll(locationsToDelete);
+		this.locationRepository.flush();
 		return true;
 	}
 }

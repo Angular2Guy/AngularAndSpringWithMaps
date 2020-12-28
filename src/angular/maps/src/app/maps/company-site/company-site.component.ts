@@ -55,6 +55,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	private sliderYearSubscription: Subscription;
 	newLocations: NewLocation[] = [];
 	map: Microsoft.Maps.Map = null;
+	resetInProgress = false;
 
 	companySiteOptions: Observable<CompanySite[]>;
 	componentForm = this.formBuilder.group({
@@ -202,6 +203,17 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 		}
 		this.updateMapPushPins();
 	}
+
+    resetDb(): void {
+		this.resetInProgress = true;
+		this.companySiteService.resetDb().pipe(
+			switchMap(value => this.companySiteService.findByTitleAndYear('Finkenwerder', 2020)), 
+			filter(myCompanySite => myCompanySite?.length && myCompanySite?.length > 0))
+		.subscribe(companySite => {
+			this.updateMap(companySite[0]);
+			this.clearMapPins();
+			this.resetInProgress = false;});
+    }
 
 	formatLabel(value: number): string {
 		return '' + value;

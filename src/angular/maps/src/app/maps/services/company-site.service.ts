@@ -34,4 +34,8 @@ export class CompanySiteService {
   public upsertCompanySite(companySite: CompanySite): Observable<CompanySite> {
 	return this.http.post<CompanySite>('/rest/companySite', companySite);
   }
+
+  public resetDb(): Observable<boolean> {
+	return this.http.delete<boolean>('/rest/companySite/reset');
+}
 }

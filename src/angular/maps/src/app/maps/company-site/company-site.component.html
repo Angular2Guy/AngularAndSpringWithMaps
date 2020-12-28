@@ -27,7 +27,7 @@
 		</div>
 		<div class="form-container form-property-container">
 			<div *ngIf="newLocations.length > 0">
-				<mat-form-field class="input-property-name">
+				<mat-form-field class="input-property-name example-full-width">
     				<mat-label i18n="@@companySite.property">Property</mat-label>
     				<input matInput placeholder="Property Name" formControlName="property">
   				</mat-form-field>
@@ -35,6 +35,7 @@
 			<div *ngIf="newLocations.length > 0" class=" form-container-buttons">			
 	    		<button mat-raised-button color="primary" (click)="upsertCompanySite()" *ngIf="newLocationsValid()" i18n="@@companySite.add">Add</button>			
 				<button mat-raised-button (click)="clearMapPins()" i18n="@@companySite.clear">Clear</button>
+				<button mat-raised-button (click)="resetDb()" [disabled]="resetInProgress" i18n="@@companySite.resetDb">Reset DB</button>
 			</div>
 		</div>
 	</form>
