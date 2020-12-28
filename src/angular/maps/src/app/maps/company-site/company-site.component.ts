@@ -211,6 +211,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 			filter(myCompanySite => myCompanySite?.length && myCompanySite?.length > 0))
 		.subscribe(companySite => {
 			this.updateMap(companySite[0]);
+			this.componentForm.controls[this.COMPANY_SITE].setValue(companySite[0]);
 			this.clearMapPins();
 			this.resetInProgress = false;});
     }
