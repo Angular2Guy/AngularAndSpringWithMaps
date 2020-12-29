@@ -69,7 +69,7 @@ public class CompanySiteService {
 	}
 
 	public Optional<CompanySite> findCompanySiteById(Long id) {
-		return id == null ? Optional.empty() : this.companySiteRepository.findById(id);
+		return id == null ? Optional.empty() : this.companySiteRepository.findById(id).map(myCompanySite -> this.orderCompanySite(myCompanySite));
 	}
 
 	public CompanySite upsertCompanySite(CompanySite companySite) {

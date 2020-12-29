@@ -15,6 +15,8 @@ package ch.xxx.maps.rest;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,7 @@ import ch.xxx.maps.service.EntityDtoMapper;
 @RestController
 @RequestMapping("rest/companySite")
 public class CompanySiteController {
+	private static final Logger LOGGER = LoggerFactory.getLogger(CompanySite.class);
 	private final CompanySiteService companySiteService;
 
 	public CompanySiteController(CompanySiteService companySiteService) {
@@ -64,5 +67,11 @@ public class CompanySiteController {
 	@RequestMapping(value="/reset",method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Boolean> resetDb() {
 		return new ResponseEntity<Boolean>(this.companySiteService.resetDb(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/id/{companySiteId}/polygon/id/{polygonId}",method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Boolean> deletePolygon(@PathVariable Long companySiteId, @PathVariable Long polygonId) {
+		LOGGER.info("companySiteId: {} polygonId: {}", companySiteId, polygonId);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
 }

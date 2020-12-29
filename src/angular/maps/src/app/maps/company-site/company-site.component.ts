@@ -202,8 +202,12 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	    	dialogRef.afterClosed().subscribe(result => {
 	      		console.log('The dialog was closed '+result);
 	      		if(result === DialogResult.Delete) {
-					console.log('Delete');
 					console.log(polygonMetaData);
+					this.companySiteService.deletePolygon(polygonMetaData.companySiteId, polygonMetaData.polygonId).pipe(switchMap(myResult => this.companySiteService.findById(polygonMetaData.companySiteId))).subscribe(myCompanySite => {
+						this.componentForm.controls[this.COMPANY_SITE].setValue(myCompanySite);
+						this.clearMapPins();
+						this.updateMap(myCompanySite);
+					});
 				}
 	    	});
 		}

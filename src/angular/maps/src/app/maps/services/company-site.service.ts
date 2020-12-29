@@ -37,5 +37,9 @@ export class CompanySiteService {
 
   public resetDb(): Observable<boolean> {
 	return this.http.delete<boolean>('/rest/companySite/reset');
-}
+  }
+
+  public deletePolygon(companySiteId: number, polygonId: number): Observable<boolean> {
+	return this.http.delete<boolean>(`/rest/companySite/id/${companySiteId}/polygon/id/${polygonId}`);
+  }
 }
