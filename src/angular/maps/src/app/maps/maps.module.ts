@@ -27,9 +27,11 @@ import { MatInputModule } from '@angular/material/input';
 import { BingMapsService } from './services/bing-maps.service';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { PolygonDeleteDialogComponent } from './polygon-delete-dialog/polygon-delete-dialog.component'; 
 
 @NgModule({
-	declarations: [CompanySiteComponent],
+	declarations: [CompanySiteComponent, PolygonDeleteDialogComponent],
 	imports: [
 		CommonModule,
 		MapsRoutingModule,
@@ -41,6 +43,7 @@ import { MatButtonModule } from '@angular/material/button';
 		MatInputModule,
 		MatListModule,
 		MatButtonModule,
+		MatDialogModule,
 	],
 	providers: [CompanySiteService, ConfigurationService, BingMapsService]
 })

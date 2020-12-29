@@ -39,6 +39,11 @@ interface NewLocation {
 	id: number;
 }
 
+interface PolygonMetaData {
+	companySiteId: number;
+	polygonId: number;
+}
+
 @Component({
 	selector: 'app-company-site',
 	templateUrl: './company-site.component.html',
@@ -119,10 +124,19 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 		//console.log(this.map.getCenter());					
 		const polygonRings = polygon.rings.map(myRing => myRing.locations.map(myLocation => new Microsoft.Maps.Location(myLocation.latitude, myLocation.longitude)));
 		const mapPolygon = new Microsoft.Maps.Polygon(polygonRings);
+		mapPolygon.metadata = {companySiteId: (this.componentForm.controls[this.COMPANY_SITE].value as CompanySite).id, polygonId: polygon.id} as PolygonMetaData;
+		Microsoft.Maps.Events.addHandler(mapPolygon, 'dblclick', (e) => this.onPolygonDblClick(e));
+		Microsoft.Maps.Events.addHandler(mapPolygon, 'click', (e) => this.onPolygonDblClick(e));
 		this.map.entities.push(mapPolygon);
 	}
 
-	private onMapClick(e: Microsoft.Maps.IMouseEventArgs | Microsoft.Maps.IMapTypeChangeEventArgs): void {
+    private onPolygonDblClick(e: Microsoft.Maps.IMouseEventArgs | Microsoft.Maps.IPrimitiveChangedEventArgs): void {	
+		if((e as Microsoft.Maps.IMouseEventArgs).targetType === 'polygon' && (e as Microsoft.Maps.IMouseEventArgs).eventName === 'dblclick') {
+			console.log((e as Microsoft.Maps.IMouseEventArgs).target);
+		}
+    }
+
+	private onMapClick(e: Microsoft.Maps.IMouseEventArgs | Microsoft.Maps.IMapTypeChangeEventArgs): void {		
 		if((e as Microsoft.Maps.IMouseEventArgs).location) {
 			const myLocation =  {id: this.newLocations.length +1, location: (e as Microsoft.Maps.IMouseEventArgs).location, selected: true};
 			this.newLocations.push(myLocation);
@@ -210,9 +224,9 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 			switchMap(value => this.companySiteService.findByTitleAndYear('Finkenwerder', 2020)), 
 			filter(myCompanySite => myCompanySite?.length && myCompanySite?.length > 0))
 		.subscribe(companySite => {
-			this.updateMap(companySite[0]);
 			this.componentForm.controls[this.COMPANY_SITE].setValue(companySite[0]);
 			this.clearMapPins();
+			this.updateMap(companySite[0]);
 			this.resetInProgress = false;});
     }
 
