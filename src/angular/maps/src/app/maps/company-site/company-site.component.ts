@@ -27,6 +27,8 @@ import { MatSelectionListChange, MatListOption } from '@angular/material/list';
 import { Polygon } from '../model/polygon';
 import { Location } from '../model/location';
 import { Ring } from '../model/ring';
+import { MatDialog } from '@angular/material/dialog';
+import { PolygonDeleteDialogComponent, DialogResult, DialogMetaData } from '../polygon-delete-dialog/polygon-delete-dialog.component';
 
 interface Container {
 	companySite: CompanySite;
@@ -72,7 +74,11 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	@ViewChild('bingMap')
 	bingMapContainer: ElementRef;
 
-	constructor(private formBuilder: FormBuilder, private bingMapsService: BingMapsService, private companySiteService: CompanySiteService, private configurationService: ConfigurationService) { }
+	constructor(public dialog: MatDialog,
+		private formBuilder: FormBuilder, 
+		private bingMapsService: BingMapsService, 
+		private companySiteService: CompanySiteService, 
+		private configurationService: ConfigurationService) { }
 
 	ngOnDestroy(): void {
 		this.containerInitSubject.complete();
@@ -133,6 +139,8 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
     private onPolygonDblClick(e: Microsoft.Maps.IMouseEventArgs | Microsoft.Maps.IPrimitiveChangedEventArgs): void {	
 		if((e as Microsoft.Maps.IMouseEventArgs).targetType === 'polygon' && (e as Microsoft.Maps.IMouseEventArgs).eventName === 'dblclick') {
 			console.log((e as Microsoft.Maps.IMouseEventArgs).target);
+			const myPolygon = ((e as Microsoft.Maps.IMouseEventArgs).target) as Microsoft.Maps.Polygon;
+			this.openDeleteDialog(myPolygon.metadata as PolygonMetaData);
 		}
     }
 
@@ -182,6 +190,23 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 		}
 		mapPinsToRemove.forEach(myPin => this.map.entities.remove(myPin));
 		mapPinsToAdd.forEach(myPin => this.map.entities.add(myPin));
+	}
+
+	private openDeleteDialog(polygonMetaData: PolygonMetaData): void {
+		const myPolygon = (this.componentForm.controls[this.COMPANY_SITE].value as CompanySite).polygons.filter(myPolygon => myPolygon.id = polygonMetaData.polygonId);
+		if(myPolygon && myPolygon.length > 0) {
+			const dialogRef = this.dialog.open(PolygonDeleteDialogComponent, {
+	      		width: '350px',
+	      		data: {polygonName: myPolygon[0].title, polygonId: polygonMetaData.polygonId} as DialogMetaData
+	    	});
+	    	dialogRef.afterClosed().subscribe(result => {
+	      		console.log('The dialog was closed '+result);
+	      		if(result === DialogResult.Delete) {
+					console.log('Delete');
+					console.log(polygonMetaData);
+				}
+	    	});
+		}
 	}
 
 	newLocationsChanged(e: MatSelectionListChange): void {
