@@ -72,6 +72,6 @@ public class CompanySiteController {
 	@RequestMapping(value="/id/{companySiteId}/polygon/id/{polygonId}",method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Boolean> deletePolygon(@PathVariable Long companySiteId, @PathVariable Long polygonId) {
 		LOGGER.info("companySiteId: {} polygonId: {}", companySiteId, polygonId);
-		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(this.companySiteService.deletePolygon(companySiteId, polygonId), HttpStatus.OK);
 	}
 }

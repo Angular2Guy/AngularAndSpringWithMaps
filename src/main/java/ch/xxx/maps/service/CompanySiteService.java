@@ -13,6 +13,7 @@
 package ch.xxx.maps.service;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
@@ -69,11 +70,44 @@ public class CompanySiteService {
 	}
 
 	public Optional<CompanySite> findCompanySiteById(Long id) {
-		return id == null ? Optional.empty() : this.companySiteRepository.findById(id).map(myCompanySite -> this.orderCompanySite(myCompanySite));
+		return id == null ? Optional.empty()
+				: this.companySiteRepository.findById(id).map(myCompanySite -> this.orderCompanySite(myCompanySite));
 	}
 
 	public CompanySite upsertCompanySite(CompanySite companySite) {
 		return this.orderCompanySite(this.companySiteRepository.save(companySite));
+	}
+
+	public boolean deletePolygon(Long companySiteId, Long polygonId) {
+		Optional<CompanySite> companySiteOpt = this.companySiteRepository.findById(companySiteId);
+		if (companySiteOpt.isEmpty()) {
+			return false;
+		}
+		Optional<Polygon> polygonOpt = companySiteOpt.get().getPolygons().stream()
+				.filter(myPolygon -> myPolygon.getId() >= 1000L && myPolygon.getId().equals(polygonId)).findFirst();
+		if(polygonOpt.isEmpty()) {
+			return false;
+		}
+		companySiteOpt.get().getPolygons().remove(polygonOpt.get());
+		polygonOpt.get().setCompanySite(null);
+		Location center = polygonOpt.get().getCenterLocation();
+		polygonOpt.get().setCenterLocation(null);		
+		Set<Ring> ringsToDelete = polygonOpt.get().getRings();
+		polygonOpt.get().setRings(null);
+		Set<Location> locationsToDelete = new HashSet<>(Set.of(center));
+		ringsToDelete.forEach(myRing -> {
+			myRing.setPolygon(null);
+			locationsToDelete.addAll(myRing.getLocations());
+			myRing.setLocations(null);
+		});
+		locationsToDelete.forEach(myLocation -> {
+			myLocation.setPolygonCenter(null);
+			myLocation.setRing(null);
+		});
+		this.locationRepository.deleteAll(locationsToDelete);
+		this.ringRepository.deleteAll(ringsToDelete);
+		this.polygonRepository.delete(polygonOpt.get());
+		return true;
 	}
 
 	public boolean resetDb() {
