@@ -9,6 +9,6 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="cancelClick()" cdkFocusInitial i18n="@@DeleteDialog.Cancel">Cancel</button>
-  <button mat-button *ngIf="!isTestData" [mat-dialog-close]="dialogResults.Delete" i18n="@@DeleteDialog.Delete">Delete</button>
+  <button mat-button *ngIf="!isTestData" [mat-dialog-close]="dialogResults.delete" i18n="@@DeleteDialog.Delete">Delete</button>
 </div>
 
