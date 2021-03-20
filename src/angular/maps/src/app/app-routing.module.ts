@@ -1,5 +1,4 @@
-/**
- *    Copyright 2016 Sven Loesekann
+/**Copyright 2016 Sven Loesekann
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -15,7 +14,6 @@
  */
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuardService } from './services/auth-guard.service';
 import { SplashComponent } from './splash/splash.component';
 
 const routes: Routes = [

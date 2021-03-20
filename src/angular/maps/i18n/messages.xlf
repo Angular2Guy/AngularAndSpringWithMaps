@@ -10,6 +10,94 @@
           <context context-type="linenumber">2</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="companysite.slideryear" datatype="html">
+        <source>Year: <x id="INTERPOLATION" equiv-text="{{ componentForm.get(&apos;sliderYear&apos;).value }}"/></source>
+        <target>Year: <x id="INTERPOLATION" equiv-text="{{ componentForm.get(&apos;sliderYear&apos;).value }}"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/maps/company-site/company-site.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="companySite.property" datatype="html">
+        <source>Property</source>
+        <target>Property</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/maps/company-site/company-site.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="companySite.clear" datatype="html">
+        <source>Clear</source>
+        <target>Clear</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/maps/company-site/company-site.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="companySite.resetDb" datatype="html">
+        <source>Reset DB</source>
+        <target>Reset DB</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/maps/company-site/company-site.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="companySite.add" datatype="html">
+        <source>Add</source>
+        <target>Add</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/maps/company-site/company-site.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="DeleteDialog.Cancel" datatype="html">
+        <source>Cancel</source>
+        <target>Cancel</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/maps/polygon-delete-dialog/polygon-delete-dialog.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="DeleteDialog.Header" datatype="html">
+        <source>Delete Property</source>
+        <target>Delete Property</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/maps/polygon-delete-dialog/polygon-delete-dialog.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="DeleteDialog.Header.Testdata" datatype="html">
+        <source>Testdata can not be deleted</source>
+        <target>Testdata can not be deleted</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/maps/polygon-delete-dialog/polygon-delete-dialog.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="DeleteDialog.Content" datatype="html">
+        <source>Do you want to delete this property?</source>
+        <target>Do you want to delete this property?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/maps/polygon-delete-dialog/polygon-delete-dialog.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="DeleteDialog.Content.Testdata" datatype="html">
+        <source>To return please click cancel.</source>
+        <target>To return please click cancel.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/maps/polygon-delete-dialog/polygon-delete-dialog.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="DeleteDialog.Delete" datatype="html">
+        <source>Delete</source>
+        <target>Delete</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/maps/polygon-delete-dialog/polygon-delete-dialog.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

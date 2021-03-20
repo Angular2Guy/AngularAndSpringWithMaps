@@ -15,7 +15,7 @@ import { Observable, of, from } from 'rxjs';
 
 @Injectable()
 export class BingMapsService {
-	private initialized = false;	
+	private initialized = false;
 
 	public initialize(apiKey: string): Observable<boolean> {
 		if (this.initialized) {
@@ -29,8 +29,8 @@ export class BingMapsService {
 		script.defer = true;
 		script.src = scriptUrl;
 		script.charset = 'utf-8';
-		document.head.appendChild(script);				
-		const scriptPromise = new Promise<boolean>((resolve: Function, reject: Function) => {
+		document.head.appendChild(script);
+		const scriptPromise = new Promise<boolean>((resolve, reject) => {
             (window)[callBackName] = () => {
 				this.initialized = true;
                 resolve(true);
@@ -39,5 +39,4 @@ export class BingMapsService {
         });
 		return from(scriptPromise);
 	}
-	  
 }

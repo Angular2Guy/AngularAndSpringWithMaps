@@ -1,5 +1,4 @@
-/**
- *    Copyright 2016 Sven Loesekann
+/**Copyright 2016 Sven Loesekann
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -28,7 +27,7 @@ import { BingMapsService } from './services/bing-maps.service';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
-import { PolygonDeleteDialogComponent } from './polygon-delete-dialog/polygon-delete-dialog.component'; 
+import { PolygonDeleteDialogComponent } from './polygon-delete-dialog/polygon-delete-dialog.component';
 
 @NgModule({
 	declarations: [CompanySiteComponent, PolygonDeleteDialogComponent],
