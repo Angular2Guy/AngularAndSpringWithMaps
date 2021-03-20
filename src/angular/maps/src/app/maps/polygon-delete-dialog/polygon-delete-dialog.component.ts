@@ -10,15 +10,16 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-export enum DialogResult {
-	Ok,	Cancel, Delete
+// eslint-disable-next-line no-shadow
+export enum MyDialogResult {
+	ok,	cancel, delete
 }
 export interface DialogMetaData {
-	polygonName: string, 
-	polygonId: number
+	polygonName: string;
+	polygonId: number;
 }
 
 @Component({
@@ -27,9 +28,9 @@ export interface DialogMetaData {
   styleUrls: ['./polygon-delete-dialog.component.scss']
 })
 export class PolygonDeleteDialogComponent {
-  dialogResults = DialogResult;
+  dialogResults = MyDialogResult;
   isTestData = false;
-  
+
   constructor(public dialogRef: MatDialogRef<PolygonDeleteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogMetaData) {
 	this.isTestData = data.polygonId < 1000;
@@ -37,6 +38,5 @@ export class PolygonDeleteDialogComponent {
 
   cancelClick(): void {
     this.dialogRef.close();
-  } 
-
+  }
 }
