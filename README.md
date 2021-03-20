@@ -1,6 +1,6 @@
 # AngularAndSpringWithMaps
 
-![Build Status](https://travis-ci.org/Angular2Guy/AngularAndSpringWithMaps.svg?branch=master)
+<!-- ![Build Status](https://travis-ci.org/Angular2Guy/AngularAndSpringWithMaps.svg?branch=master)-->
 
 Author: Sven Loesekann
 
