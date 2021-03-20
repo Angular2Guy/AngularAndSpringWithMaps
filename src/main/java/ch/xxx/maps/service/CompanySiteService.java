@@ -54,9 +54,7 @@ public class CompanySiteService {
 		}
 		LocalDate beginOfYear = LocalDate.of(year.intValue(), 1, 1);
 		LocalDate endOfYear = LocalDate.of(year.intValue(), 12, 31);
-		return this.companySiteRepository.findByTitle(title.toLowerCase()).stream()
-				.filter(companySite -> beginOfYear.isBefore(companySite.getAtDate())
-						&& endOfYear.isAfter(companySite.getAtDate()))
+		return this.companySiteRepository.findByTitleFromTo(title.toLowerCase(), beginOfYear, endOfYear).stream()				
 				.peek(companySite -> this.orderCompanySite(companySite)).collect(Collectors.toList());
 	}
 
