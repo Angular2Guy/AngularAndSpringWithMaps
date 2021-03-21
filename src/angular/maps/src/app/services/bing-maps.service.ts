@@ -38,6 +38,8 @@ export class BingMapsService {
             };
             script.onerror = (error: Event) => { console.log(error); reject(false); };
         });
+		script.onload = () => Promise.resolve(scriptPromise);
+		script.onerror = () => Promise.reject(scriptPromise);
 		return from(scriptPromise);
 	}
 }
