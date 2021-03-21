@@ -23,7 +23,6 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MapsRoutingModule } from './maps-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { BingMapsService } from './services/bing-maps.service';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -44,6 +43,6 @@ import { PolygonDeleteDialogComponent } from './polygon-delete-dialog/polygon-de
 		MatButtonModule,
 		MatDialogModule,
 	],
-	providers: [CompanySiteService, ConfigurationService, BingMapsService]
+	providers: [CompanySiteService, ConfigurationService]
 })
 export class MapsModule { }

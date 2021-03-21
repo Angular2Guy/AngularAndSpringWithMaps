@@ -22,7 +22,7 @@ import { Observable, of, iif, Subject, forkJoin, Subscription } from 'rxjs';
 import { CompanySite } from '../model/company-site';
 import { FormBuilder, Validators } from '@angular/forms';
 import { switchMap, debounceTime, flatMap, tap, map, filter } from 'rxjs/operators';
-import { BingMapsService } from '../services/bing-maps.service';
+import { BingMapsService } from '../../services/bing-maps.service';
 import { MatSelectionListChange, MatListOption } from '@angular/material/list';
 import { Polygon } from '../model/polygon';
 import { Location } from '../model/location';

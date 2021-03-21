@@ -12,7 +12,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, from } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class BingMapsService {
 	private initialized = false;
 
