@@ -3,17 +3,20 @@
 		<div class="form-container form-container-input">
 			<div>
 				<div>
-					<mat-form-field class="example-full-width"> <input
-						type="text" placeholder="Pick one" aria-label="Number" matInput
-						formControlName="companySite" [matAutocomplete]="auto"> <mat-autocomplete
-						autoActiveFirstOption #auto="matAutocomplete"
-						[displayWith]="displayTitle"> <mat-option
-						*ngFor="let option of companySiteOptions | async" [value]="option">
-					{{option.title}} </mat-option> </mat-autocomplete> </mat-form-field>
+					<mat-form-field class="example-full-width"> 
+						<input type="text" placeholder="Pick one" aria-label="Number" matInput
+							formControlName="companySite" [matAutocomplete]="auto"> 
+						<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayTitle"> 
+							<mat-option *ngFor="let option of companySiteOptions | async" [value]="option">
+								{{option.title}} 
+							</mat-option> 
+						</mat-autocomplete> 
+					</mat-form-field>
 				</div>
 				<div>
 					<mat-slider class="my-slider" thumbLabel [displayWith]="formatLabel" step="10"
-						min="1970" max="2020" formControlName="sliderYear"></mat-slider>
+						min="1970" max="2020" formControlName="sliderYear">
+					</mat-slider>
 					<span class="my-year" i18n="@@companysite.slideryear">Year: {{ componentForm.get('sliderYear').value }}</span>
 				</div>
 			</div>			
