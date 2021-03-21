@@ -66,10 +66,10 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 		property: ['add Property', Validators.required]
 	});
 
+	readonly COMPANY_SITE = 'companySite';
+	readonly SLIDER_YEAR = 'sliderYear';
+	readonly PROPERTY = 'property';
 	private mainConfiguration: MainConfiguration = null;
-	private readonly COMPANY_SITE = 'companySite';
-	private readonly SLIDER_YEAR = 'sliderYear';
-	private readonly PROPERTY = 'property';
 	private readonly containerInitSubject = new Subject<Container>();
 	private containerInitSubjectSubscription: Subscription;
 	private companySiteSubscription: Subscription;

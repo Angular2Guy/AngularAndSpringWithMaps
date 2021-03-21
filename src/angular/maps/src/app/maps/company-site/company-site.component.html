@@ -5,7 +5,7 @@
 				<div>
 					<mat-form-field class="example-full-width"> 
 						<input type="text" placeholder="Pick one" aria-label="Number" matInput
-							formControlName="companySite" [matAutocomplete]="auto"> 
+							formControlName="{{COMPANY_SITE}}" [matAutocomplete]="auto"> 
 						<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayTitle"> 
 							<mat-option *ngFor="let option of companySiteOptions | async" [value]="option">
 								{{option.title}} 
@@ -15,7 +15,7 @@
 				</div>
 				<div>
 					<mat-slider class="my-slider" thumbLabel [displayWith]="formatLabel" step="10"
-						min="1970" max="2020" formControlName="sliderYear">
+						min="1970" max="2020" formControlName="{{SLIDER_YEAR}}">
 					</mat-slider>
 					<span class="my-year" i18n="@@companysite.slideryear">Year: {{ componentForm.get('sliderYear').value }}</span>
 				</div>
@@ -32,7 +32,7 @@
 			<div *ngIf="newLocations.length > 0">
 				<mat-form-field class="input-property-name example-full-width">
     				<mat-label i18n="@@companySite.property">Property</mat-label>
-    				<input matInput placeholder="Property Name" formControlName="property">
+    				<input matInput placeholder="Property Name" formControlName="{{PROPERTY}}">
   				</mat-form-field>
   			</div>
 			<div *ngIf="newLocations.length > 0" class=" form-container-buttons">			
