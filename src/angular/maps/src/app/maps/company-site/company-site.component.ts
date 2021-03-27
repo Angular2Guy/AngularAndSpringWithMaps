@@ -81,14 +81,6 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 		private companySiteService: CompanySiteService,
 		private configurationService: ConfigurationService) { }
 
-	ngOnDestroy(): void {
-		this.containerInitSubject.complete();
-		this.containerInitSubjectSubscription.unsubscribe();
-		this.companySiteSubscription.unsubscribe();
-		this.sliderYearSubscription.unsubscribe();
-		this.map.dispose();
-	}
-
 	ngOnInit(): void {
 		this.companySiteOptions = this.componentForm.valueChanges.pipe(
 			debounceTime(300),
@@ -137,6 +129,14 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 				container.companySite.polygons.forEach(polygon => this.addPolygon(polygon));
 				Microsoft.Maps.Events.addHandler(this.map, 'click', (e) => this.onMapClick(e));
 			});
+	}
+
+	ngOnDestroy(): void {
+		this.containerInitSubject.complete();
+		this.containerInitSubjectSubscription.unsubscribe();
+		this.companySiteSubscription.unsubscribe();
+		this.sliderYearSubscription.unsubscribe();
+		this.map.dispose();
 	}
 
 	newLocationsChanged(e: MatSelectionListChange): void {
