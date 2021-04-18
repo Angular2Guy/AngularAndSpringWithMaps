@@ -21,9 +21,9 @@ import { MainConfiguration } from '../model/main-configuration';
 import { Observable, of, iif, Subject, forkJoin, Subscription } from 'rxjs';
 import { CompanySite } from '../model/company-site';
 import { FormBuilder, Validators } from '@angular/forms';
-import { switchMap, debounceTime, flatMap, tap, map, filter } from 'rxjs/operators';
+import { switchMap, debounceTime, filter, flatMap } from 'rxjs/operators';
 import { BingMapsService } from '../../services/bing-maps.service';
-import { MatSelectionListChange, MatListOption } from '@angular/material/list';
+import { MatSelectionListChange } from '@angular/material/list';
 import { Polygon } from '../model/polygon';
 import { Location } from '../model/location';
 import { Ring } from '../model/ring';
@@ -87,7 +87,8 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 			switchMap(() =>
 				iif(() => (!this.getCompanySiteTitle() || this.getCompanySiteTitle().length < 3
 					|| !this.componentForm.get(this.SLIDER_YEAR).value), of<CompanySite[]>([]),
-					this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), this.componentForm.get(this.SLIDER_YEAR).value))
+					this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(),
+					this.componentForm.get(this.SLIDER_YEAR).value))
 			));
 		this.companySiteSubscription = this.componentForm.controls[this.COMPANY_SITE].valueChanges
 			.pipe(debounceTime(500),
@@ -160,7 +161,8 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 			} as Location;
 			const newRing = {
 				primaryRing: true,
-				locations: this.newLocations.filter(myNewLocation => myNewLocation !== this.newLocations[0] && myNewLocation.selected)
+				locations: this.newLocations.filter(myNewLocation => myNewLocation !== this.newLocations[0]
+					&& myNewLocation.selected)
 					.map(myNewLocation => ({
 						latitude: myNewLocation.location.latitude,
 						longitude: myNewLocation.location.longitude
@@ -309,7 +311,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 				if (result === MyDialogResult.delete) {
 					//console.log(polygonMetaData);
 					this.companySiteService.deletePolygon(polygonMetaData.companySiteId, polygonMetaData.polygonId)
-						.pipe(switchMap(myResult => this.companySiteService.findById(polygonMetaData.companySiteId)))
+						.pipe(switchMap(() => this.companySiteService.findById(polygonMetaData.companySiteId)))
 						.subscribe(myCompanySite => {
 							this.componentForm.controls[this.COMPANY_SITE].setValue(myCompanySite);
 							this.clearMapPins();

@@ -17,7 +17,8 @@
 					<mat-slider class="my-slider" thumbLabel [displayWith]="formatLabel" step="10"
 						min="1970" max="2020" formControlName="{{SLIDER_YEAR}}">
 					</mat-slider>
-					<span class="my-year" i18n="@@companysite.slideryear">Year: {{ componentForm.get('sliderYear').value }}</span>
+					<span class="my-year" i18n="@@companysite.slideryear">
+						Year: {{ componentForm.get('sliderYear').value }}</span>
 				</div>
 			</div>			
 		</div>
@@ -36,9 +37,11 @@
   				</mat-form-field>
   			</div>
 			<div *ngIf="newLocations.length > 0" class=" form-container-buttons">			
-	    		<button mat-raised-button color="primary" (click)="upsertCompanySite()" *ngIf="newLocationsValid()" i18n="@@companySite.add">Add</button>			
+	    		<button mat-raised-button color="primary" (click)="upsertCompanySite()" 
+	    			*ngIf="newLocationsValid()" i18n="@@companySite.add">Add</button>			
 				<button mat-raised-button (click)="clearMapPins()" i18n="@@companySite.clear">Clear</button>
-				<button mat-raised-button (click)="resetDb()" [disabled]="resetInProgress" i18n="@@companySite.resetDb">Reset DB</button>
+				<button mat-raised-button (click)="resetDb()" [disabled]="resetInProgress" 
+					i18n="@@companySite.resetDb">Reset DB</button>
 			</div>
 		</div>
 	</form>
