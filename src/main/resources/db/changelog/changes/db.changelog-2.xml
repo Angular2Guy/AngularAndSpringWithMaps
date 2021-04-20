@@ -15,12 +15,8 @@
 		<dropForeignKeyConstraint baseTableName="polygon" constraintName="fk_polygon_center_location_id1"/>
 		<dropColumn tableName="polygon" columnName="center_location_id"/>
 		<addColumn tableName="polygon">
-			<column name="longitude" type="numeric(18,15)">
-				<constraints nullable="false"/>
-			</column>
-			<column name="latitude" type="numeric(18,15)">
-				<constraints nullable="false"/>
-			</column>
+			<column name="longitude" type="numeric(18,15)" defaultValueNumeric="9.826660"/>
+			<column name="latitude" type="numeric(18,15)" defaultValueNumeric="53.541953"/>
 		</addColumn>
 	</changeSet>
 </databaseChangeLog>
