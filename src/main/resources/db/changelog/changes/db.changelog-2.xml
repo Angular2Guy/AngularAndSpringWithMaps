@@ -11,8 +11,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-	<changeSet author="angular2guy" id="2">
-		<addForeignKeyConstraint baseTableName="polygon" baseColumnNames="center_location_id" constraintName="fk_polygon_center_location_id1"
-			referencedColumnNames="id" referencedTableName="location" />
+	<changeSet author="angular2guy" id="3">
+		<dropForeignKeyConstraint baseTableName="polygon" constraintName="fk_polygon_center_location_id1"/>
+		<dropColumn tableName="polygon" columnName="center_location_id"/>
+		<addColumn tableName="polygon">
+			<column name="longitude" type="numeric(18,15)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="latitude" type="numeric(18,15)">
+				<constraints nullable="false"/>
+			</column>
+		</addColumn>
 	</changeSet>
 </databaseChangeLog>

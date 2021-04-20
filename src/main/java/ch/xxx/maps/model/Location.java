@@ -21,7 +21,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Location {
@@ -33,17 +32,7 @@ public class Location {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ring_id")
 	private Ring ring;
-	@OneToOne(mappedBy = "centerLocation", fetch = FetchType.LAZY, optional = true)
-	private Polygon polygonCenter;
 	private Integer orderId;
-
-	public Polygon getPolygonCenter() {
-		return polygonCenter;
-	}
-
-	public void setPolygonCenter(Polygon polygonCenter) {
-		this.polygonCenter = polygonCenter;
-	}
 
 	public Ring getRing() {
 		return ring;

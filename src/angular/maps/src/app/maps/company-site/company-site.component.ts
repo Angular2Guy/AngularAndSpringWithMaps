@@ -122,8 +122,8 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 				const mapOptions = container.companySite.polygons.length < 1 ?
 					{} as Microsoft.Maps.IMapLoadOptions
 					: {
-						center: new Microsoft.Maps.Location(container.companySite.polygons[0].centerLocation.latitude,
-							container.companySite.polygons[0].centerLocation.longitude)
+						center: new Microsoft.Maps.Location(container.companySite.polygons[0].latitude,
+							container.companySite.polygons[0].longitude)
 					} as Microsoft.Maps.IMapLoadOptions;
 				this.map = new Microsoft.Maps.Map(this.bingMapContainer.nativeElement as HTMLElement, mapOptions);
 				this.componentForm.controls[this.COMPANY_SITE].setValue(container.companySite);
@@ -155,10 +155,6 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 			console.log('should create new company site: ' + this.componentForm.get(this.COMPANY_SITE).value);
 		} else {
 			const myCompanySite = this.componentForm.controls[this.COMPANY_SITE].value as CompanySite;
-			const newPolygonCenter = {
-				latitude: this.newLocations[0].location.latitude,
-				longitude: this.newLocations[0].location.longitude
-			} as Location;
 			const newRing = {
 				primaryRing: true,
 				locations: this.newLocations.filter(myNewLocation => myNewLocation !== this.newLocations[0]
@@ -169,7 +165,8 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 					} as Location))
 			} as Ring;
 			const newPolygon = {
-				borderColor: '#00FFFF', fillColor: '#FFFFFF', centerLocation: newPolygonCenter,
+				borderColor: '#00FFFF', fillColor: '#FFFFFF', latitude: this.newLocations[0].location.latitude,
+				longitude: this.newLocations[0].location.longitude,
 				title: this.componentForm.controls[this.PROPERTY].value, rings: [newRing]
 			} as Polygon;
 			myCompanySite.polygons.push(newPolygon);
@@ -252,8 +249,8 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	private updateMap(companySite: CompanySite): void {
 		if (this.map) {
 			this.map.setOptions({
-				center: new Microsoft.Maps.Location(companySite.polygons[0].centerLocation.latitude,
-					companySite.polygons[0].centerLocation.longitude),
+				center: new Microsoft.Maps.Location(companySite.polygons[0].latitude,
+					companySite.polygons[0].longitude),
 			} as Microsoft.Maps.IMapLoadOptions);
 			this.map.entities.clear();
 			companySite.polygons.forEach(polygon => this.addPolygon(polygon));

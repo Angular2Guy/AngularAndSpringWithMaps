@@ -31,7 +31,7 @@ public class Ring {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	private boolean primaryRing;
-	@OneToMany(mappedBy = "ring", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "ring", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Location> locations = new LinkedHashSet<>();
 	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	@JoinColumn(name = "polygon_id")

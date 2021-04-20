@@ -31,7 +31,7 @@ public class CompanySite {
 	private Long id;
 	private String title;
 	private LocalDate atDate;
-	@OneToMany(mappedBy = "companySite", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "companySite", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Polygon> polygons = new LinkedHashSet<>();
 
 	public Set<Polygon> getPolygons() {

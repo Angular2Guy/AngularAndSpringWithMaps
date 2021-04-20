@@ -12,6 +12,7 @@
  */
 package ch.xxx.maps.dto;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,20 +21,22 @@ public class PolygonDto {
 	private String fillColor;
 	private String borderColor;
 	private String title;
-	private LocationDto centerLocation;
+	private BigDecimal longitude;
+	private BigDecimal latitude;
 	private List<RingDto> rings = new ArrayList<>();
 
 	public PolygonDto() {
 	}
 
-	public PolygonDto(Long id, String fillColor, String borderColor, String title, LocationDto centerLocation,
-			List<RingDto> rings) {
+	public PolygonDto(Long id, String fillColor, String borderColor, String title, BigDecimal longitude,
+			BigDecimal latitude, List<RingDto> rings) {
 		super();
 		this.id = id;
 		this.fillColor = fillColor;
 		this.borderColor = borderColor;
 		this.title = title;
-		this.centerLocation = centerLocation;
+		this.longitude = longitude;
+		this.latitude = latitude;
 		this.rings = rings;
 	}
 
@@ -69,19 +72,27 @@ public class PolygonDto {
 		this.title = title;
 	}
 
-	public LocationDto getCenterLocation() {
-		return centerLocation;
-	}
-
-	public void setCenterLocation(LocationDto centerLocation) {
-		this.centerLocation = centerLocation;
-	}
-
 	public List<RingDto> getRings() {
 		return rings;
 	}
 
 	public void setRings(List<RingDto> rings) {
 		this.rings = rings;
+	}
+
+	public BigDecimal getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(BigDecimal longitude) {
+		this.longitude = longitude;
+	}
+
+	public BigDecimal getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(BigDecimal latitude) {
+		this.latitude = latitude;
 	}
 }

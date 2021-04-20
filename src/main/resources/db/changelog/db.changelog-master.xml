@@ -18,5 +18,10 @@
 
 	<include  file="changes/db.changelog-1.xml" relativeToChangelogFile="true"/>
 	
+	<include  file="changes/db.changelog-add-constraints.xml" relativeToChangelogFile="true"/>
+	
+	<include  file="changes/db.changelog-2.xml" relativeToChangelogFile="true"/>
+	
 	<include file="db.changelog-loaddata.xml" relativeToChangelogFile="true"/>
+	
 </databaseChangeLog>

@@ -12,6 +12,7 @@
  */
 package ch.xxx.maps.model;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -24,7 +25,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Polygon {
@@ -34,10 +34,9 @@ public class Polygon {
 	private String fillColor;
 	private String borderColor;
 	private String title;
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "center_location_id")
-	private Location centerLocation;
-	@OneToMany(mappedBy = "polygon", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	private BigDecimal longitude;
+	private BigDecimal latitude;
+	@OneToMany(mappedBy = "polygon", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Ring> rings = new LinkedHashSet<>();
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_site_id")
@@ -91,11 +90,19 @@ public class Polygon {
 		this.title = title;
 	}
 
-	public Location getCenterLocation() {
-		return centerLocation;
+	public BigDecimal getLongitude() {
+		return longitude;
 	}
 
-	public void setCenterLocation(Location centerLocation) {
-		this.centerLocation = centerLocation;
+	public void setLongitude(BigDecimal longitude) {
+		this.longitude = longitude;
+	}
+
+	public BigDecimal getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(BigDecimal latitude) {
+		this.latitude = latitude;
 	}
 }

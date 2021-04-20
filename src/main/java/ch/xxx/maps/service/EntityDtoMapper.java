@@ -45,8 +45,8 @@ public class EntityDtoMapper {
 
 	public static Polygon mapToEntity(PolygonDto dto, Polygon entity, CompanySite companySite) {
 		entity.setBorderColor(dto.getBorderColor());
-		entity.setCenterLocation(
-				EntityDtoMapper.mapToEntity(dto.getCenterLocation(), entity.getCenterLocation() == null ? new Location() : entity.getCenterLocation(), entity, null));
+		entity.setLatitude(dto.getLatitude());
+		entity.setLongitude(dto.getLongitude());
 		entity.setCompanySite(companySite);
 		entity.setFillColor(dto.getFillColor());
 		entity.setTitle(dto.getTitle());
@@ -82,7 +82,6 @@ public class EntityDtoMapper {
 	public static Location mapToEntity(LocationDto dto, Location entity, Polygon polygonCenter, Ring ring) {
 		entity.setLatitude(dto.getLatitude());
 		entity.setLongitude(dto.getLongitude());
-		entity.setPolygonCenter(polygonCenter);
 		entity.setRing(ring);
 		entity.setOrderId(polygonCenter == null ? dto.getOrderId() : null);
 		return entity;
@@ -99,10 +98,8 @@ public class EntityDtoMapper {
 	public static PolygonDto mapToDto(Polygon polygon) {
 		List<RingDto> myRings = polygon.getRings().stream().map(ring -> EntityDtoMapper.mapToDto(ring))
 				.collect(Collectors.toList());
-		LocationDto centerLocationDto = polygon.getCenterLocation() == null ? null
-				: EntityDtoMapper.mapToDto(polygon.getCenterLocation());
 		PolygonDto dto = new PolygonDto(polygon.getId(), polygon.getFillColor(), polygon.getBorderColor(),
-				polygon.getTitle(), centerLocationDto, myRings);
+				polygon.getTitle(), polygon.getLongitude(), polygon.getLatitude(), myRings);
 		return dto;
 	}
 

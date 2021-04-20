@@ -20,6 +20,7 @@ export interface Polygon {
 	fillColor: string;
 	borderColor: string;
 	title: string;
-	centerLocation: Location;
+	longitude: number;
+	latitude: number;
 	rings: Ring[];
 }
