@@ -34,7 +34,7 @@ public class Polygon {
 	private String fillColor;
 	private String borderColor;
 	private String title;
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "center_location_id")
 	private Location centerLocation;
 	@OneToMany(mappedBy = "polygon", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
