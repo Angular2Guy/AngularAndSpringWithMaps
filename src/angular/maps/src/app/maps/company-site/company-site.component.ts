@@ -220,14 +220,13 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 			polygonId: polygon.id
 		} as PolygonMetaData;
 		Microsoft.Maps.Events.addHandler(mapPolygon, 'dblclick', (e) => this.onPolygonDblClick(e));
-		Microsoft.Maps.Events.addHandler(mapPolygon, 'click', (e) => this.onPolygonDblClick(e));
 		this.map.entities.push(mapPolygon);
 	}
 
 	private onPolygonDblClick(e: Microsoft.Maps.IMouseEventArgs | Microsoft.Maps.IPrimitiveChangedEventArgs): void {
 		if ((e as Microsoft.Maps.IMouseEventArgs).targetType === 'polygon'
 			&& (e as Microsoft.Maps.IMouseEventArgs).eventName === 'dblclick') {
-			console.log((e as Microsoft.Maps.IMouseEventArgs).target);
+			//console.log((e as Microsoft.Maps.IMouseEventArgs).target);
 			const myPolygon = ((e as Microsoft.Maps.IMouseEventArgs).target) as Microsoft.Maps.Polygon;
 			this.openDeleteDialog(myPolygon.metadata as PolygonMetaData);
 		}
