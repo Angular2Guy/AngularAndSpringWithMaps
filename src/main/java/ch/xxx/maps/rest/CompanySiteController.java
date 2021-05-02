@@ -51,7 +51,7 @@ public class CompanySiteController {
 	}
 
 	@RequestMapping(value = "/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<CompanySiteDto> getCompanySiteByTitle(@PathVariable("id") Long id) {
+	public ResponseEntity<CompanySiteDto> getCompanySiteById(@PathVariable("id") Long id) {
 		CompanySite companySite = this.companySiteService.findCompanySiteById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(String.format("No CompanySite found for id: %d", id)));
 		return new ResponseEntity<CompanySiteDto>(EntityDtoMapper.mapToDto(companySite), HttpStatus.OK);
