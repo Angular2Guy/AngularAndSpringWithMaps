@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 /**Copyright 2016 Sven Loesekann
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +12,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CompanySiteService } from '../services/company-site.service';
 import 'bingmaps';
