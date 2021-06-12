@@ -13,7 +13,6 @@
 package ch.xxx.maps.usecase.mapper;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

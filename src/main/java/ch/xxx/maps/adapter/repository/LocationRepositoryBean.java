@@ -1,6 +1,5 @@
 package ch.xxx.maps.adapter.repository;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
