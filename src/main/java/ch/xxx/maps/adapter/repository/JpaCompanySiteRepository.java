@@ -12,10 +12,16 @@
  */
 package ch.xxx.maps.adapter.repository;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import ch.xxx.maps.domain.model.entity.Location;
+import ch.xxx.maps.domain.model.entity.CompanySite;
 
-public interface LocationRepository extends JpaRepository<Location,Long> {
-
+public interface JpaCompanySiteRepository extends JpaRepository<CompanySite, Long>{
+	@Query("select cs from CompanySite cs where lower(cs.title) like %:title% and cs.atDate >= :from and cs.atDate <= :to")
+	List<CompanySite> findByTitleFromTo(@Param("title") String title, @Param("from") LocalDate from,  @Param("to") LocalDate to);	
 }

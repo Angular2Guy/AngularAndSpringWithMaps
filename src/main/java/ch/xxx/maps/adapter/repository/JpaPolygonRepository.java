@@ -14,8 +14,8 @@ package ch.xxx.maps.adapter.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import ch.xxx.maps.domain.model.entity.Ring;
+import ch.xxx.maps.domain.model.entity.Polygon;
 
-public interface RingRepository extends JpaRepository<Ring, Long>{
+public interface JpaPolygonRepository extends JpaRepository<Polygon, Long>{
 
 }

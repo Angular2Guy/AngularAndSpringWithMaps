@@ -19,18 +19,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ch.xxx.maps.adapter.repository.CompanySiteRepository;
-import ch.xxx.maps.adapter.repository.LocationRepository;
-import ch.xxx.maps.adapter.repository.PolygonRepository;
-import ch.xxx.maps.adapter.repository.RingRepository;
 import ch.xxx.maps.domain.model.entity.CompanySite;
+import ch.xxx.maps.domain.model.entity.CompanySiteRepository;
 import ch.xxx.maps.domain.model.entity.Location;
+import ch.xxx.maps.domain.model.entity.LocationRepository;
 import ch.xxx.maps.domain.model.entity.Polygon;
+import ch.xxx.maps.domain.model.entity.PolygonRepository;
 import ch.xxx.maps.domain.model.entity.Ring;
+import ch.xxx.maps.domain.model.entity.RingRepository;
 
 @Transactional
 @Service
@@ -68,8 +69,7 @@ public class CompanySiteService {
 	}
 
 	public Optional<CompanySite> findCompanySiteById(Long id) {
-		return id == null ? Optional.empty()
-				: this.companySiteRepository.findById(id).map(myCompanySite -> this.orderCompanySite(myCompanySite));
+		return Optional.ofNullable(id).flatMap(myId -> this.companySiteRepository.findById(myId));
 	}
 
 	public CompanySite upsertCompanySite(CompanySite companySite) {
