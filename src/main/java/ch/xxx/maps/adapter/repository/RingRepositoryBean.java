@@ -17,8 +17,8 @@ public class RingRepositoryBean implements RingRepository {
 	}
 
 	@Override
-	public void deleteAll(Collection<Ring> ringsToDelete) {
-		this.jpaRingRepository.deleteAll();
+	public void deleteAll(Iterable<Ring> ringsToDelete) {
+		this.jpaRingRepository.deleteAll(ringsToDelete);
 	}
 
 	@Override

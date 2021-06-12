@@ -15,6 +15,6 @@ public interface CompanySiteRepository {
 
 	List<CompanySite> findAll();
 
-	void deleteAll(Collection<CompanySite> companySitesToDelete);
+	void deleteAll(Iterable<CompanySite> companySitesToDelete);
 
 }

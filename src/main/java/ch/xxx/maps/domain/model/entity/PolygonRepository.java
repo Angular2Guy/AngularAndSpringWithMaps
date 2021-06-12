@@ -1,7 +1,7 @@
 package ch.xxx.maps.domain.model.entity;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface PolygonRepository {
 
@@ -9,5 +9,7 @@ public interface PolygonRepository {
 
 	List<Polygon> findAll();
 
-	void deleteAll(Collection<Polygon> polygonsToDelete);
+	void deleteAll(Iterable<Polygon> polygonsToDelete);
+	
+	Optional<Polygon> findById(Long id);
 }

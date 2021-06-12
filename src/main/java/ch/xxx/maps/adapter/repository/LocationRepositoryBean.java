@@ -17,7 +17,7 @@ public class LocationRepositoryBean implements LocationRepository {
 	}
 
 	@Override
-	public void deleteAll(Collection<Location> locationsToDelete) {
+	public void deleteAll(Iterable<Location> locationsToDelete) {
 		this.jpaLocalisationRepository.deleteAll(locationsToDelete);
 	}
 

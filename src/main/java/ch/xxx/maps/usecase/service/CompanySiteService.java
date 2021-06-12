@@ -13,13 +13,13 @@
 package ch.xxx.maps.usecase.service;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,31 +49,21 @@ public class CompanySiteService {
 		this.locationRepository = locationRepository;
 	}
 
-	public List<CompanySite> findCompanySiteByTitleAndYear(String title, Long year) {
+	public Collection<CompanySite> findCompanySiteByTitleAndYear(String title, Long year) {
 		if (title == null || title.length() < 2) {
 			return List.of();
 		}
 		LocalDate beginOfYear = LocalDate.of(year.intValue(), 1, 1);
 		LocalDate endOfYear = LocalDate.of(year.intValue(), 12, 31);
-		return this.companySiteRepository.findByTitleFromTo(title.toLowerCase(), beginOfYear, endOfYear).stream()
-				.peek(companySite -> this.orderCompanySite(companySite)).collect(Collectors.toList());
-	}
-
-	private CompanySite orderCompanySite(CompanySite companySite) {
-		companySite.getPolygons()
-				.forEach(polygon -> polygon.getRings()
-						.forEach(ring -> ring.setLocations(new LinkedHashSet<Location>(ring.getLocations().stream()
-								.sorted((Location l1, Location l2) -> l1.getOrderId().compareTo(l2.getOrderId()))
-								.collect(Collectors.toList())))));
-		return companySite;
-	}
+		return this.companySiteRepository.findByTitleFromTo(title.toLowerCase(), beginOfYear, endOfYear);
+	}	
 
 	public Optional<CompanySite> findCompanySiteById(Long id) {
 		return Optional.ofNullable(id).flatMap(myId -> this.companySiteRepository.findById(myId));
 	}
 
 	public CompanySite upsertCompanySite(CompanySite companySite) {
-		return this.orderCompanySite(this.companySiteRepository.save(companySite));
+		return this.companySiteRepository.save(companySite);
 	}
 
 	public boolean deletePolygon(Long companySiteId, Long polygonId) {

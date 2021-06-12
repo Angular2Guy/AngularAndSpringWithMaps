@@ -13,6 +13,7 @@
 package ch.xxx.maps.usecase.mapper;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -59,15 +60,14 @@ public class EntityDtoMapper {
 								.filter(myRing -> myRing.getId() != null && myRingDto.getId() != null
 										&& myRing.getId().equals(myRingDto.getId()))
 								.findFirst().orElse(new Ring()))))
-						.flatMap(myTuple -> Stream
-								.of(this.mapToEntity(myTuple.getA(), myTuple.getB(), entity)))
+						.flatMap(myTuple -> Stream.of(this.mapToEntity(myTuple.getA(), myTuple.getB(), entity)))
 						.collect(Collectors.toSet()));
 		return entity;
 	}
 
 	public Ring mapToEntity(RingDto dto, Ring entity, Polygon polygon) {
-		for(int i = 0;i<dto.getLocations().size();i++) {
-			dto.getLocations().get(i).setOrderId(i+1);
+		for (int i = 0; i < dto.getLocations().size(); i++) {
+			dto.getLocations().get(i).setOrderId(i + 1);
 		}
 		entity.setPolygon(polygon);
 		entity.setPrimaryRing(dto.isPrimary());
@@ -91,8 +91,8 @@ public class EntityDtoMapper {
 	}
 
 	public CompanySiteDto mapToDto(CompanySite companySite) {
-		List<PolygonDto> myPolygons = companySite.getPolygons().stream()
-				.map(polygon -> this.mapToDto(polygon)).collect(Collectors.toList());
+		List<PolygonDto> myPolygons = companySite.getPolygons().stream().map(polygon -> this.mapToDto(polygon))
+				.collect(Collectors.toList());
 		CompanySiteDto dto = new CompanySiteDto(companySite.getId(), companySite.getTitle(), companySite.getAtDate(),
 				myPolygons);
 		return dto;
@@ -108,13 +108,15 @@ public class EntityDtoMapper {
 
 	public RingDto mapToDto(Ring ring) {
 		List<LocationDto> myLocations = ring.getLocations().stream().map(location -> this.mapToDto(location))
+				.sorted((LocationDto l1, LocationDto l2) -> l1.getOrderId().compareTo(l2.getOrderId()))
 				.collect(Collectors.toList());
 		RingDto dto = new RingDto(ring.getId(), ring.isPrimaryRing(), myLocations);
 		return dto;
 	}
 
 	public LocationDto mapToDto(Location location) {
-		LocationDto dto = new LocationDto(location.getId(), location.getLongitude(), location.getLatitude(), location.getOrderId());
+		LocationDto dto = new LocationDto(location.getId(), location.getLongitude(), location.getLatitude(),
+				location.getOrderId());
 		return dto;
 	}
 }

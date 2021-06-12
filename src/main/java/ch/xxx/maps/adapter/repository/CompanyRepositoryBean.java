@@ -39,7 +39,7 @@ public class CompanyRepositoryBean implements CompanySiteRepository {
 	}
 
 	@Override
-	public void deleteAll(Collection<CompanySite> companySitesToDelete) {
-		this.jpaCompanySiteRepository.deleteAll();
+	public void deleteAll(Iterable<CompanySite> companySitesToDelete) {
+		this.jpaCompanySiteRepository.deleteAll(companySitesToDelete);
 	}
 }

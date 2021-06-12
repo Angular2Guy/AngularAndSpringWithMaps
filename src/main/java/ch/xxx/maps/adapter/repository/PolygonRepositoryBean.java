@@ -2,6 +2,7 @@ package ch.xxx.maps.adapter.repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -27,7 +28,12 @@ public class PolygonRepositoryBean implements PolygonRepository {
 	}
 
 	@Override
-	public void deleteAll(Collection<Polygon> polygonsToDelete) {
+	public void deleteAll(Iterable<Polygon> polygonsToDelete) {
 		this.jpaPolygonRepository.deleteAll(polygonsToDelete);
+	}
+
+	@Override
+	public Optional<Polygon> findById(Long id) {
+		return this.jpaPolygonRepository.findById(id);
 	}
 }
