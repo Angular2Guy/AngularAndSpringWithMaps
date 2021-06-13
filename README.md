@@ -26,6 +26,9 @@ A Bing Maps Key is availiable for development use here: https://www.bingmapsport
 ## Testdata
 The testdata for the company site is Airbus Finkenwerder for the year 2020. The testdata for the year 2010 is dummy data. 
 
+## Kubernetes setup
+In the helm directory is a kubernetes setup to run the angularandspringwithmaps project with minikube. The Helm chart deployes the postgres database and the angularandspringwithmaps with the needed parameters to run.
+
 ## Setup
 Java 11 or newer.
 
