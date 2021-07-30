@@ -6,6 +6,11 @@ Author: Sven Loesekann
 
 Technologies: Angular, Spring Boot, Java, Gradle, Typescript, Angular Cli, Angular Material, H2/Postgresql Databases, Jpa, Bing Maps
 
+## Articles
+* [Bing Maps With Angular in a Spring Boot Application](https://dzone.com/articles/bing-maps-with-angular-in-a-spring-boot-applicatio)
+* [Using Bing Maps to add Shapes With Angular in a Spring Boot Application](https://dzone.com/articles/Using-Bing-Maps-to-add-Shapes-With-Angular-in-a-Spring-Boot-Application)
+* [Using Bing Maps to remove Shapes With Angular in a Spring Boot Application](https://dzone.com/articles/using-bing-maps-to-remove-shapes-with-angular-in-a)
+
 ## Features
 - Integration of Angular and Bing Maps
 - Load/Save property borders from rest endpoint
