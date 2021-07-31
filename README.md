@@ -8,7 +8,7 @@ Technologies: Angular, Spring Boot, Java, Gradle, Typescript, Angular Cli, Angul
 
 ## Articles
 * [Bing Maps With Angular in a Spring Boot Application](https://angular2guy.wordpress.com/2021/07/31/bing-maps-with-angular-in-a-spring-boot-application/)
-* [Using Bing Maps to add Shapes With Angular in a Spring Boot Application](https://dzone.com/articles/Using-Bing-Maps-to-add-Shapes-With-Angular-in-a-Spring-Boot-Application)
+* [Using Bing Maps to add Shapes With Angular in a Spring Boot Application](https://angular2guy.wordpress.com/2021/07/31/using-bing-maps-to-add-shapes-with-angular-in-a-spring-boot-application/)
 * [Using Bing Maps to remove Shapes With Angular in a Spring Boot Application](https://angular2guy.wordpress.com/2021/07/31/using-bing-maps-to-remove-shapes-with-angular-in-a-spring-boot-application/)
 
 ## Features
