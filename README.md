@@ -32,14 +32,14 @@ A Bing Maps Key is availiable for development use here: https://www.bingmapsport
 The testdata for the company site is Airbus Finkenwerder for the year 2020. The testdata for the year 2010 is dummy data. 
 
 ## Kubernetes setup
-In the helm directory is a kubernetes setup to run the angularandspringwithmaps project with minikube. The Helm chart deployes the postgres database and the angularandspringwithmaps with the needed parameters to run.
+In the helm directory is a kubernetes setup to run the angularandspringwithmaps project with minikube. The Helm chart deployes the postgres database and the angularandspringwithmaps with the needed parameters to run. It uses the resource limit support of Jdk 16 to limit memory. Kubernetes limits the cpu use and uses the startupprobes and livenessprobes that Spring Actuator provides.
 
 ## Setup
-Java 11 or newer.
+Java 16 or newer.
 
 Postgresql 9.x or newer.
 
-Eclipse Oxygen JEE or newer.
+Eclipse IDE for Enterprise Java and Web Developers newest version.
 
 Install Eclipse Plugin 'Eclipse Wild Web Developer' of the Eclipse Marketplace.
 
