@@ -6,6 +6,11 @@ Author: Sven Loesekann
 
 Technologies: Angular, Spring Boot, Java, Gradle, Typescript, Angular Cli, Angular Material, H2/Postgresql Databases, Jpa, Bing Maps
 
+## Articles
+* [Bing Maps With Angular in a Spring Boot Application](https://angular2guy.wordpress.com/2021/07/31/bing-maps-with-angular-in-a-spring-boot-application/)
+* [Using Bing Maps to add Shapes With Angular in a Spring Boot Application](https://angular2guy.wordpress.com/2021/07/31/using-bing-maps-to-add-shapes-with-angular-in-a-spring-boot-application/)
+* [Using Bing Maps to remove Shapes With Angular in a Spring Boot Application](https://angular2guy.wordpress.com/2021/07/31/using-bing-maps-to-remove-shapes-with-angular-in-a-spring-boot-application/)
+
 ## Features
 - Integration of Angular and Bing Maps
 - Load/Save property borders from rest endpoint
@@ -27,7 +32,7 @@ A Bing Maps Key is availiable for development use here: https://www.bingmapsport
 The testdata for the company site is Airbus Finkenwerder for the year 2020. The testdata for the year 2010 is dummy data. 
 
 ## Kubernetes setup
-In the helm directory is a kubernetes setup to run the angularandspringwithmaps project with minikube. The Helm chart deployes the postgres database and the angularandspringwithmaps with the needed parameters to run.
+In the helm directory is a kubernetes setup to run the angularandspringwithmaps project with minikube. The Helm chart deployes the postgres database and the angularandspringwithmaps with the needed parameters to run. It uses the resource limit support of Jdk 16 to limit memory. Kubernetes limits the cpu use and uses the startupprobes and livenessprobes that Spring Actuator provides.
 
 ## Monitoring
 The Spring Actuator interface with Prometheus interface can be used as it is described in this article: 
@@ -37,15 +42,15 @@ The Spring Actuator interface with Prometheus interface can be used as it is des
 To test the setup the application has to be started and the Docker Images for Prometheus and Grafana have to be started and configured. The scripts 'runGraphana.sh' and 'runPrometheus.sh' can be used as a starting point.
 
 ## Setup
-Java 11 or newer.
+Java 16 or newer.
 
 Postgresql 9.x or newer.
 
-Eclipse Oxygen JEE or newer.
+Eclipse IDE for Enterprise Java and Web Developers newest version.
 
 Install Eclipse Plugin 'Eclipse Wild Web Developer' of the Eclipse Marketplace.
 
-Gradle 6.6 or newer.
+Gradle 7.0.2 or newer.
 
 Nodejs 12.16.x or newer
 
