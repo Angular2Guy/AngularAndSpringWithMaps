@@ -29,6 +29,13 @@ The testdata for the company site is Airbus Finkenwerder for the year 2020. The 
 ## Kubernetes setup
 In the helm directory is a kubernetes setup to run the angularandspringwithmaps project with minikube. The Helm chart deployes the postgres database and the angularandspringwithmaps with the needed parameters to run.
 
+## Monitoring
+The Spring Actuator interface with Prometheus interface can be used as it is described in this article: 
+
+[Monitoring Spring Boot with Prometheus and Grafana](https://ordina-jworks.github.io/monitoring/2020/11/16/monitoring-spring-prometheus-grafana.html)
+
+To test the setup the application has to be started and the Docker Images for Prometheus and Grafana have to be started and configured. The scripts 'runGraphana.sh' and 'runPrometheus.sh' can be used as a starting point.
+
 ## Setup
 Java 11 or newer.
 
