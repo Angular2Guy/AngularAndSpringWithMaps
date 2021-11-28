@@ -16,17 +16,11 @@ import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Location {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Long id;
+public class Location extends BaseEntity {
 	private BigDecimal longitude;
 	private BigDecimal latitude;
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -40,14 +34,6 @@ public class Location {
 
 	public void setRing(Ring ring) {
 		this.ring = ring;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public BigDecimal getLongitude() {
