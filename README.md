@@ -42,7 +42,7 @@ The Spring Actuator interface with Prometheus interface can be used as it is des
 To test the setup the application has to be started and the Docker Images for Prometheus and Grafana have to be started and configured. The scripts 'runGraphana.sh' and 'runPrometheus.sh' can be used as a starting point.
 
 ## Setup
-Java 16 or newer.
+Java 17 or newer.
 
 Postgresql 9.x or newer.
 
@@ -50,10 +50,10 @@ Eclipse IDE for Enterprise Java and Web Developers newest version.
 
 Install Eclipse Plugin 'Eclipse Wild Web Developer' of the Eclipse Marketplace.
 
-Gradle 7.0.2 or newer.
+Gradle 7.3 or newer.
 
-Nodejs 12.16.x or newer
+Nodejs 14.15.x or newer
 
 Npm 6.13.x or newer
 
-Angular Cli 12 or newer.
+Angular Cli 13 or newer.
