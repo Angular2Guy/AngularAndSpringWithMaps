@@ -20,7 +20,7 @@ version = '0.0.1-SNAPSHOT'
 task cleanAngular {
 	if(project.hasProperty('withAngular')) {	
 		logger.info('Task cleanAngular')	
-		delete('src/angular/node_modules')
+		// delete('src/angular/node_modules')
 	}
 }
 

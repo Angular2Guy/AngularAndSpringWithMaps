@@ -1,3 +1,2 @@
 rootProject.name = 'maps'
-include 'frontend'
-include 'backend'
+include 'frontend' , 'backend'
