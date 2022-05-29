@@ -11,7 +11,7 @@
    limitations under the License.
  */
 plugins {
-	id 'org.springframework.boot' version '2.6.6'
+	id 'org.springframework.boot' version '2.7.0'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 }
@@ -33,12 +33,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'io.micrometer:micrometer-registry-prometheus'
 	implementation 'org.liquibase:liquibase-core'
-	implementation 'org.springdoc:springdoc-openapi-ui:1.5.11'
-	implementation 'org.springdoc:springdoc-openapi-data-rest:1.5.11'
-	implementation 'commons-net:commons-net:3.6'		
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.8'
+	implementation 'org.springdoc:springdoc-openapi-data-rest:1.6.8'
+	implementation 'commons-net:commons-net:3.8.0'		
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	testImplementation group: 'com.tngtech.archunit', name: 'archunit-junit5', version: '0.22.0'
+	testImplementation group: 'com.tngtech.archunit', name: 'archunit-junit5', version: '0.23.1'
 	
 	if(project.hasProperty('withAngular')) {
 		implementation 'org.postgresql:postgresql'
