@@ -44,7 +44,7 @@ To test the setup the application has to be started and the Docker Images for Pr
 ## Setup
 Java 17 or newer.
 
-Postgresql 9.x or newer.
+Postgresql 10.x or newer.
 
 Eclipse IDE for Enterprise Java and Web Developers newest version.
 
@@ -56,4 +56,4 @@ Nodejs 14.15.x or newer
 
 Npm 6.13.x or newer
 
-Angular Cli 13 or newer.
+Angular Cli 14 or newer.
