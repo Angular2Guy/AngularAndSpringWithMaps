@@ -156,7 +156,6 @@
       }
     }
   },
-  "defaultProject": "testproject",
   "cli": {
     "analytics": false
   }

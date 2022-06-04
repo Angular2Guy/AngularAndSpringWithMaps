@@ -20,7 +20,7 @@ import { ConfigurationService } from '../services/configuration.service';
 import { MainConfiguration } from '../model/main-configuration';
 import { Observable, of, iif, Subject, forkJoin, Subscription } from 'rxjs';
 import { CompanySite } from '../model/company-site';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { switchMap, debounceTime, filter, flatMap } from 'rxjs/operators';
 import { BingMapsService } from '../../services/bing-maps.service';
 import { MatSelectionListChange } from '@angular/material/list';
@@ -76,7 +76,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	private sliderYearSubscription: Subscription;
 
 	constructor(public dialog: MatDialog,
-		private formBuilder: FormBuilder,
+		private formBuilder: UntypedFormBuilder,
 		private bingMapsService: BingMapsService,
 		private companySiteService: CompanySiteService,
 		private configurationService: ConfigurationService) { }
