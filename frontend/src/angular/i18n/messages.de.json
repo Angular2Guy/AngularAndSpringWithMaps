@@ -1,0 +1,17 @@
+{
+  "locale": "de",
+  "translations": {
+    "companysite.slideryear": " Year: {$INTERPOLATION}",
+    "companySite.property": "Property",
+    "companySite.add": "Add",
+    "companySite.clear": "Clear",
+    "companySite.resetDb": "Reset DB",
+    "DeleteDialog.Header": "Delete Property",
+    "DeleteDialog.Header.Testdata": "Testdata can not be deleted",
+    "DeleteDialog.Content": "Do you want to delete this property?",
+    "DeleteDialog.Content.Testdata": "To return please click cancel.",
+    "DeleteDialog.Cancel": "Cancel",
+    "DeleteDialog.Delete": "Delete",
+    "splash.welcome": "Willkommen bei AngularAndSpringWithMaps"
+  }
+}
