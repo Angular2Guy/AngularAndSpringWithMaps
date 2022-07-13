@@ -31,7 +31,7 @@ spec:
   capacity:
     storage: 1Gi
   hostPath:
-    path: /data/postgres1
+    path: /data/postgresaswm
     type: DirectoryOrCreate
 ---
 apiVersion: v1
