@@ -1,3 +1,6 @@
 id,primary_ring,polygon_id
 1,true,1
 2,true,2
+3,true,3
+4,true,3
+5,true,4
