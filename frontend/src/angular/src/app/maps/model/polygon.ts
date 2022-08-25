@@ -13,7 +13,6 @@
    limitations under the License.
  */
 import { Ring } from './ring';
-import { Location } from './location';
 
 export interface Polygon {
 	id?: number;

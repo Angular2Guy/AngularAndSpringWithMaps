@@ -253,6 +253,10 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 			} as Microsoft.Maps.IMapLoadOptions);
 			this.map.entities.clear();
 			companySite.polygons.forEach(polygon => this.addPolygon(polygon));
+			this.map.setView({
+				center: new Microsoft.Maps.Location(companySite.polygons[0].latitude,
+					companySite.polygons[0].longitude)
+			});
 		}
 	}
 
