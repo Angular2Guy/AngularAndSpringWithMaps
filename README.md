@@ -29,7 +29,7 @@ In the postgresql.sh file are the commands to pull and run Postgresql in a Docke
 A Bing Maps Key is availiable for development use here: https://www.bingmapsportal.com
 
 ## Testdata
-The testdata for the company site is Airbus Finkenwerder for the year 2020. The testdata for the year 2010 is dummy data. 
+The testdata for the company site is Airbus Finkenwerder/Toulouse for the year 2020. The testdata for the year 2010 is dummy data. 
 
 ## Kubernetes setup
 In the helm directory is a kubernetes setup to run the angularandspringwithmaps project with minikube. The Helm chart deployes the postgres database and the angularandspringwithmaps with the needed parameters to run. It uses the resource limit support of Jdk 16 to limit memory. Kubernetes limits the cpu use and uses the startupprobes and livenessprobes that Spring Actuator provides.
