@@ -21,7 +21,7 @@ import { MainConfiguration } from '../model/main-configuration';
 import { Observable, of, iif, Subject, forkJoin, Subscription } from 'rxjs';
 import { CompanySite } from '../model/company-site';
 import { FormBuilder, Validators } from '@angular/forms';
-import { switchMap, debounceTime, filter, flatMap } from 'rxjs/operators';
+import { switchMap, debounceTime, filter, flatMap, tap, map } from 'rxjs/operators';
 import { BingMapsService } from '../../services/bing-maps.service';
 import { MatSelectionListChange } from '@angular/material/list';
 import { Polygon } from '../model/polygon';
@@ -92,9 +92,10 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 			));
 		this.companySiteSubscription = this.componentForm.controls[this.COMPANY_SITE].valueChanges
 			.pipe(debounceTime(500),
-				filter(companySite => typeof companySite === 'string'),
+				map(companySite => (typeof companySite === 'string') ? companySite : companySite.title),	
+				filter(companySite => !!companySite && companySite.length > 2),	
 				switchMap(companySite =>
-					this.companySiteService.findByTitleAndYear((companySite as CompanySite).title,
+					this.companySiteService.findByTitleAndYear(companySite,
 						this.componentForm.controls[this.SLIDER_YEAR].value as number)),
 				filter(companySite => companySite?.length && companySite?.length > 0))
 			.subscribe(companySite => this.updateMap(companySite[0]));
@@ -255,7 +256,8 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 			companySite.polygons.forEach(polygon => this.addPolygon(polygon));
 			this.map.setView({
 				center: new Microsoft.Maps.Location(companySite.polygons[0].latitude,
-					companySite.polygons[0].longitude)
+					companySite.polygons[0].longitude),
+				zoom: 12
 			});
 		}
 	}
