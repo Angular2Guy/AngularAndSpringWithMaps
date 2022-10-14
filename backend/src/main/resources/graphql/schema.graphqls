@@ -28,13 +28,18 @@ type Location {
 	orderId: Int
 }
 
+type MainConfiguration {
+	mapKey: String!
+}
+
 type Query {
-    getArticles: [Article]
-    getArticle(articleId: ID!): Article
-    getArticleComments(articleId: ID!): [Comment]
+    getMainConfiguration: MainConfiguration
+    getCompanySiteByTitle(title: String, year Long): [CompanySite]
+    getCompanySiteById(id: Long): CompanySite
 }
 
 type Mutation {
-    addArticle(title: String!, text: String!, thumbnail: String): Article
-    addComment(articleId: ID, text: String!) : Article
+   upsertCompanySite(companySite: CompanySite): CompanySite
+   resetDb(): Boolean
+   deletePolygon(companySiteId: Long, polygonId: Long): Boolean
 }

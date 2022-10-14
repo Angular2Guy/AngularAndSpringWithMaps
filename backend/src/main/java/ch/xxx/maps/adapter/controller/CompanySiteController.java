@@ -20,8 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import ch.xxx.maps.domain.exceptions.ResourceNotFoundException;
@@ -42,36 +40,36 @@ public class CompanySiteController {
 	}
 
 	@QueryMapping
-	public ResponseEntity<List<CompanySiteDto>> getCompanySiteByTitle(@Argument String title,
+	public List<CompanySiteDto> getCompanySiteByTitle(@Argument String title,
 			@Argument Long year) {
 		List<CompanySiteDto> companySiteDtos = this.companySiteService.findCompanySiteByTitleAndYear(title, year)
 				.stream().map(companySite -> this.entityDtoMapper.mapToDto(companySite)).collect(Collectors.toList());
-		return new ResponseEntity<List<CompanySiteDto>>(companySiteDtos, HttpStatus.OK);
+		return companySiteDtos;
 	}
 
 	@QueryMapping
-	public ResponseEntity<CompanySiteDto> getCompanySiteById(@Argument Long id) {
+	public CompanySiteDto getCompanySiteById(@Argument Long id) {
 		CompanySite companySite = this.companySiteService.findCompanySiteById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(String.format("No CompanySite found for id: %d", id)));
-		return new ResponseEntity<CompanySiteDto>(this.entityDtoMapper.mapToDto(companySite), HttpStatus.OK);
+		return this.entityDtoMapper.mapToDto(companySite);
 	}
 	
 	@MutationMapping(value = "CompanySite")
-	public ResponseEntity<CompanySiteDto> upsertCompanySite(@Argument CompanySiteDto companySiteDto) {		
+	public CompanySiteDto upsertCompanySite(@Argument CompanySiteDto companySiteDto) {		
 		CompanySite companySite = this.companySiteService.findCompanySiteById(companySiteDto.getId()).orElse(new CompanySite());
 		companySite = this.companySiteService.upsertCompanySite(this.entityDtoMapper.mapToEntity(companySiteDto, companySite));
-		return new ResponseEntity<CompanySiteDto>(this.entityDtoMapper.mapToDto(companySite), HttpStatus.OK);
+		return this.entityDtoMapper.mapToDto(companySite);
 	}
 	
 	@MutationMapping
-	public ResponseEntity<Boolean> resetDb() {
-		return new ResponseEntity<Boolean>(this.companySiteService.resetDb(), HttpStatus.OK);
+	public Boolean resetDb() {
+		return this.companySiteService.resetDb();
 	}
 	
 	@MutationMapping
-	public ResponseEntity<Boolean> deletePolygon(@Argument Long companySiteId, @Argument Long polygonId) {
+	public Boolean deletePolygon(@Argument Long companySiteId, @Argument Long polygonId) {
 		LOGGER.info("companySiteId: {} polygonId: {}", companySiteId, polygonId);
-		return new ResponseEntity<Boolean>(this.companySiteService.deletePolygon(companySiteId, polygonId), HttpStatus.OK);
+		return this.companySiteService.deletePolygon(companySiteId, polygonId);
 	}
 	
 	

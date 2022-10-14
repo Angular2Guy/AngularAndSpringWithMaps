@@ -14,8 +14,6 @@ package ch.xxx.maps.adapter.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import ch.xxx.maps.domain.model.dto.MainConfigurationDto;
@@ -26,8 +24,8 @@ public class ConfigurationController {
 	private String mapKey;
 	
 	@QueryMapping
-	public ResponseEntity<MainConfigurationDto> getMainConfiguration() {
+	public MainConfigurationDto getMainConfiguration() {
 		MainConfigurationDto dto = new MainConfigurationDto(this.mapKey);
-		return new ResponseEntity<MainConfigurationDto>(dto, HttpStatus.OK);
+		return dto;
 	}
 }
