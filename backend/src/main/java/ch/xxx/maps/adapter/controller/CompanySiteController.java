@@ -17,14 +17,12 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 
 import ch.xxx.maps.domain.exceptions.ResourceNotFoundException;
 import ch.xxx.maps.domain.model.dto.CompanySiteDto;
@@ -32,8 +30,7 @@ import ch.xxx.maps.domain.model.entity.CompanySite;
 import ch.xxx.maps.usecase.mapper.EntityDtoMapper;
 import ch.xxx.maps.usecase.service.CompanySiteService;
 
-@RestController
-@RequestMapping("rest/companySite")
+@Controller
 public class CompanySiteController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CompanySite.class);
 	private final CompanySiteService companySiteService;
@@ -44,36 +41,38 @@ public class CompanySiteController {
 		this.entityDtoMapper = entityDtoMapper;
 	}
 
-	@RequestMapping(value = "/title/{title}/year/{year}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<CompanySiteDto>> getCompanySiteByTitle(@PathVariable("title") String title,
-			@PathVariable("year") Long year) {
+	@QueryMapping
+	public ResponseEntity<List<CompanySiteDto>> getCompanySiteByTitle(@Argument String title,
+			@Argument Long year) {
 		List<CompanySiteDto> companySiteDtos = this.companySiteService.findCompanySiteByTitleAndYear(title, year)
 				.stream().map(companySite -> this.entityDtoMapper.mapToDto(companySite)).collect(Collectors.toList());
 		return new ResponseEntity<List<CompanySiteDto>>(companySiteDtos, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<CompanySiteDto> getCompanySiteById(@PathVariable("id") Long id) {
+	@QueryMapping
+	public ResponseEntity<CompanySiteDto> getCompanySiteById(@Argument Long id) {
 		CompanySite companySite = this.companySiteService.findCompanySiteById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(String.format("No CompanySite found for id: %d", id)));
 		return new ResponseEntity<CompanySiteDto>(this.entityDtoMapper.mapToDto(companySite), HttpStatus.OK);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<CompanySiteDto> upsertCompanySite(@RequestBody CompanySiteDto companySiteDto) {		
+	@MutationMapping
+	public ResponseEntity<CompanySiteDto> upsertCompanySite(@Argument CompanySiteDto companySiteDto) {		
 		CompanySite companySite = this.companySiteService.findCompanySiteById(companySiteDto.getId()).orElse(new CompanySite());
 		companySite = this.companySiteService.upsertCompanySite(this.entityDtoMapper.mapToEntity(companySiteDto, companySite));
 		return new ResponseEntity<CompanySiteDto>(this.entityDtoMapper.mapToDto(companySite), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/reset",method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@MutationMapping
 	public ResponseEntity<Boolean> resetDb() {
 		return new ResponseEntity<Boolean>(this.companySiteService.resetDb(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/id/{companySiteId}/polygon/id/{polygonId}",method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Boolean> deletePolygon(@PathVariable Long companySiteId, @PathVariable Long polygonId) {
+	@MutationMapping
+	public ResponseEntity<Boolean> deletePolygon(@Argument Long companySiteId, @Argument Long polygonId) {
 		LOGGER.info("companySiteId: {} polygonId: {}", companySiteId, polygonId);
 		return new ResponseEntity<Boolean>(this.companySiteService.deletePolygon(companySiteId, polygonId), HttpStatus.OK);
 	}
+	
+	
 }

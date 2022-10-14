@@ -13,22 +13,19 @@
 package ch.xxx.maps.adapter.controller;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 
 import ch.xxx.maps.domain.model.dto.MainConfigurationDto;
 
-@RestController
-@RequestMapping("rest/configuration")
+@Controller
 public class ConfigurationController {
 	@Value("${bing.maps-key}")
 	private String mapKey;
 	
-	@RequestMapping(value = "/main", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@QueryMapping
 	public ResponseEntity<MainConfigurationDto> getMainConfiguration() {
 		MainConfigurationDto dto = new MainConfigurationDto(this.mapKey);
 		return new ResponseEntity<MainConfigurationDto>(dto, HttpStatus.OK);
