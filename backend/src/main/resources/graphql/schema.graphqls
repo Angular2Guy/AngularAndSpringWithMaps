@@ -1,13 +1,31 @@
-type Article {
-    id: ID
-    title: String
-    text: String
-    thumbnail: String
-    comments: [Comment]
+type CompanySite {
+	id: ID!
+	title: String!
+	atDate: Date
+	polygons: [Polygon]
 }
 
-type Comment {
-    text: String
+type Polygon {
+    id: ID!
+	fillColor: String
+	borderColor: String
+	title: String
+	longitude: BigDecimal 
+	latitude: BigDecimal
+	rings: [Ring]
+}
+
+type Ring {
+    id: ID!
+	primary: Boolean	
+	locations: [Location]
+}
+
+type Location {
+    id: ID!
+	longitude: BigDecimal
+	latitude: BigDecimal
+	orderId: Int
 }
 
 type Query {

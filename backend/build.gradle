@@ -34,6 +34,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-graphql'
 	implementation 'io.micrometer:micrometer-registry-prometheus'
 	implementation 'org.liquibase:liquibase-core'
+	implementation 'com.graphql-java:graphql-java-extended-scalars:18.1'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.8'
 	implementation 'org.springdoc:springdoc-openapi-data-rest:1.6.8'
 	implementation 'commons-net:commons-net:3.8.0'		
