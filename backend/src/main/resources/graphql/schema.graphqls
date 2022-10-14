@@ -1,45 +1,79 @@
-type CompanySite {
+scalar Date
+scalar BigDecimal
+scalar Long
+
+input CompanySiteIn {
 	id: ID!
 	title: String!
 	atDate: Date
-	polygons: [Polygon]
+	polygons: [PolygonIn]
 }
 
-type Polygon {
+type CompanySiteOut {
+	id: ID!
+	title: String!
+	atDate: Date
+	polygons: [PolygonOut]
+}
+
+type PolygonOut {
     id: ID!
 	fillColor: String
 	borderColor: String
 	title: String
 	longitude: BigDecimal 
 	latitude: BigDecimal
-	rings: [Ring]
+	rings: [RingOut]
 }
 
-type Ring {
+input PolygonIn {
+    id: ID!
+	fillColor: String
+	borderColor: String
+	title: String
+	longitude: BigDecimal 
+	latitude: BigDecimal
+	rings: [RingIn]
+}
+
+input RingIn {
     id: ID!
 	primary: Boolean	
-	locations: [Location]
+	locations: [LocationIn]
 }
 
-type Location {
+type RingOut  {
+    id: ID!
+	primary: Boolean	
+	locations: [LocationOut]
+}
+
+input LocationIn {
     id: ID!
 	longitude: BigDecimal
 	latitude: BigDecimal
 	orderId: Int
 }
 
-type MainConfiguration {
+type LocationOut {
+    id: ID!
+	longitude: BigDecimal
+	latitude: BigDecimal
+	orderId: Int
+}
+
+type MainConfigurationOut {
 	mapKey: String!
 }
 
 type Query {
-    getMainConfiguration: MainConfiguration
-    getCompanySiteByTitle(title: String, year Long): [CompanySite]
-    getCompanySiteById(id: Long): CompanySite
+    getMainConfiguration: MainConfigurationOut
+    getCompanySiteByTitle(title: String!, year: Long!): [CompanySiteOut]
+    getCompanySiteById(id: ID!): CompanySiteOut
 }
 
 type Mutation {
-   upsertCompanySite(companySite: CompanySite): CompanySite
-   resetDb(): Boolean
-   deletePolygon(companySiteId: Long, polygonId: Long): Boolean
+   upsertCompanySite(companySite: CompanySiteIn!): CompanySiteOut
+   resetDb: Boolean
+   deletePolygon(companySiteId: ID!, polygonId: ID!): Boolean
 }
