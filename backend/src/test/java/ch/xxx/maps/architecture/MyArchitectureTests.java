@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.springframework.boot.web.reactive.error.DefaultErrorAttributes;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tngtech.archunit.core.domain.JavaClass;
@@ -68,7 +69,7 @@ public class MyArchitectureTests {
 	@Test
 	public void ruleControllerAnnotations() {
 		ArchRule beAnnotatedWith = ArchRuleDefinition.classes().that().resideInAPackage("..adapter.controller..")
-				.should().beAnnotatedWith(RestController.class).orShould().beAnnotatedWith(Configuration.class);
+				.should().beAnnotatedWith(Controller.class).orShould().beAnnotatedWith(RestController.class).orShould().beAnnotatedWith(Configuration.class);
 		beAnnotatedWith.check(this.importedClasses);
 	}
 
