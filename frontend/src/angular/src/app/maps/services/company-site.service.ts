@@ -36,7 +36,6 @@ export class CompanySiteService {
 
 	public upsertCompanySite(companySite: CompanySite): Observable<CompanySite> {
 		const options = { operationName: 'upsertCompanySite', query: 'mutation upsertCompanySite($companySite: CompanySiteIn!) { upsertCompanySite(companySite: $companySite) { id, title, atDate, polygons { id, fillColor, borderColor, title, longitude, latitude,rings{ id, primary,locations { id, longitude, latitude }}}}}', variables: {'companySite': companySite} } as GraphqlOptions;
-		console.log(options);
 		return this.mapResult(this.graphqlService.mutate<CompanySite>(options), options.operationName);
 	}
 
@@ -46,7 +45,7 @@ export class CompanySiteService {
 	}
 
 	public deletePolygon(companySiteId: number, polygonId: number): Observable<boolean> {
-		const options = { operationName: 'getMainConfiguration', query: 'mutation deletePolygon($companySiteId: ID!, $polygonId: ID!) { deletePolygon(companySiteId: $companySiteId, polygonId: $polygonId) { deletePolygon } }' } as GraphqlOptions;
+		const options = { operationName: 'deletePolygon', query: 'mutation deletePolygon($companySiteId: ID!, $polygonId: ID!) { deletePolygon(companySiteId: $companySiteId, polygonId: $polygonId) }', variables: {'companySiteId': companySiteId, 'polygonId': polygonId}  } as GraphqlOptions;
 		return this.graphqlService.mutate<CompanySite>(options);
 	}
 	
