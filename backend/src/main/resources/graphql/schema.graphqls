@@ -27,7 +27,7 @@ type PolygonOut {
 }
 
 input PolygonIn {
-    id: ID!
+    id: ID
 	fillColor: String
 	borderColor: String
 	title: String
@@ -37,7 +37,7 @@ input PolygonIn {
 }
 
 input RingIn {
-    id: ID!
+    id: ID
 	primary: Boolean!	
 	locations: [LocationIn]
 }
@@ -49,10 +49,10 @@ type RingOut  {
 }
 
 input LocationIn {
-    id: ID!
+    id: ID
 	longitude: BigDecimal!
 	latitude: BigDecimal!
-	orderId: Int!
+	orderId: Int
 }
 
 type LocationOut {

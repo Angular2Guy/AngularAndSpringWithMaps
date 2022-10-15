@@ -17,6 +17,6 @@ import { Location } from './location';
 
 export interface Ring {
 	id?: number;
-	primaryRing: boolean;
+	primary: boolean;
 	locations: Location[];
 }

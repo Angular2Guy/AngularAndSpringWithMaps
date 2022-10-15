@@ -54,8 +54,8 @@ public class CompanySiteController {
 		return this.entityDtoMapper.mapToDto(companySite);
 	}
 	
-	@MutationMapping(value = "CompanySite")
-	public CompanySiteDto upsertCompanySite(@Argument CompanySiteDto companySiteDto) {		
+	@MutationMapping
+	public CompanySiteDto upsertCompanySite(@Argument(value = "companySite") CompanySiteDto companySiteDto) {		
 		CompanySite companySite = this.companySiteService.findCompanySiteById(companySiteDto.getId()).orElse(new CompanySite());
 		companySite = this.companySiteService.upsertCompanySite(this.entityDtoMapper.mapToEntity(companySiteDto, companySite));
 		return this.entityDtoMapper.mapToDto(companySite);
