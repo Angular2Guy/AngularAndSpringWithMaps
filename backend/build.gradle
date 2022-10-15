@@ -35,12 +35,10 @@ dependencies {
 	implementation 'io.micrometer:micrometer-registry-prometheus'
 	implementation 'org.liquibase:liquibase-core'
 	implementation 'com.graphql-java:graphql-java-extended-scalars:18.1'
-	implementation 'org.springdoc:springdoc-openapi-ui:1.6.8'
-	implementation 'org.springdoc:springdoc-openapi-data-rest:1.6.8'
 	implementation 'commons-net:commons-net:3.8.0'		
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-graphql-test'
+	//testImplementation 'org.springframework.boot:spring-boot-starter-graphql-test'
 	testImplementation group: 'com.tngtech.archunit', name: 'archunit-junit5', version: '0.23.1'
 	
 	if(project.hasProperty('withAngular')) {

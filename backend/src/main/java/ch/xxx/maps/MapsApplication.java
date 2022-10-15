@@ -18,11 +18,7 @@ package ch.xxx.maps;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
-
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "MapsApplication API", version = "1.0", description = "MapsApplication Api Information"))
 public class MapsApplication {
 
 	public static void main(String[] args) {
