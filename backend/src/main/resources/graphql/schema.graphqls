@@ -5,14 +5,14 @@ scalar Long
 input CompanySiteIn {
 	id: ID!
 	title: String!
-	atDate: Date
+	atDate: Date!
 	polygons: [PolygonIn]
 }
 
 type CompanySiteOut {
 	id: ID!
 	title: String!
-	atDate: Date
+	atDate: Date!
 	polygons: [PolygonOut]
 }
 
@@ -21,8 +21,8 @@ type PolygonOut {
 	fillColor: String
 	borderColor: String
 	title: String
-	longitude: BigDecimal 
-	latitude: BigDecimal
+	longitude: BigDecimal! 
+	latitude: BigDecimal!
 	rings: [RingOut]
 }
 
@@ -31,35 +31,35 @@ input PolygonIn {
 	fillColor: String
 	borderColor: String
 	title: String
-	longitude: BigDecimal 
-	latitude: BigDecimal
+	longitude: BigDecimal! 
+	latitude: BigDecimal!
 	rings: [RingIn]
 }
 
 input RingIn {
     id: ID!
-	primary: Boolean	
+	primary: Boolean!	
 	locations: [LocationIn]
 }
 
 type RingOut  {
     id: ID!
-	primary: Boolean	
+	primary: Boolean!	
 	locations: [LocationOut]
 }
 
 input LocationIn {
     id: ID!
-	longitude: BigDecimal
-	latitude: BigDecimal
-	orderId: Int
+	longitude: BigDecimal!
+	latitude: BigDecimal!
+	orderId: Int!
 }
 
 type LocationOut {
     id: ID!
-	longitude: BigDecimal
-	latitude: BigDecimal
-	orderId: Int
+	longitude: BigDecimal!
+	latitude: BigDecimal!
+	orderId: Int!
 }
 
 type MainConfigurationOut {
