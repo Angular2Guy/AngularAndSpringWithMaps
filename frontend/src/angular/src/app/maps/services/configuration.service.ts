@@ -13,22 +13,24 @@
    limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
 import { MainConfiguration } from '../model/main-configuration';
 import { tap } from 'rxjs/operators';
+import { of, Observable } from 'rxjs';
+import { GraphqlService } from './graphql.service';
 
 @Injectable()
 export class ConfigurationService {
   private mainConfiguration: MainConfiguration = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private graphqlService: GraphqlService) { }
 
   public importConfiguration(): Observable<MainConfiguration> {
 	if(!this.mainConfiguration) {
-	  return this.http.get<MainConfiguration>(`/rest/configuration/main`).pipe(tap(config => {
-		this.mainConfiguration = config;
-		return this.mainConfiguration;
+		const options = {operationName: 'getMainConfiguration', query: 'query getMainConfiguration {getMainConfiguration {mapKey}}'};
+		return this.graphqlService.query<MainConfiguration>(options).pipe(tap(config => {			
+		   this.mainConfiguration = (config as unknown as any)[options.operationName];
+		   console.log(this.mainConfiguration.mapKey);
+		   return this.mainConfiguration;
 		}));
 	} else {
 		return of(this.mainConfiguration);

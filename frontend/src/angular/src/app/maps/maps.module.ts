@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 import { CompanySiteComponent } from './company-site/company-site.component';
 import { CompanySiteService } from './services/company-site.service';
 import { ConfigurationService } from './services/configuration.service';
+import { GraphqlService } from './services/graphql.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSliderModule } from '@angular/material/slider';
@@ -43,6 +44,6 @@ import { PolygonDeleteDialogComponent } from './polygon-delete-dialog/polygon-de
 		MatButtonModule,
 		MatDialogModule,
 	],
-	providers: [CompanySiteService, ConfigurationService]
+	providers: [CompanySiteService, ConfigurationService, GraphqlService]
 })
 export class MapsModule { }

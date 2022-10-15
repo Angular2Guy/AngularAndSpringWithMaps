@@ -1,7 +1,7 @@
 const PROXY_CONFIG = [
     {
         context: [
-            "/rest",
+            "/rest","/graphql"
         ],
         target: "http://localhost:8080",
         secure: false
