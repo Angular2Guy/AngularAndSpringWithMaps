@@ -14,7 +14,7 @@
  */
 import { Injectable } from '@angular/core';
 import { MainConfiguration } from '../model/main-configuration';
-import { tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 import { GraphqlService } from './graphql.service';
 
@@ -27,9 +27,9 @@ export class ConfigurationService {
   public importConfiguration(): Observable<MainConfiguration> {
 	if(!this.mainConfiguration) {
 		const options = {operationName: 'getMainConfiguration', query: 'query getMainConfiguration {getMainConfiguration {mapKey}}'};
-		return this.graphqlService.query<MainConfiguration>(options).pipe(tap(config => {			
+		return this.graphqlService.query<MainConfiguration>(options).pipe(map(config => {			
 		   this.mainConfiguration = (config as unknown as any)[options.operationName];
-		   console.log(this.mainConfiguration.mapKey);
+		   //console.log(this.mainConfiguration.mapKey);
 		   return this.mainConfiguration;
 		}));
 	} else {
