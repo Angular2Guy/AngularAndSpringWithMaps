@@ -4,7 +4,7 @@
 
 Author: Sven Loesekann
 
-Technologies: Angular, Spring Boot, Java, Gradle, Typescript, Angular Cli, Angular Material, H2/Postgresql Databases, Jpa, Bing Maps
+Technologies: Angular, Spring Boot, Java, Gradle, GraphQl, Typescript, Angular Cli, Angular Material, H2/Postgresql Databases, Jpa, Bing Maps
 
 ## Articles
 * [Bing Maps With Angular in a Spring Boot Application](https://angular2guy.wordpress.com/2021/07/31/bing-maps-with-angular-in-a-spring-boot-application/)
@@ -16,11 +16,14 @@ Technologies: Angular, Spring Boot, Java, Gradle, Typescript, Angular Cli, Angul
 - Load/Save property borders from rest endpoint
 - Show different border at different points in time
 - Select different sites
-- get/post site data to rest endpoint
+- read/edit/delete site data with GraphQl
 - Load/Save the site data in the H2/Postgresql Databases
 
 ## Mission Statement
-The project serves as an example howto integrate Angular and Bing Maps with Spring Boot and relational databases. The frontend shows different property borders at different points in time for different company sites. The backend stores multiple company sites at different points in time with multiple property borders in clean architecture. The backend manages/initialzies the H2/Postgresql databases with Liquibase. The data access is done with Jpa and Spring Repositories. The architecture is checked with ArchUnit in a test.
+The project serves as an example howto integrate Angular and Bing Maps with Spring Boot and relational databases. The frontend shows different property borders at different points in time for different company sites. The backend stores multiple company sites at different points in time with multiple property borders in clean architecture. Graphql is used to read and write the data in this project. The backend manages/initialzies the H2/Postgresql databases with Liquibase. The data access is done with Jpa and Spring Repositories. The architecture is checked with ArchUnit in a test.
+
+## GraphQl
+The data is read and stored with GraphQl. The frontend uses the Angular http client to access the GraphQl endpoint. The backend uses Spring GraphQl to provide the endpoint with the schema. GraphiQl provides a Ui to test the endpoint.
 
 ## Postgresql
 In the postgresql.sh file are the commands to pull and run Postgresql in a Docker image locally. To build a Jar with Postgresql setup build it with 'gradlew build -PwithAngular=true'. The Spring Boot jar can then be started with the VM parameter '-Dspring.profiles.active=prod' and the 'BINGMAPKEY' has to availiable in an environment variable. The database will be initialized by Liquibase.
