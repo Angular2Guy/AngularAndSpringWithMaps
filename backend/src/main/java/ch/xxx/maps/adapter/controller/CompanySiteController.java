@@ -27,6 +27,8 @@ import ch.xxx.maps.domain.model.dto.CompanySiteDto;
 import ch.xxx.maps.domain.model.entity.CompanySite;
 import ch.xxx.maps.usecase.mapper.EntityDtoMapper;
 import ch.xxx.maps.usecase.service.CompanySiteService;
+import graphql.language.Field;
+import graphql.schema.DataFetchingEnvironment;
 
 @Controller
 public class CompanySiteController {
@@ -40,8 +42,32 @@ public class CompanySiteController {
 	}
 
 	@QueryMapping
-	public List<CompanySiteDto> getCompanySiteByTitle(@Argument String title,
-			@Argument Long year) {
+	public List<CompanySiteDto> getCompanySiteByTitle(@Argument String title, @Argument Long year,
+			DataFetchingEnvironment dataFetchingEnvironment) {
+//		dataFetchingEnvironment.getDocument().getDefinitions().forEach(myDef -> LOGGER.info(myDef.toString()));
+		List<Field> fieldNodes = dataFetchingEnvironment.getDocument().getNamedChildren().getChildOrNull("definitions")
+				.getNamedChildren().getChildOrNull("selectionSet").getNamedChildren().getChildOrNull("selections")
+				.getNamedChildren().getChildOrNull("selectionSet").getNamedChildren().getChildren("selections");
+//		fieldNodes.forEach(myNode -> LOGGER.info(myNode.toString()));
+		final boolean[] withPolygons = new boolean[1];
+		final boolean[] withRings = new boolean[1];
+		boolean withLocations = fieldNodes.stream()
+				.filter(myField -> "polygons".equalsIgnoreCase(myField.getName()) && myField.getSelectionSet() != null)
+				.peek(myField -> {
+					withPolygons[0] = true;
+				})
+				.flatMap(csField -> csField.getNamedChildren().getChildren("selectionSet").stream()
+						.flatMap(myField -> myField.getNamedChildren().getChildren("selections").stream()))
+				.filter(myNode -> "rings".equalsIgnoreCase(((Field) myNode).getName())
+						&& ((Field) myNode).getSelectionSet() != null)
+				.peek(myNode -> {
+					withRings[0] = true;
+				})
+				.flatMap(myNode -> ((Field) myNode).getNamedChildren().getChildren("selectionSet").stream()
+						.flatMap(myField -> ((Field) myField).getNamedChildren().getChildren("selections").stream()))
+				.anyMatch(myField -> "locations".equalsIgnoreCase(((Field) myField).getName())
+						&& ((Field) myField).getSelectionSet() != null);
+
 		List<CompanySiteDto> companySiteDtos = this.companySiteService.findCompanySiteByTitleAndYear(title, year)
 				.stream().map(companySite -> this.entityDtoMapper.mapToDto(companySite)).collect(Collectors.toList());
 		return companySiteDtos;
@@ -53,24 +79,25 @@ public class CompanySiteController {
 				.orElseThrow(() -> new ResourceNotFoundException(String.format("No CompanySite found for id: %d", id)));
 		return this.entityDtoMapper.mapToDto(companySite);
 	}
-	
+
 	@MutationMapping
-	public CompanySiteDto upsertCompanySite(@Argument(value = "companySite") CompanySiteDto companySiteDto) {		
-		CompanySite companySite = this.companySiteService.findCompanySiteById(companySiteDto.getId()).orElse(new CompanySite());
-		companySite = this.companySiteService.upsertCompanySite(this.entityDtoMapper.mapToEntity(companySiteDto, companySite));
+	public CompanySiteDto upsertCompanySite(@Argument(value = "companySite") CompanySiteDto companySiteDto) {
+		CompanySite companySite = this.companySiteService.findCompanySiteById(companySiteDto.getId())
+				.orElse(new CompanySite());
+		companySite = this.companySiteService
+				.upsertCompanySite(this.entityDtoMapper.mapToEntity(companySiteDto, companySite));
 		return this.entityDtoMapper.mapToDto(companySite);
 	}
-	
+
 	@MutationMapping
 	public Boolean resetDb() {
 		return this.companySiteService.resetDb();
 	}
-	
+
 	@MutationMapping
 	public Boolean deletePolygon(@Argument Long companySiteId, @Argument Long polygonId) {
 		LOGGER.info("companySiteId: {} polygonId: {}", companySiteId, polygonId);
 		return this.companySiteService.deletePolygon(companySiteId, polygonId);
 	}
-	
-	
+
 }
