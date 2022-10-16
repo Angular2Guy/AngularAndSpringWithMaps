@@ -68,7 +68,7 @@ public class MyArchitectureTests {
 
 	@Test
 	public void ruleControllerAnnotations() {
-		ArchRule beAnnotatedWith = ArchRuleDefinition.classes().that().resideInAPackage("..adapter.controller..")
+		ArchRule beAnnotatedWith = ArchRuleDefinition.classes().that().resideInAPackage("..adapter.controller..").and().arePublic()
 				.should().beAnnotatedWith(Controller.class).orShould().beAnnotatedWith(RestController.class).orShould().beAnnotatedWith(Configuration.class);
 		beAnnotatedWith.check(this.importedClasses);
 	}
