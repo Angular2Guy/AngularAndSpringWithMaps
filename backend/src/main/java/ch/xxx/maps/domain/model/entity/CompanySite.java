@@ -26,7 +26,7 @@ public class CompanySite extends BaseEntity{
 
 	private String title;
 	private LocalDate atDate;
-	@OneToMany(mappedBy = "companySite", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "companySite", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Polygon> polygons = new LinkedHashSet<>();
 
 	public Set<Polygon> getPolygons() {

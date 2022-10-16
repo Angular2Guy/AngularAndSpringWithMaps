@@ -48,17 +48,25 @@ public class CompanySiteService {
 		this.locationRepository = locationRepository;
 	}
 
-	public Collection<CompanySite> findCompanySiteByTitleAndYear(String title, Long year) {
+	public Collection<CompanySite> findCompanySiteByTitleAndYear(String title, Long year, boolean withPolygons,
+			boolean withRings, boolean withLocations) {
 		if (title == null || title.length() < 2) {
 			return List.of();
 		}
 		LocalDate beginOfYear = LocalDate.of(year.intValue(), 1, 1);
 		LocalDate endOfYear = LocalDate.of(year.intValue(), 12, 31);
-		return this.companySiteRepository.findByTitleFromTo(title.toLowerCase(), beginOfYear, endOfYear);
-	}	
+		title = title.trim().toLowerCase();
+		return withPolygons || withRings || withLocations
+				? this.companySiteRepository.findByTitleFromToWithChildren(title, beginOfYear, endOfYear)
+				: this.companySiteRepository.findByTitleFromTo(title, beginOfYear, endOfYear);
+	}
 
-	public Optional<CompanySite> findCompanySiteById(Long id) {
-		return Optional.ofNullable(id).flatMap(myId -> this.companySiteRepository.findById(myId));
+	public Optional<CompanySite> findCompanySiteById(Long id, boolean withPolygons, boolean withRings,
+			boolean withLocations) {
+		return Optional.ofNullable(id)
+				.flatMap(myId -> withPolygons || withRings || withLocations
+						? this.companySiteRepository.findByIdWithChildren(id)
+						: this.companySiteRepository.findById(myId));
 	}
 
 	public CompanySite upsertCompanySite(CompanySite companySite) {

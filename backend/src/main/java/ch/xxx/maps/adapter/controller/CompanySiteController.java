@@ -28,6 +28,7 @@ import ch.xxx.maps.domain.model.entity.CompanySite;
 import ch.xxx.maps.usecase.mapper.EntityDtoMapper;
 import ch.xxx.maps.usecase.service.CompanySiteService;
 import graphql.language.Field;
+import graphql.language.SelectionSet;
 import graphql.schema.DataFetchingEnvironment;
 
 @Controller
@@ -35,6 +36,9 @@ public class CompanySiteController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CompanySite.class);
 	private final CompanySiteService companySiteService;
 	private final EntityDtoMapper entityDtoMapper;
+
+	private record SelectedChildren(boolean withPolygons, boolean withRings, boolean withLocations) {
+	}
 
 	public CompanySiteController(CompanySiteService companySiteService, EntityDtoMapper entityDtoMapper) {
 		this.companySiteService = companySiteService;
@@ -44,7 +48,16 @@ public class CompanySiteController {
 	@QueryMapping
 	public List<CompanySiteDto> getCompanySiteByTitle(@Argument String title, @Argument Long year,
 			DataFetchingEnvironment dataFetchingEnvironment) {
-//		dataFetchingEnvironment.getDocument().getDefinitions().forEach(myDef -> LOGGER.info(myDef.toString()));
+		SelectedChildren selectedChildren = this.filterSelectedChildren(dataFetchingEnvironment);
+		List<CompanySiteDto> companySiteDtos = this.companySiteService
+				.findCompanySiteByTitleAndYear(title, year, selectedChildren.withPolygons(),
+						selectedChildren.withRings(), selectedChildren.withLocations())
+				.stream().map(companySite -> this.entityDtoMapper.mapToDto(companySite)).collect(Collectors.toList());
+		return companySiteDtos;
+	}
+
+	private SelectedChildren filterSelectedChildren(DataFetchingEnvironment dataFetchingEnvironment) {
+		dataFetchingEnvironment.getDocument().getDefinitions().forEach(myDef -> LOGGER.info(myDef.toString()));
 		List<Field> fieldNodes = dataFetchingEnvironment.getDocument().getNamedChildren().getChildOrNull("definitions")
 				.getNamedChildren().getChildOrNull("selectionSet").getNamedChildren().getChildOrNull("selections")
 				.getNamedChildren().getChildOrNull("selectionSet").getNamedChildren().getChildren("selections");
@@ -64,25 +77,25 @@ public class CompanySiteController {
 					withRings[0] = true;
 				})
 				.flatMap(myNode -> ((Field) myNode).getNamedChildren().getChildren("selectionSet").stream()
-						.flatMap(myField -> ((Field) myField).getNamedChildren().getChildren("selections").stream()))
+						.flatMap(myField -> ((SelectionSet) myField).getNamedChildren().getChildren("selections").stream()))
 				.anyMatch(myField -> "locations".equalsIgnoreCase(((Field) myField).getName())
 						&& ((Field) myField).getSelectionSet() != null);
-
-		List<CompanySiteDto> companySiteDtos = this.companySiteService.findCompanySiteByTitleAndYear(title, year)
-				.stream().map(companySite -> this.entityDtoMapper.mapToDto(companySite)).collect(Collectors.toList());
-		return companySiteDtos;
+		return new SelectedChildren(withPolygons[0], withRings[0], withLocations);
 	}
 
 	@QueryMapping
-	public CompanySiteDto getCompanySiteById(@Argument Long id) {
-		CompanySite companySite = this.companySiteService.findCompanySiteById(id)
+	public CompanySiteDto getCompanySiteById(@Argument Long id, DataFetchingEnvironment dataFetchingEnvironment) {
+		SelectedChildren selectedChildren = this.filterSelectedChildren(dataFetchingEnvironment);
+		CompanySite companySite = this.companySiteService
+				.findCompanySiteById(id, selectedChildren.withPolygons(), selectedChildren.withRings(),
+						selectedChildren.withLocations())
 				.orElseThrow(() -> new ResourceNotFoundException(String.format("No CompanySite found for id: %d", id)));
 		return this.entityDtoMapper.mapToDto(companySite);
 	}
 
 	@MutationMapping
 	public CompanySiteDto upsertCompanySite(@Argument(value = "companySite") CompanySiteDto companySiteDto) {
-		CompanySite companySite = this.companySiteService.findCompanySiteById(companySiteDto.getId())
+		CompanySite companySite = this.companySiteService.findCompanySiteById(companySiteDto.getId(), true, true, true)
 				.orElse(new CompanySite());
 		companySite = this.companySiteService
 				.upsertCompanySite(this.entityDtoMapper.mapToEntity(companySiteDto, companySite));

@@ -25,7 +25,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Ring extends BaseEntity {
 	private boolean primaryRing;
-	@OneToMany(mappedBy = "ring", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "ring", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Location> locations = new LinkedHashSet<>();
 	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	@JoinColumn(name = "polygon_id")

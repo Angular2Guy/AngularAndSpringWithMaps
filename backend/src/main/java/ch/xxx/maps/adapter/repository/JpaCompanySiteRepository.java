@@ -14,6 +14,7 @@ package ch.xxx.maps.adapter.repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,5 +24,9 @@ import ch.xxx.maps.domain.model.entity.CompanySite;
 
 public interface JpaCompanySiteRepository extends JpaRepository<CompanySite, Long>{
 	@Query("select cs from CompanySite cs where lower(cs.title) like %:title% and cs.atDate >= :from and cs.atDate <= :to")
-	List<CompanySite> findByTitleFromTo(@Param("title") String title, @Param("from") LocalDate from,  @Param("to") LocalDate to);	
+	List<CompanySite> findByTitleFromTo(@Param("title") String title, @Param("from") LocalDate from,  @Param("to") LocalDate to);
+	@Query("select distinct cs from CompanySite cs inner join fetch cs.polygons p inner join fetch p.rings r inner join fetch r.locations l where lower(cs.title) like %:title% and cs.atDate >= :from and cs.atDate <= :to")
+	List<CompanySite> findByTitleFromToWithChildren(@Param("title") String title, @Param("from") LocalDate from,  @Param("to") LocalDate to);
+	@Query(value = "select distinct cs from CompanySite cs join fetch cs.polygons p join fetch p.rings r join fetch r.locations l where cs.id = :id")
+	Optional<CompanySite> findByIdWithChildren(@Param("id") Long id);
 }
