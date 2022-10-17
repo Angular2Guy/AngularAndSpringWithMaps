@@ -95,18 +95,18 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 				map(companySite => (typeof companySite === 'string') ? companySite : companySite.title),	
 				filter(companySite => !!companySite && companySite.length > 2),	
 				switchMap(companySite =>
-					this.companySiteService.findByTitleAndYear(companySite,
+					this.companySiteService.findByTitleAndYearWithChildren(companySite,
 						this.componentForm.controls[this.SLIDER_YEAR].value as number)),
 				filter(companySite => companySite?.length && companySite?.length > 0))
 			.subscribe(companySite => this.updateMap(companySite[0]));
 		this.sliderYearSubscription = this.componentForm.controls[this.SLIDER_YEAR].valueChanges
 			.pipe(debounceTime(500),
 				filter(year => !(typeof this.componentForm.get(this.COMPANY_SITE).value === 'string')),
-				switchMap(year => this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(), year as number)),
+				switchMap(year => this.companySiteService.findByTitleAndYearWithChildren(this.getCompanySiteTitle(), year as number)),
 				filter(companySite => companySite?.length && companySite.length > 0 && companySite[0].polygons.length > 0))
 			.subscribe(companySite => this.updateMap(companySite[0]));
 		forkJoin([this.configurationService.importConfiguration(),
-		this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(),
+		this.companySiteService.findByTitleAndYearWithChildren(this.getCompanySiteTitle(),
 			this.componentForm.controls[this.SLIDER_YEAR].value)]).subscribe(values => {
 				this.mainConfiguration = values[0];
 				this.containerInitSubject.next({ companySite: values[1][0], mainConfiguration: values[0] } as Container);

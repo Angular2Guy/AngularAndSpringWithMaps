@@ -25,11 +25,16 @@ export class CompanySiteService {
 	constructor(private graphqlService: GraphqlService) { }
 
 	public findById(id: number): Observable<CompanySite> {
-		const options = { operationName: 'getCompanySiteById', query: 'query getCompanySiteById($id: ID!) { getCompanySiteById(id: $id) { id, title, atDate, polygons {       id, fillColor, borderColor, title, longitude, latitude,rings{ id, primary,locations { id, longitude, latitude }}}}}', variables: { 'id': id } } as GraphqlOptions;
+		const options = { operationName: 'getCompanySiteById', query: 'query getCompanySiteById($id: ID!) { getCompanySiteById(id: $id) { id, title, atDate, polygons { id, fillColor, borderColor, title, longitude, latitude,rings{ id, primary,locations { id, longitude, latitude }}}}}', variables: { 'id': id } } as GraphqlOptions;
 		return this.mapResult<CompanySite,CompanySite>(this.graphqlService.query<CompanySite>(options), options.operationName);
 	}
 
 	public findByTitleAndYear(title: string, year: number): Observable<CompanySite[]> {
+		const options = { operationName: 'getCompanySiteByTitle', query: 'query getCompanySiteByTitle($title: String!, $year: Long!) { getCompanySiteByTitle(title: $title, year: $year) { id, title, atDate }}', variables: { 'title': title, 'year': year } } as GraphqlOptions;
+		return this.mapResult<CompanySite[],CompanySite[]>(this.graphqlService.query<CompanySite[]>(options), options.operationName);
+	}
+
+	public findByTitleAndYearWithChildren(title: string, year: number): Observable<CompanySite[]> {
 		const options = { operationName: 'getCompanySiteByTitle', query: 'query getCompanySiteByTitle($title: String!, $year: Long!) { getCompanySiteByTitle(title: $title, year: $year) { id, title, atDate, polygons { id, fillColor, borderColor, title, longitude, latitude,rings{ id, primary,locations { id, longitude, latitude}}}}}', variables: { 'title': title, 'year': year } } as GraphqlOptions;
 		return this.mapResult<CompanySite[],CompanySite[]>(this.graphqlService.query<CompanySite[]>(options), options.operationName);
 	}
