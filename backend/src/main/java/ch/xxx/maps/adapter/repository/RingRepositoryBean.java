@@ -18,7 +18,7 @@ public class RingRepositoryBean implements RingRepository {
 		this.jpaRingRepository = jpaRingRepository;
 	}
 
-	@Bean("ring")
+	@Bean("Ring")
 	public DataFetcher<Iterable<Ring>> createDataFetcher() {
 		DataFetcher<Iterable<Ring>> dataFetcherRi = QuerydslDataFetcher.builder(jpaRingRepository).many();
 		return dataFetcherRi;

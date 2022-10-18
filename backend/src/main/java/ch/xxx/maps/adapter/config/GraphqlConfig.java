@@ -12,6 +12,7 @@
  */
 package ch.xxx.maps.adapter.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
@@ -28,8 +29,8 @@ public class GraphqlConfig {
 
 
 	@Bean
-	public RuntimeWiringConfigurer runtimeWiringConfigurer(DataFetcher<Iterable<CompanySite>> dataFetcherCs, DataFetcher<Iterable<Polygon>> dataFetcherPg,
-			DataFetcher<Iterable<Ring>> dataFetcherRi, DataFetcher<Iterable<Location>> dataFetcherLo) {
+	public RuntimeWiringConfigurer runtimeWiringConfigurer(@Qualifier("CompanySite") DataFetcher<Iterable<CompanySite>> dataFetcherCs, @Qualifier("Polygon") DataFetcher<Iterable<Polygon>> dataFetcherPg,
+			@Qualifier("Ring") DataFetcher<Iterable<Ring>> dataFetcherRi, @Qualifier("Location") DataFetcher<Iterable<Location>> dataFetcherLo) {
 		RuntimeWiringConfigurer result = wiringBuilder -> wiringBuilder.scalar(ExtendedScalars.Date)
 				.scalar(ExtendedScalars.DateTime).scalar(ExtendedScalars.GraphQLBigDecimal)
 				.scalar(ExtendedScalars.GraphQLBigInteger).scalar(ExtendedScalars.GraphQLByte)
