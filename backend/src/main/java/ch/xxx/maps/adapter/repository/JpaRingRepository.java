@@ -13,9 +13,10 @@
 package ch.xxx.maps.adapter.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import ch.xxx.maps.domain.model.entity.Ring;
 
-public interface JpaRingRepository extends JpaRepository<Ring, Long>{
+public interface JpaRingRepository extends JpaRepository<Ring, Long>, QuerydslPredicateExecutor<Ring> {
 
 }

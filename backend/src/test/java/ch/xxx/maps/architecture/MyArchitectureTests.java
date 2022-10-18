@@ -52,7 +52,7 @@ public class MyArchitectureTests {
 			.applicationServices("..usecase..").adapter("rest", "..adapter.controller..")
 //			.adapter("cron", "..adapter.cron..")
 			.adapter("repo", "..adapter.repository..")
-			.adapter("client", "..adapter.client..").adapter("config", "..adapter.config..").withOptionalLayers(true);
+			.adapter("client", "..adapter.client..").adapter("config", "..adapter.config..", "..adapter.repository..").withOptionalLayers(true);
 
 	@ArchTest
 	static final ArchRule cyclesDomain = SlicesRuleDefinition.slices().matching("..domain.(*)..").should()

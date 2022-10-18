@@ -11,10 +11,10 @@ import ch.xxx.maps.domain.model.entity.CompanySite;
 import ch.xxx.maps.domain.model.entity.CompanySiteRepository;
 
 @Repository
-public class CompanyRepositoryBean implements CompanySiteRepository {
+public class CompanySiteRepositoryBean implements CompanySiteRepository {
 	private final JpaCompanySiteRepository jpaCompanySiteRepository;
 	
-	public CompanyRepositoryBean(JpaCompanySiteRepository jpaCompanySiteRepository) {
+	public CompanySiteRepositoryBean(JpaCompanySiteRepository jpaCompanySiteRepository) {
 		this.jpaCompanySiteRepository = jpaCompanySiteRepository;
 	}
 
@@ -30,7 +30,7 @@ public class CompanyRepositoryBean implements CompanySiteRepository {
 
 	@Override
 	public CompanySite save(CompanySite companySite) {
-		return this.jpaCompanySiteRepository. save(companySite);
+		return this.jpaCompanySiteRepository.save(companySite);
 	}
 
 	@Override

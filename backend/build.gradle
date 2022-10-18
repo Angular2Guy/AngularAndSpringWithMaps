@@ -11,9 +11,10 @@
    limitations under the License.
  */
 plugins {
-	id 'org.springframework.boot' version '2.7.0'
+	id 'org.springframework.boot' version '2.7.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'java-library'
 }
 
 group = 'ch.xxx'
@@ -24,6 +25,12 @@ repositories {
 	mavenCentral()
 }
 
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
 dependencies {
 	implementation project(':frontend')
 	implementation 'org.springframework.boot:spring-boot-starter'
@@ -32,13 +39,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-graphql'
+	api 'com.querydsl:querydsl-jpa:5.0.0'
 	implementation 'io.micrometer:micrometer-registry-prometheus'
 	implementation 'org.liquibase:liquibase-core'
 	implementation 'com.graphql-java:graphql-java-extended-scalars:18.1'
 	implementation 'commons-net:commons-net:3.8.0'		
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	//testImplementation 'org.springframework.boot:spring-boot-starter-graphql-test'
+	testImplementation 'org.springframework.graphql:spring-graphql-test'
 	testImplementation group: 'com.tngtech.archunit', name: 'archunit-junit5', version: '0.23.1'
 	
 	if(project.hasProperty('withAngular')) {
@@ -47,6 +55,10 @@ dependencies {
 	} else {
 		runtimeOnly 'com.h2database:h2'
 	}
+	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jpa'
+	annotationProcessor 'org.springframework.boot:spring-boot-starter-data-jpa'
+	testAnnotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jpa'
+	testAnnotationProcessor 'org.springframework.boot:spring-boot-starter-data-jpa'
 }
 
 bootJar {
