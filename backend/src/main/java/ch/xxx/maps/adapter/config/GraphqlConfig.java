@@ -14,30 +14,22 @@ package ch.xxx.maps.adapter.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.graphql.data.query.QuerydslDataFetcher;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 
-import ch.xxx.maps.adapter.repository.JpaCompanySiteRepository;
-import ch.xxx.maps.adapter.repository.JpaLocationRepository;
-import ch.xxx.maps.adapter.repository.JpaPolygonRepository;
-import ch.xxx.maps.adapter.repository.JpaRingRepository;
 import ch.xxx.maps.domain.model.entity.CompanySite;
 import ch.xxx.maps.domain.model.entity.Location;
 import ch.xxx.maps.domain.model.entity.Polygon;
 import ch.xxx.maps.domain.model.entity.Ring;
 import graphql.scalars.ExtendedScalars;
 import graphql.schema.DataFetcher;
- 
+
 @Configuration
 public class GraphqlConfig {
 
+
 	@Bean
-	public RuntimeWiringConfigurer runtimeWiringConfigurer(JpaCompanySiteRepository jpaCompanySiteRepository, 
-			JpaPolygonRepository jpaPolygonRepository, JpaRingRepository jpaRingRepository, JpaLocationRepository jpaLocationRepository) {
-		DataFetcher<Iterable<CompanySite>> dataFetcherCs = QuerydslDataFetcher.builder(jpaCompanySiteRepository).many();
-		DataFetcher<Iterable<Polygon>> dataFetcherPg = QuerydslDataFetcher.builder(jpaPolygonRepository).many();
-		DataFetcher<Iterable<Ring>> dataFetcherRi = QuerydslDataFetcher.builder(jpaRingRepository).many();
-		DataFetcher<Iterable<Location>> dataFetcherLo = QuerydslDataFetcher.builder(jpaLocationRepository).many();
+	public RuntimeWiringConfigurer runtimeWiringConfigurer(DataFetcher<Iterable<CompanySite>> dataFetcherCs, DataFetcher<Iterable<Polygon>> dataFetcherPg,
+			DataFetcher<Iterable<Ring>> dataFetcherRi, DataFetcher<Iterable<Location>> dataFetcherLo) {
 		RuntimeWiringConfigurer result = wiringBuilder -> wiringBuilder.scalar(ExtendedScalars.Date)
 				.scalar(ExtendedScalars.DateTime).scalar(ExtendedScalars.GraphQLBigDecimal)
 				.scalar(ExtendedScalars.GraphQLBigInteger).scalar(ExtendedScalars.GraphQLByte)
@@ -47,9 +39,10 @@ public class GraphqlConfig {
 				.scalar(ExtendedScalars.NegativeInt).scalar(ExtendedScalars.NonNegativeFloat)
 				.scalar(ExtendedScalars.NonNegativeInt).scalar(ExtendedScalars.NonPositiveFloat)
 				.scalar(ExtendedScalars.NonPositiveInt).scalar(ExtendedScalars.Object).scalar(ExtendedScalars.Time)
-				.scalar(ExtendedScalars.Url).scalar(ExtendedScalars.UUID)
-				.type("Query", builder -> builder.dataFetcher("companySiteIn", dataFetcherCs).dataFetcher("polygonIn", dataFetcherPg)
-						.dataFetcher("ringIn", dataFetcherRi).dataFetcher("locationIn", dataFetcherLo));
+				.scalar(ExtendedScalars.Url).scalar(ExtendedScalars.UUID).type("Query",
+						builder -> builder.dataFetcher("companySiteIn", dataFetcherCs)
+								.dataFetcher("polygonIn", dataFetcherPg).dataFetcher("ringIn", dataFetcherRi)
+								.dataFetcher("locationIn", dataFetcherLo));
 		return result;
 	}
 }
