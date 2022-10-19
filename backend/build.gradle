@@ -69,6 +69,17 @@ test {
 	useJUnitPlatform()
 }
 
+//eclpise fix
+tasks.register('copyClasses') {
+   doLast{
+      copy {
+         from layout.buildDirectory.dir("classes/java")
+         include "**/*.class"
+         into layout.projectDirectory.dir("bin")
+      }
+   }
+}
+
 task buildDockerImage {
 	if(project.hasProperty('buildDockerImage')) {	
 		logger.info('Task buildDockerImage')
@@ -79,3 +90,5 @@ task buildDockerImage {
 		}
 	}
 }
+
+build.dependsOn copyClasses
