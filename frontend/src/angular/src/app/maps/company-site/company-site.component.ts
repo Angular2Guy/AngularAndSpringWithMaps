@@ -157,7 +157,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 		} else {
 			const myCompanySite = this.componentForm.controls[this.COMPANY_SITE].value as CompanySite;
 			const newRing = {
-				primary: true,
+				primaryRing: true,
 				locations: this.newLocations.filter(myNewLocation => myNewLocation !== this.newLocations[0]
 					&& myNewLocation.selected)
 					.map(myNewLocation => ({

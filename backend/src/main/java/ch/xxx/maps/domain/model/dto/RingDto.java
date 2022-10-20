@@ -17,16 +17,16 @@ import java.util.List;
 
 public class RingDto {
 	private Long id;
-	private boolean primary;
+	private boolean primaryRing;
 	private List<LocationDto> locations = new ArrayList<>();
 
 	public RingDto() {
 	}
 
-	public RingDto(Long id, boolean primary, List<LocationDto> locations) {
+	public RingDto(Long id, boolean primaryRing, List<LocationDto> locations) {
 		super();
 		this.id = id;
-		this.primary = primary;
+		this.primaryRing = primaryRing;
 		this.locations = locations;
 	}
 
@@ -38,19 +38,19 @@ public class RingDto {
 		this.id = id;
 	}
 
-	public boolean isPrimary() {
-		return primary;
-	}
-
-	public void setPrimary(boolean primary) {
-		this.primary = primary;
-	}
-
 	public List<LocationDto> getLocations() {
 		return locations;
 	}
 
 	public void setLocations(List<LocationDto> locations) {
 		this.locations = locations;
+	}
+
+	public boolean isPrimaryRing() {
+		return primaryRing;
+	}
+
+	public void setPrimaryRing(boolean primaryRing) {
+		this.primaryRing = primaryRing;
 	}
 }

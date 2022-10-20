@@ -57,8 +57,8 @@ An example Graphql query with all fields:
            id, primary, locations {
           	  id, longitude, latitude, orderId
            }
-      }
-    }
+        }
+     }
   }
 }
 ```

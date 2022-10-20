@@ -69,7 +69,7 @@ public class EntityDtoMapper {
 			dto.getLocations().get(i).setOrderId(i + 1);
 		}
 		entity.setPolygon(polygon);
-		entity.setPrimaryRing(dto.isPrimary());
+		entity.setPrimaryRing(dto.isPrimaryRing());
 		entity.setLocations(dto.getLocations().stream()
 				.flatMap(myLocationDto -> Stream.of(new Tuple<LocationDto, Location>(myLocationDto,
 						entity.getLocations().stream()
