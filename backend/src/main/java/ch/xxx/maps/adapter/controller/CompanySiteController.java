@@ -114,9 +114,4 @@ public class CompanySiteController {
 		LOGGER.info("companySiteId: {} polygonId: {}", companySiteId, polygonId);
 		return this.companySiteService.deletePolygon(companySiteId, polygonId);
 	}
-
-	@SchemaMapping(typeName = "CompanySiteIn")
-	public Collection<CompanySite> companySite(DataFetchingEnvironment dataFetchingEnvironment) {
-		return this.companySiteService.findCompanySiteByDaFetchEnv(dataFetchingEnvironment);
-	}
 }

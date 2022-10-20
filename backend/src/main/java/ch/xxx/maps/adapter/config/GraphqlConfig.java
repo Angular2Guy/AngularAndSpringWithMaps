@@ -41,9 +41,9 @@ public class GraphqlConfig {
 				.scalar(ExtendedScalars.NonNegativeInt).scalar(ExtendedScalars.NonPositiveFloat)
 				.scalar(ExtendedScalars.NonPositiveInt).scalar(ExtendedScalars.Object).scalar(ExtendedScalars.Time)
 				.scalar(ExtendedScalars.Url).scalar(ExtendedScalars.UUID).type("Query",
-						builder -> builder.dataFetcher("companySiteIn", dataFetcherCs)
-								.dataFetcher("polygonIn", dataFetcherPg).dataFetcher("ringIn", dataFetcherRi)
-								.dataFetcher("locationIn", dataFetcherLo));
+						builder -> builder.dataFetcher("companySite", dataFetcherCs)
+								.dataFetcher("polygon", dataFetcherPg).dataFetcher("ring", dataFetcherRi)
+								.dataFetcher("location", dataFetcherLo));
 		return result;
 	}
 }

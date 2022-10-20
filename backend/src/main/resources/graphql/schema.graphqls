@@ -70,6 +70,7 @@ type Query {
     getMainConfiguration: MainConfigurationOut
     getCompanySiteByTitle(title: String!, year: Long!): [CompanySiteOut]
     getCompanySiteById(id: ID!): CompanySiteOut
+    companySite: [CompanySiteOut]
 }
 
 type Mutation {
