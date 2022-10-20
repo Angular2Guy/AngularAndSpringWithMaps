@@ -49,17 +49,19 @@ To test the setup the application has to be started and the Docker Images for Pr
 
 ## Example
 An example Graphql query with all fields:
+```
 {
   companySite  {
-    id, title, atDate, polygons {
-       id, fillColor, borderColor, title, longitude, latitude, rings{
-        id, primary, locations {
-          id, longitude, latitude, orderId
-        }
+     id, title, atDate, polygons {
+        id, fillColor, borderColor, title, longitude, latitude, rings{
+           id, primary, locations {
+          	  id, longitude, latitude, orderId
+           }
       }
     }
   }
 }
+```
 Spring Graphql executes it with 1 sql query.
 
 ## Setup
