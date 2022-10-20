@@ -54,7 +54,7 @@ An example Graphql query with all fields:
   companySite  {
      id, title, atDate, polygons {
         id, fillColor, borderColor, title, longitude, latitude, rings{
-           id, primary, locations {
+           id, primaryRing, locations {
           	  id, longitude, latitude, orderId
            }
         }
@@ -67,7 +67,7 @@ Spring Graphql executes it with 1 sql query.
 ## Setup
 Java 17 or newer.
 
-Postgresql 10.x or newer.
+Postgresql 12.x or newer.
 
 Eclipse IDE for Enterprise Java and Web Developers newest version.
 
