@@ -47,6 +47,21 @@ The Spring Actuator interface with Prometheus interface can be used as it is des
 
 To test the setup the application has to be started and the Docker Images for Prometheus and Grafana have to be started and configured. The scripts 'runGraphana.sh' and 'runPrometheus.sh' can be used as a starting point.
 
+## Example
+An example Graphql query with all fields:
+{
+  companySite  {
+    id, title, atDate, polygons {
+       id, fillColor, borderColor, title, longitude, latitude, rings{
+        id, primary, locations {
+          id, longitude, latitude, orderId
+        }
+      }
+    }
+  }
+}
+Spring Graphql executes it with 1 sql query.
+
 ## Setup
 Java 17 or newer.
 

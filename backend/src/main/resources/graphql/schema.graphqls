@@ -44,7 +44,7 @@ input RingIn {
 
 type RingOut  {
     id: ID!
-	primary: Boolean!	
+	primary: Boolean	
 	locations: [LocationOut]
 }
 
