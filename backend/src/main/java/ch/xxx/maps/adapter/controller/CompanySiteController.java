@@ -12,6 +12,7 @@
  */
 package ch.xxx.maps.adapter.controller;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
 import ch.xxx.maps.domain.exceptions.ResourceNotFoundException;
@@ -113,4 +115,8 @@ public class CompanySiteController {
 		return this.companySiteService.deletePolygon(companySiteId, polygonId);
 	}
 
+	@SchemaMapping(typeName = "CompanySiteIn")
+	public Collection<CompanySite> companySite(DataFetchingEnvironment dataFetchingEnvironment) {
+		return this.companySiteService.findCompanySiteByDaFetchEnv(dataFetchingEnvironment);
+	}
 }
