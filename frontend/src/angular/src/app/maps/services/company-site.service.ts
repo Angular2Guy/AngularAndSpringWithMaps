@@ -25,7 +25,7 @@ export class CompanySiteService {
 	constructor(private graphqlService: GraphqlService) { }
 
 	public findById(id: number): Observable<CompanySite> {
-		const options = { operationName: 'getCompanySiteById', query: 'query getCompanySiteById($id: ID!) { getCompanySiteById(id: $id) { id, title, atDate, polygons { id, fillColor, borderColor, title, longitude, latitude,rings{ id, primary,locations { id, longitude, latitude }}}}}', variables: { 'id': id } } as GraphqlOptions;
+		const options = { operationName: 'getCompanySiteById', query: 'query getCompanySiteById($id: ID!) { getCompanySiteById(id: $id) { id, title, atDate, polygons { id, fillColor, borderColor, title, longitude, latitude,rings{ id, primaryRing,locations { id, longitude, latitude }}}}}', variables: { 'id': id } } as GraphqlOptions;
 		return this.mapResult<CompanySite,CompanySite>(this.graphqlService.query<CompanySite>(options), options.operationName);
 	}
 
@@ -35,12 +35,12 @@ export class CompanySiteService {
 	}
 
 	public findByTitleAndYearWithChildren(title: string, year: number): Observable<CompanySite[]> {
-		const options = { operationName: 'getCompanySiteByTitle', query: 'query getCompanySiteByTitle($title: String!, $year: Long!) { getCompanySiteByTitle(title: $title, year: $year) { id, title, atDate, polygons { id, fillColor, borderColor, title, longitude, latitude,rings{ id, primary,locations { id, longitude, latitude}}}}}', variables: { 'title': title, 'year': year } } as GraphqlOptions;
+		const options = { operationName: 'getCompanySiteByTitle', query: 'query getCompanySiteByTitle($title: String!, $year: Long!) { getCompanySiteByTitle(title: $title, year: $year) { id, title, atDate, polygons { id, fillColor, borderColor, title, longitude, latitude,rings{ id, primaryRing,locations { id, longitude, latitude}}}}}', variables: { 'title': title, 'year': year } } as GraphqlOptions;
 		return this.mapResult<CompanySite[],CompanySite[]>(this.graphqlService.query<CompanySite[]>(options), options.operationName);
 	}
 
 	public upsertCompanySite(companySite: CompanySite): Observable<CompanySite> {
-		const options = { operationName: 'upsertCompanySite', query: 'mutation upsertCompanySite($companySite: CompanySiteIn!) { upsertCompanySite(companySite: $companySite) { id, title, atDate, polygons { id, fillColor, borderColor, title, longitude, latitude,rings{ id, primary,locations { id, longitude, latitude }}}}}', variables: {'companySite': companySite} } as GraphqlOptions;
+		const options = { operationName: 'upsertCompanySite', query: 'mutation upsertCompanySite($companySite: CompanySiteIn!) { upsertCompanySite(companySite: $companySite) { id, title, atDate, polygons { id, fillColor, borderColor, title, longitude, latitude,rings{ id, primaryRing,locations { id, longitude, latitude }}}}}', variables: {'companySite': companySite} } as GraphqlOptions;
 		return this.mapResult(this.graphqlService.mutate<CompanySite>(options), options.operationName);
 	}
 
