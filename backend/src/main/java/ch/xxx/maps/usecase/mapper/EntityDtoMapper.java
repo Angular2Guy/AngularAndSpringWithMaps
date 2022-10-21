@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.persistence.PersistenceException;
+
 import org.springframework.stereotype.Component;
 
 import ch.xxx.maps.domain.model.dto.CompanySiteDto;
@@ -90,25 +92,39 @@ public class EntityDtoMapper {
 	}
 
 	public CompanySiteDto mapToDto(CompanySite companySite) {
-		List<PolygonDto> myPolygons = companySite.getPolygons().stream().map(polygon -> this.mapToDto(polygon))
-				.collect(Collectors.toList());
+		List<PolygonDto> myPolygons;
+		try {
+			myPolygons = companySite.getPolygons().stream().map(polygon -> this.mapToDto(polygon))
+					.collect(Collectors.toList());
+		} catch (PersistenceException e) {
+			myPolygons = List.of();
+		}
 		CompanySiteDto dto = new CompanySiteDto(companySite.getId(), companySite.getTitle(), companySite.getAtDate(),
 				myPolygons);
 		return dto;
 	}
 
 	public PolygonDto mapToDto(Polygon polygon) {
-		List<RingDto> myRings = polygon.getRings().stream().map(ring -> this.mapToDto(ring))
-				.collect(Collectors.toList());
+		List<RingDto> myRings;
+		try {
+			myRings = polygon.getRings().stream().map(ring -> this.mapToDto(ring)).collect(Collectors.toList());
+		} catch (PersistenceException e) {
+			myRings = List.of();
+		}
 		PolygonDto dto = new PolygonDto(polygon.getId(), polygon.getFillColor(), polygon.getBorderColor(),
 				polygon.getTitle(), polygon.getLongitude(), polygon.getLatitude(), myRings);
 		return dto;
 	}
 
 	public RingDto mapToDto(Ring ring) {
-		List<LocationDto> myLocations = ring.getLocations().stream().map(location -> this.mapToDto(location))
-				.sorted((LocationDto l1, LocationDto l2) -> l1.getOrderId().compareTo(l2.getOrderId()))
-				.collect(Collectors.toList());
+		List<LocationDto> myLocations;
+		try {
+			myLocations = ring.getLocations().stream().map(location -> this.mapToDto(location))
+					.sorted((LocationDto l1, LocationDto l2) -> l1.getOrderId().compareTo(l2.getOrderId()))
+					.collect(Collectors.toList());
+		} catch (PersistenceException e) {
+			myLocations = List.of();
+		}
 		RingDto dto = new RingDto(ring.getId(), ring.isPrimaryRing(), myLocations);
 		return dto;
 	}
