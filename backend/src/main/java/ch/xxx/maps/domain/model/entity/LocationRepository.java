@@ -8,4 +8,5 @@ public interface LocationRepository {
 
 	List<Location> findAll();
 
+	List<Location> findAllByRingIds(List<Long> ids);
 }

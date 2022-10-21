@@ -158,13 +158,25 @@ public class CompanySiteService {
 		List<Ring> rings = this.ringRepository
 				.findAllByPolygonIds(polygons.stream().map(Polygon::getId).collect(Collectors.toList()));
 		return polygons.stream().map(Polygon::getId)
-				.map(myPgId -> Map.entry(this.findEntity(polygons, myPgId),
-						findRings(rings, myPgId)))
+				.map(myPgId -> Map.entry(this.findEntity(polygons, myPgId), findRings(rings, myPgId)))
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 	}
 
 	private List<Ring> findRings(List<Ring> rings, Long myPgId) {
-		return rings.stream().filter(myRing -> myRing.getPolygon().getId().equals(myPgId))
+		return rings.stream().filter(myRing -> myRing.getPolygon().getId().equals(myPgId)).collect(Collectors.toList());
+	}
+
+	public Map<Ring, List<Location>> fetchLocations(List<Ring> rings) {
+		List<Location> locations = this.locationRepository
+				.findAllByRingIds(rings.stream().map(Ring::getId).collect(Collectors.toList()));
+		return locations.stream().map(Location::getId)
+				.map(myRiId -> Map.entry(this.findEntity(rings, myRiId),
+						findLocations(locations, myRiId)))
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+	}
+
+	private List<Location> findLocations(List<Location> locations, Long myRiId) {
+		return locations.stream().filter(myLocation -> myLocation.getRing().getId().equals(myRiId))
 				.collect(Collectors.toList());
 	}
 }

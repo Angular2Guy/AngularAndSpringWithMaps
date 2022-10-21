@@ -13,6 +13,7 @@
 package ch.xxx.maps.domain.model.entity;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -59,4 +60,26 @@ public class Location extends BaseEntity {
 	public void setOrderId(Integer orderId) {
 		this.orderId = orderId;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(latitude, longitude, orderId, ring);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Location other = (Location) obj;
+		return Objects.equals(latitude, other.latitude) && Objects.equals(longitude, other.longitude)
+				&& Objects.equals(orderId, other.orderId) && Objects.equals(ring, other.ring);
+	}
+	
 }

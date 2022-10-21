@@ -27,7 +27,9 @@ import org.springframework.stereotype.Controller;
 import ch.xxx.maps.domain.exceptions.ResourceNotFoundException;
 import ch.xxx.maps.domain.model.dto.CompanySiteDto;
 import ch.xxx.maps.domain.model.entity.CompanySite;
+import ch.xxx.maps.domain.model.entity.Location;
 import ch.xxx.maps.domain.model.entity.Polygon;
+import ch.xxx.maps.domain.model.entity.Ring;
 import ch.xxx.maps.usecase.mapper.EntityDtoMapper;
 import ch.xxx.maps.usecase.service.CompanySiteService;
 import graphql.schema.DataFetchingEnvironment;
@@ -87,8 +89,14 @@ public class CompanySiteController {
 	}
 	
 	@BatchMapping(field = "rings", typeName = "PolygonOut")
-	public Map<CompanySite, List<Polygon>> fetchRings(List<Polygon> polygons) {
+	public Map<Polygon, List<Ring>> fetchRings(List<Polygon> polygons) {
 	  LOGGER.info("Fetching rings");
 	  return companySiteService.fetchRings(polygons);
+	}
+	
+	@BatchMapping(field = "locations", typeName = "LocationOut")
+	public Map<Ring, List<Location>> fetchLocations(List<Ring> polygons) {
+	  LOGGER.info("Fetching rings");
+	  return companySiteService.fetchLocations(polygons);
 	}
 }

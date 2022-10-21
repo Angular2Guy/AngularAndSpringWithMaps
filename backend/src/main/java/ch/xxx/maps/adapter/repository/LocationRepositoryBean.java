@@ -34,4 +34,9 @@ public class LocationRepositoryBean implements LocationRepository {
 		return this.jpaLocationRepository.findAll();
 	}
 
+	@Override
+	public List<Location> findAllByRingIds(List<Long> ids) {
+		return this.jpaLocationRepository.findAllByRingIds(ids);
+	}
+
 }

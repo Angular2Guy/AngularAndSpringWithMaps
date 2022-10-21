@@ -14,6 +14,7 @@ package ch.xxx.maps.domain.model.entity;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -51,5 +52,26 @@ public class CompanySite extends BaseEntity{
 
 	public void setAtDate(LocalDate atDate) {
 		this.atDate = atDate;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(atDate, polygons, title);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CompanySite other = (CompanySite) obj;
+		return Objects.equals(atDate, other.atDate) && Objects.equals(polygons, other.polygons)
+				&& Objects.equals(title, other.title);
 	}
 }
