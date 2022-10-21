@@ -36,6 +36,7 @@ public class CompanySiteController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CompanySite.class);
 	private final CompanySiteService companySiteService;
 	private final EntityDtoMapper entityDtoMapper;
+	private record Selections(boolean withPolygons, boolean withRings, boolean withLocations) {	}
 
 	public CompanySiteController(CompanySiteService companySiteService, EntityDtoMapper entityDtoMapper) {
 		this.companySiteService = companySiteService;
@@ -45,28 +46,35 @@ public class CompanySiteController {
 	@QueryMapping
 	public Mono<List<CompanySiteDto>> getCompanySiteByTitle(@Argument String title, @Argument Long year,
 			DataFetchingEnvironment dataFetchingEnvironment) {
+		Selections selections = createSelections(dataFetchingEnvironment);
+		List<CompanySiteDto> companySiteDtos = this.companySiteService.findCompanySiteByTitleAndYear(title, year, selections.withPolygons(), selections.withRings(), selections.withLocations())
+				.stream().map(companySite -> this.entityDtoMapper.mapToDto(companySite))
+				.collect(Collectors.toList());
+		return Mono.just(companySiteDtos);
+	}
+
+	private Selections createSelections(DataFetchingEnvironment dataFetchingEnvironment) {
 		boolean addPolygons = dataFetchingEnvironment.getSelectionSet().contains("polygons");
 		boolean addRings = dataFetchingEnvironment.getSelectionSet().getFields().stream()
 				.anyMatch(sf -> "rings".equalsIgnoreCase(sf.getName()));
 		boolean addLocations = dataFetchingEnvironment.getSelectionSet().getFields().stream()
 				.filter(sf -> "rings".equalsIgnoreCase(sf.getName())).flatMap(sf -> Stream.of(sf.getSelectionSet()))
 				.anyMatch(sf -> sf.contains("locations"));
-		List<CompanySiteDto> companySiteDtos = this.companySiteService.findCompanySiteByTitleAndYear(title, year, addPolygons, addRings, addLocations)
-				.stream().map(companySite -> this.entityDtoMapper.mapToDto(companySite))
-				.collect(Collectors.toList());
-		return Mono.just(companySiteDtos);
+		Selections selections = new Selections(addPolygons, addRings, addLocations);
+		return selections;
 	}
 
 	@QueryMapping
 	public CompanySiteDto getCompanySiteById(@Argument Long id, DataFetchingEnvironment dataFetchingEnvironment) {
-		CompanySite companySite = this.companySiteService.findCompanySiteById(id)
+		Selections selections = createSelections(dataFetchingEnvironment);
+		CompanySite companySite = this.companySiteService.findCompanySiteById(id, selections.withPolygons(), selections.withRings(), selections.withLocations())
 				.orElseThrow(() -> new ResourceNotFoundException(String.format("No CompanySite found for id: %d", id)));
 		return this.entityDtoMapper.mapToDto(companySite);
 	}
 
 	@MutationMapping
 	public CompanySiteDto upsertCompanySite(@Argument(value = "companySite") CompanySiteDto companySiteDto) {
-		CompanySite companySite = this.companySiteService.findCompanySiteById(companySiteDto.getId())
+		CompanySite companySite = this.companySiteService.findCompanySiteById(companySiteDto.getId(), true, true, true)
 				.orElse(new CompanySite());
 		companySite = this.companySiteService
 				.upsertCompanySite(this.entityDtoMapper.mapToEntity(companySiteDto, companySite));

@@ -71,6 +71,12 @@ public class CompanySiteService {
 		title = title.trim().toLowerCase();
 		List<CompanySite> companySites = this.companySiteRepository.findByTitleFromTo(title, beginOfYear, endOfYear)
 				.stream().peek(myCompanySite -> this.entityManager.detach(myCompanySite)).toList();
+		companySites = addEntities(withPolygons, withRings, withLocations, companySites);
+		return companySites;
+	}
+
+	private List<CompanySite> addEntities(boolean withPolygons, boolean withRings, boolean withLocations,
+			List<CompanySite> companySites) {
 		if (withPolygons) {
 			Map<Long, List<Polygon>> fetchPolygons = this.fetchPolygons(companySites);
 			Map<Long, List<Ring>> fetchRings = !withRings ? Map.of()
@@ -95,8 +101,12 @@ public class CompanySiteService {
 		return companySites;
 	}
 
-	public Optional<CompanySite> findCompanySiteById(Long id) {
-		return Optional.ofNullable(id).flatMap(myId -> this.companySiteRepository.findById(myId));
+	public Optional<CompanySite> findCompanySiteById(Long id, boolean withPolygons, boolean withRings,
+			boolean withLocations) {
+
+		return Optional.ofNullable(id).flatMap(myId -> this.companySiteRepository.findById(myId)).stream()
+				.peek(myCompanySite -> this.addEntities(withPolygons, withRings, withLocations, List.of(myCompanySite)))
+				.findFirst();
 	}
 
 	public Collection<CompanySite> findCompanySiteByDaFetchEnv(DataFetchingEnvironment dataFetchingEnvironment) {
