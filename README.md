@@ -62,7 +62,7 @@ An example Graphql query with all fields:
   }
 }
 ```
-Spring Graphql executes it with 1 sql query.
+Spring Graphql executes it with 4 sql queries.
 
 ## Setup
 Java 17 or newer.
