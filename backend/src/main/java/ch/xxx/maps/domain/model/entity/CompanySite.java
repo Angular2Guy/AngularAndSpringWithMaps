@@ -53,25 +53,21 @@ public class CompanySite extends BaseEntity{
 	public void setAtDate(LocalDate atDate) {
 		this.atDate = atDate;
 	}
-
+	
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Objects.hash(atDate, polygons, title);
-		return result;
+	public int hashCode() {		
+		return id != null ? Objects.hash(id) : super.hashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CompanySite other = (CompanySite) obj;
-		return Objects.equals(atDate, other.atDate) && Objects.equals(polygons, other.polygons)
-				&& Objects.equals(title, other.title);
+		BaseEntity other = (BaseEntity) obj;
+		return id != null ? Objects.equals(id, other.id) : super.equals(obj);
 	}
 }

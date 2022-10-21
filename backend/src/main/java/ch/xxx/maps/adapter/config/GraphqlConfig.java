@@ -40,7 +40,8 @@ public class GraphqlConfig {
 				.scalar(ExtendedScalars.NegativeInt).scalar(ExtendedScalars.NonNegativeFloat)
 				.scalar(ExtendedScalars.NonNegativeInt).scalar(ExtendedScalars.NonPositiveFloat)
 				.scalar(ExtendedScalars.NonPositiveInt).scalar(ExtendedScalars.Object).scalar(ExtendedScalars.Time)
-				.scalar(ExtendedScalars.Url).scalar(ExtendedScalars.UUID).type("Query",
+				.scalar(ExtendedScalars.Url).scalar(ExtendedScalars.UUID)
+				.type("Query",
 						builder -> builder.dataFetcher("companySite", dataFetcherCs)
 								.dataFetcher("polygon", dataFetcherPg).dataFetcher("ring", dataFetcherRi)
 								.dataFetcher("location", dataFetcherLo));

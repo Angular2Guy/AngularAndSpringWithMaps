@@ -17,10 +17,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.repository.query.Param;
 
 import ch.xxx.maps.domain.model.entity.Ring;
 
 public interface JpaRingRepository extends JpaRepository<Ring, Long>, QuerydslPredicateExecutor<Ring> {
-	@Query("select p from Polygon p inner join p.rings r where p.id in :ids")
-	List<Ring> findAllByPolygonIds(List<Long> ids);
+	@Query("select r from Ring r inner join fetch r.polygon p where p.id in :ids")
+	List<Ring> findAllByPolygonIds(@Param("ids") List<Long> ids);
 }

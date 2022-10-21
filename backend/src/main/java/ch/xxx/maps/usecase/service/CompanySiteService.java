@@ -21,6 +21,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,25 +48,51 @@ public class CompanySiteService {
 	private final RingRepository ringRepository;
 	private final LocationRepository locationRepository;
 	private final DataFetcher<Iterable<CompanySite>> dataFetcherCs;
+	private final EntityManager entityManager;
 
 	public CompanySiteService(@Qualifier("CompanySite") DataFetcher<Iterable<CompanySite>> dataFetcherCs,
 			CompanySiteRepository companySiteRepository, PolygonRepository polygonRepository,
-			RingRepository ringRepository, LocationRepository locationRepository) {
+			RingRepository ringRepository, LocationRepository locationRepository, EntityManager entityManager) {
 		this.companySiteRepository = companySiteRepository;
 		this.polygonRepository = polygonRepository;
 		this.ringRepository = ringRepository;
 		this.locationRepository = locationRepository;
 		this.dataFetcherCs = dataFetcherCs;
+		this.entityManager = entityManager;
 	}
 
-	public Collection<CompanySite> findCompanySiteByTitleAndYear(String title, Long year) {
+	public Collection<CompanySite> findCompanySiteByTitleAndYear(String title, Long year, boolean withPolygons,
+			boolean withRings, boolean withLocations) {
 		if (title == null || title.length() < 2) {
 			return List.of();
 		}
 		LocalDate beginOfYear = LocalDate.of(year.intValue(), 1, 1);
 		LocalDate endOfYear = LocalDate.of(year.intValue(), 12, 31);
 		title = title.trim().toLowerCase();
-		return this.companySiteRepository.findByTitleFromTo(title, beginOfYear, endOfYear);
+		List<CompanySite> companySites = this.companySiteRepository.findByTitleFromTo(title, beginOfYear, endOfYear)
+				.stream().peek(myCompanySite -> this.entityManager.detach(myCompanySite)).toList();
+		if (withPolygons) {
+			Map<Long, List<Polygon>> fetchPolygons = this.fetchPolygons(companySites);
+			Map<Long, List<Ring>> fetchRings = !withRings ? Map.of()
+					: this.fetchRings(fetchPolygons.values().stream().flatMap(List::stream).toList());
+			Map<Long, List<Location>> fetchLocations = !withLocations ? Map.of()
+					: this.fetchLocations(fetchRings.values().stream().flatMap(List::stream).toList());
+			companySites.forEach(myCompanySite -> {
+				myCompanySite.setPolygons(new HashSet<>(fetchPolygons.getOrDefault(myCompanySite.getId(), List.of())));
+				if (withRings) {
+					myCompanySite.getPolygons().forEach(myPolygon -> {
+						myPolygon.setRings(new HashSet<>(fetchRings.getOrDefault(myPolygon.getId(), List.of())));
+						if (withLocations) {
+							myPolygon.getRings().forEach(myRing -> {
+								myRing.setLocations(
+										new HashSet<>(fetchLocations.getOrDefault(myRing.getId(), List.of())));
+							});
+						}
+					});
+				}
+			});
+		}
+		return companySites;
 	}
 
 	public Optional<CompanySite> findCompanySiteById(Long id) {
@@ -138,11 +166,12 @@ public class CompanySiteService {
 		return true;
 	}
 
-	public Map<CompanySite, List<Polygon>> fetchPolygons(List<CompanySite> companySites) {
+	public Map<Long, List<Polygon>> fetchPolygons(List<CompanySite> companySites) {
 		List<Polygon> polygons = this.polygonRepository
-				.findAllByCompanySiteIds(companySites.stream().map(cs -> cs.getId()).collect(Collectors.toList()));
+				.findAllByCompanySiteIds(companySites.stream().map(cs -> cs.getId()).collect(Collectors.toList()))
+				.stream().peek(myPolygon -> this.entityManager.detach(myPolygon)).toList();
 		return companySites.stream().map(CompanySite::getId)
-				.map(myCsId -> Map.entry(findEntity(companySites, myCsId), findPolygons(polygons, myCsId)))
+				.map(myCsId -> Map.entry(findEntity(companySites, myCsId).getId(), findPolygons(polygons, myCsId)))
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 	}
 
@@ -154,11 +183,12 @@ public class CompanySiteService {
 		return companySites.stream().filter(myCs -> myCs.getId().equals(myCsId)).findFirst().orElseThrow();
 	}
 
-	public Map<Polygon, List<Ring>> fetchRings(List<Polygon> polygons) {
+	public Map<Long, List<Ring>> fetchRings(List<Polygon> polygons) {
 		List<Ring> rings = this.ringRepository
-				.findAllByPolygonIds(polygons.stream().map(Polygon::getId).collect(Collectors.toList()));
+				.findAllByPolygonIds(polygons.stream().map(Polygon::getId).collect(Collectors.toList())).stream()
+				.peek(myRing -> this.entityManager.detach(myRing)).toList();
 		return polygons.stream().map(Polygon::getId)
-				.map(myPgId -> Map.entry(this.findEntity(polygons, myPgId), findRings(rings, myPgId)))
+				.map(myPgId -> Map.entry(this.findEntity(polygons, myPgId).getId(), findRings(rings, myPgId)))
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 	}
 
@@ -166,12 +196,12 @@ public class CompanySiteService {
 		return rings.stream().filter(myRing -> myRing.getPolygon().getId().equals(myPgId)).collect(Collectors.toList());
 	}
 
-	public Map<Ring, List<Location>> fetchLocations(List<Ring> rings) {
+	public Map<Long, List<Location>> fetchLocations(List<Ring> rings) {
 		List<Location> locations = this.locationRepository
-				.findAllByRingIds(rings.stream().map(Ring::getId).collect(Collectors.toList()));
-		return locations.stream().map(Location::getId)
-				.map(myRiId -> Map.entry(this.findEntity(rings, myRiId),
-						findLocations(locations, myRiId)))
+				.findAllByRingIds(rings.stream().map(Ring::getId).collect(Collectors.toList())).stream()
+				.peek(myLocation -> this.entityManager.detach(myLocation)).toList();
+		return rings.stream().map(Ring::getId)
+				.map(myRiId -> Map.entry(this.findEntity(rings, myRiId).getId(), findLocations(locations, myRiId)))
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 	}
 

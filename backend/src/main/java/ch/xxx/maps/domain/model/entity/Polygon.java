@@ -92,28 +92,21 @@ public class Polygon extends BaseEntity {
 	public void setLatitude(BigDecimal latitude) {
 		this.latitude = latitude;
 	}
-
+	
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Objects.hash(borderColor, companySite, fillColor, latitude, longitude, rings, title);
-		return result;
+	public int hashCode() {		
+		return id != null ? Objects.hash(id) : super.hashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Polygon other = (Polygon) obj;
-		return Objects.equals(borderColor, other.borderColor) && Objects.equals(companySite, other.companySite)
-				&& Objects.equals(fillColor, other.fillColor) && Objects.equals(latitude, other.latitude)
-				&& Objects.equals(longitude, other.longitude) && Objects.equals(rings, other.rings)
-				&& Objects.equals(title, other.title);
+		BaseEntity other = (BaseEntity) obj;
+		return id != null ? Objects.equals(id, other.id) : super.equals(obj);
 	}
-	
 }

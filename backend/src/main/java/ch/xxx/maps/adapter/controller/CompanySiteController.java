@@ -13,13 +13,12 @@
 package ch.xxx.maps.adapter.controller;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
@@ -27,12 +26,10 @@ import org.springframework.stereotype.Controller;
 import ch.xxx.maps.domain.exceptions.ResourceNotFoundException;
 import ch.xxx.maps.domain.model.dto.CompanySiteDto;
 import ch.xxx.maps.domain.model.entity.CompanySite;
-import ch.xxx.maps.domain.model.entity.Location;
-import ch.xxx.maps.domain.model.entity.Polygon;
-import ch.xxx.maps.domain.model.entity.Ring;
 import ch.xxx.maps.usecase.mapper.EntityDtoMapper;
 import ch.xxx.maps.usecase.service.CompanySiteService;
 import graphql.schema.DataFetchingEnvironment;
+import reactor.core.publisher.Mono;
 
 @Controller
 public class CompanySiteController {
@@ -46,18 +43,23 @@ public class CompanySiteController {
 	}
 
 	@QueryMapping
-	public List<CompanySiteDto> getCompanySiteByTitle(@Argument String title, @Argument Long year,
+	public Mono<List<CompanySiteDto>> getCompanySiteByTitle(@Argument String title, @Argument Long year,
 			DataFetchingEnvironment dataFetchingEnvironment) {
-		List<CompanySiteDto> companySiteDtos = this.companySiteService
-				.findCompanySiteByTitleAndYear(title, year)
-				.stream().map(companySite -> this.entityDtoMapper.mapToDto(companySite)).collect(Collectors.toList());
-		return companySiteDtos;
+		boolean addPolygons = dataFetchingEnvironment.getSelectionSet().contains("polygons");
+		boolean addRings = dataFetchingEnvironment.getSelectionSet().getFields().stream()
+				.anyMatch(sf -> "rings".equalsIgnoreCase(sf.getName()));
+		boolean addLocations = dataFetchingEnvironment.getSelectionSet().getFields().stream()
+				.filter(sf -> "rings".equalsIgnoreCase(sf.getName())).flatMap(sf -> Stream.of(sf.getSelectionSet()))
+				.anyMatch(sf -> sf.contains("locations"));
+		List<CompanySiteDto> companySiteDtos = this.companySiteService.findCompanySiteByTitleAndYear(title, year, addPolygons, addRings, addLocations)
+				.stream().map(companySite -> this.entityDtoMapper.mapToDto(companySite))
+				.collect(Collectors.toList());
+		return Mono.just(companySiteDtos);
 	}
 
 	@QueryMapping
 	public CompanySiteDto getCompanySiteById(@Argument Long id, DataFetchingEnvironment dataFetchingEnvironment) {
-		CompanySite companySite = this.companySiteService
-				.findCompanySiteById(id)
+		CompanySite companySite = this.companySiteService.findCompanySiteById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(String.format("No CompanySite found for id: %d", id)));
 		return this.entityDtoMapper.mapToDto(companySite);
 	}
@@ -81,22 +83,31 @@ public class CompanySiteController {
 		LOGGER.info("companySiteId: {} polygonId: {}", companySiteId, polygonId);
 		return this.companySiteService.deletePolygon(companySiteId, polygonId);
 	}
-	
-	@BatchMapping(field = "polygons", typeName = "CompanySiteOut")
-	public Map<CompanySite, List<Polygon>> fetchPolygons(List<CompanySite> companySites) {
-	  LOGGER.info("Fetching polygons");
-	  return companySiteService.fetchPolygons(companySites);
-	}
-	
-	@BatchMapping(field = "rings", typeName = "PolygonOut")
-	public Map<Polygon, List<Ring>> fetchRings(List<Polygon> polygons) {
-	  LOGGER.info("Fetching rings");
-	  return companySiteService.fetchRings(polygons);
-	}
-	
-	@BatchMapping(field = "locations", typeName = "LocationOut")
-	public Map<Ring, List<Location>> fetchLocations(List<Ring> polygons) {
-	  LOGGER.info("Fetching rings");
-	  return companySiteService.fetchLocations(polygons);
-	}
+
+//	@BatchMapping(field = "polygons", typeName = "CompanySiteOut")
+//	public Mono<Map<CompanySite, List<Polygon>>> fetchPolygons(List<CompanySiteDto> companySites) {
+//		LOGGER.info("Fetching polygons");
+//		Map<CompanySite, List<Polygon>> result = companySiteService.fetchPolygons(companySites.stream()
+//				.map(myDto -> {
+//					CompanySite entity = this.entityDtoMapper.mapToEntity(myDto, new CompanySite());
+//					entity.setId(myDto.getId());
+//					return entity;
+//				}).toList());
+//		LOGGER.info("Polygons Done.");
+//		return Mono.just(result);
+//	}
+//
+//	@BatchMapping(field = "rings", typeName = "PolygonOut")
+//	public Map<Polygon, List<Ring>> fetchRings(List<Polygon> polygons) {
+//		LOGGER.info("Fetching rings");
+//		Map<Polygon, List<Ring>> result = companySiteService.fetchRings(polygons);
+//		return result;
+//	}
+//
+//	@BatchMapping(field = "locations", typeName= "RingOut")
+//	public Map<Ring, List<Location>> fetchLocations(List<Ring> polygons) {
+//		LOGGER.info("Fetching rings");
+//		Map<Ring, List<Location>> result = companySiteService.fetchLocations(polygons);
+//		return result;
+//	}
 }

@@ -17,10 +17,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.repository.query.Param;
 
 import ch.xxx.maps.domain.model.entity.Location;
 
 public interface JpaLocationRepository extends JpaRepository<Location,Long>, QuerydslPredicateExecutor<Location> {
-	@Query("select l from Ring r inner join r.locations l where r.id in :ids")
-	List<Location> findAllByRingIds(List<Long> ids);
+	@Query("select l from Location l inner join fetch l.ring r where r.id in :ids")
+	List<Location> findAllByRingIds(@Param("ids") List<Long> ids);
 }
