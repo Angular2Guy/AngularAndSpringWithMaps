@@ -7,9 +7,7 @@ import java.util.Optional;
 
 public interface CompanySiteRepository {
 
-	Collection<CompanySite> findByTitleFromToWithChildren(String lowerCase, LocalDate beginOfYear, LocalDate endOfYear);
 	Collection<CompanySite> findByTitleFromTo(String lowerCase, LocalDate beginOfYear, LocalDate endOfYear);  
-	Optional<CompanySite> findByIdWithChildren(Long id);
 	Optional<CompanySite> findById(Long id);
 
 	CompanySite save(CompanySite companySite);

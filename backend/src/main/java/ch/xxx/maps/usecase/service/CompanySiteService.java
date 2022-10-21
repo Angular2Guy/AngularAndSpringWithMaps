@@ -55,25 +55,19 @@ public class CompanySiteService {
 		this.dataFetcherCs = dataFetcherCs;
 	}
 
-	public Collection<CompanySite> findCompanySiteByTitleAndYear(String title, Long year, boolean withPolygons,
-			boolean withRings, boolean withLocations) {
+	public Collection<CompanySite> findCompanySiteByTitleAndYear(String title, Long year) {
 		if (title == null || title.length() < 2) {
 			return List.of();
 		}
 		LocalDate beginOfYear = LocalDate.of(year.intValue(), 1, 1);
 		LocalDate endOfYear = LocalDate.of(year.intValue(), 12, 31);
 		title = title.trim().toLowerCase();
-		return withPolygons || withRings || withLocations
-				? this.companySiteRepository.findByTitleFromToWithChildren(title, beginOfYear, endOfYear)
-				: this.companySiteRepository.findByTitleFromTo(title, beginOfYear, endOfYear);
+		return this.companySiteRepository.findByTitleFromTo(title, beginOfYear, endOfYear);
 	}
 
-	public Optional<CompanySite> findCompanySiteById(Long id, boolean withPolygons, boolean withRings,
-			boolean withLocations) {
+	public Optional<CompanySite> findCompanySiteById(Long id) {
 		return Optional.ofNullable(id)
-				.flatMap(myId -> withPolygons || withRings || withLocations
-						? this.companySiteRepository.findByIdWithChildren(id)
-						: this.companySiteRepository.findById(myId));
+				.flatMap(myId -> this.companySiteRepository.findById(myId));
 	}
 
 	public Collection<CompanySite> findCompanySiteByDaFetchEnv(DataFetchingEnvironment dataFetchingEnvironment) {
