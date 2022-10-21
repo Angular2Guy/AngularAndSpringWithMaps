@@ -27,8 +27,6 @@ import ch.xxx.maps.domain.model.dto.CompanySiteDto;
 import ch.xxx.maps.domain.model.entity.CompanySite;
 import ch.xxx.maps.usecase.mapper.EntityDtoMapper;
 import ch.xxx.maps.usecase.service.CompanySiteService;
-import graphql.language.Field;
-import graphql.language.SelectionSet;
 import graphql.schema.DataFetchingEnvironment;
 
 @Controller
@@ -36,9 +34,6 @@ public class CompanySiteController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CompanySite.class);
 	private final CompanySiteService companySiteService;
 	private final EntityDtoMapper entityDtoMapper;
-
-	private record SelectedChildren(boolean withPolygons, boolean withRings, boolean withLocations) {
-	}
 
 	public CompanySiteController(CompanySiteService companySiteService, EntityDtoMapper entityDtoMapper) {
 		this.companySiteService = companySiteService;
