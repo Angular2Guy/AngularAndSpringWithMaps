@@ -33,4 +33,9 @@ public class RingRepositoryBean implements RingRepository {
 	public List<Ring> findAll() {
 		return this.jpaRingRepository.findAll();
 	}
+
+	@Override
+	public List<Ring> findAllByPolygonIds(List<Long> ids) {
+		return this.jpaRingRepository.findAllByPolygonIds(ids);
+	}
 }

@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ch.xxx.maps.domain.model.entity.BaseEntity;
 import ch.xxx.maps.domain.model.entity.CompanySite;
 import ch.xxx.maps.domain.model.entity.CompanySiteRepository;
 import ch.xxx.maps.domain.model.entity.Location;
@@ -66,8 +68,7 @@ public class CompanySiteService {
 	}
 
 	public Optional<CompanySite> findCompanySiteById(Long id) {
-		return Optional.ofNullable(id)
-				.flatMap(myId -> this.companySiteRepository.findById(myId));
+		return Optional.ofNullable(id).flatMap(myId -> this.companySiteRepository.findById(myId));
 	}
 
 	public Collection<CompanySite> findCompanySiteByDaFetchEnv(DataFetchingEnvironment dataFetchingEnvironment) {
@@ -135,5 +136,35 @@ public class CompanySiteService {
 		this.polygonRepository.deleteAll(polygonsToDelete);
 		this.companySiteRepository.deleteAll(companySitesToDelete);
 		return true;
+	}
+
+	public Map<CompanySite, List<Polygon>> fetchPolygons(List<CompanySite> companySites) {
+		List<Polygon> polygons = this.polygonRepository
+				.findAllByCompanySiteIds(companySites.stream().map(cs -> cs.getId()).collect(Collectors.toList()));
+		return companySites.stream().map(CompanySite::getId)
+				.map(myCsId -> Map.entry(findEntity(companySites, myCsId), findPolygons(polygons, myCsId)))
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+	}
+
+	private List<Polygon> findPolygons(List<Polygon> polygons, Long myCsId) {
+		return polygons.stream().filter(myPolygon -> myPolygon.getCompanySite().getId().equals(myCsId)).toList();
+	}
+
+	private <T extends BaseEntity> T findEntity(List<T> companySites, Long myCsId) {
+		return companySites.stream().filter(myCs -> myCs.getId().equals(myCsId)).findFirst().orElseThrow();
+	}
+
+	public Map<Polygon, List<Ring>> fetchRings(List<Polygon> polygons) {
+		List<Ring> rings = this.ringRepository
+				.findAllByPolygonIds(polygons.stream().map(Polygon::getId).collect(Collectors.toList()));
+		return polygons.stream().map(Polygon::getId)
+				.map(myPgId -> Map.entry(this.findEntity(polygons, myPgId),
+						findRings(rings, myPgId)))
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+	}
+
+	private List<Ring> findRings(List<Ring> rings, Long myPgId) {
+		return rings.stream().filter(myRing -> myRing.getPolygon().getId().equals(myPgId))
+				.collect(Collectors.toList());
 	}
 }

@@ -44,4 +44,9 @@ public class PolygonRepositoryBean implements PolygonRepository {
 	public Optional<Polygon> findById(Long id) {
 		return this.jpaPolygonRepository.findById(id);
 	}
+	
+	@Override
+	public List<Polygon> findAllByCompanySiteIds(List<Long> ids) {
+		return this.jpaPolygonRepository.findAllByCompanySiteIds(ids);
+	}
 }

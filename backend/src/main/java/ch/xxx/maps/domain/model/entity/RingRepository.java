@@ -8,4 +8,5 @@ public interface RingRepository {
 
 	List<Ring> findAll();
 
+	List<Ring> findAllByPolygonIds(List<Long> ids);
 }

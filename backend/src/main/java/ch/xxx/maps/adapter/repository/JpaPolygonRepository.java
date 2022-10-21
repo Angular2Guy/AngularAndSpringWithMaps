@@ -12,11 +12,16 @@
  */
 package ch.xxx.maps.adapter.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.repository.query.Param;
 
 import ch.xxx.maps.domain.model.entity.Polygon;
 
 public interface JpaPolygonRepository extends JpaRepository<Polygon, Long>, QuerydslPredicateExecutor<Polygon> {
-
+	@Query("select p from CompanySite cs inner join cs.polygons p where cs.id in :ids")
+	List<Polygon> findAllByCompanySiteIds(@Param("ids") List<Long> ids);
 }

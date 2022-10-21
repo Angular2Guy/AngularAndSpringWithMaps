@@ -12,4 +12,6 @@ public interface PolygonRepository {
 	void deleteAll(Iterable<Polygon> polygonsToDelete);
 	
 	Optional<Polygon> findById(Long id);
+	
+	List<Polygon> findAllByCompanySiteIds(List<Long> ids);
 }

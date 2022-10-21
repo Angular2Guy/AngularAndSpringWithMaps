@@ -13,11 +13,13 @@
 package ch.xxx.maps.adapter.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import ch.xxx.maps.domain.exceptions.ResourceNotFoundException;
 import ch.xxx.maps.domain.model.dto.CompanySiteDto;
 import ch.xxx.maps.domain.model.entity.CompanySite;
+import ch.xxx.maps.domain.model.entity.Polygon;
 import ch.xxx.maps.usecase.mapper.EntityDtoMapper;
 import ch.xxx.maps.usecase.service.CompanySiteService;
 import graphql.schema.DataFetchingEnvironment;
@@ -75,5 +78,17 @@ public class CompanySiteController {
 	public Boolean deletePolygon(@Argument Long companySiteId, @Argument Long polygonId) {
 		LOGGER.info("companySiteId: {} polygonId: {}", companySiteId, polygonId);
 		return this.companySiteService.deletePolygon(companySiteId, polygonId);
+	}
+	
+	@BatchMapping(field = "polygons", typeName = "CompanySiteOut")
+	public Map<CompanySite, List<Polygon>> fetchPolygons(List<CompanySite> companySites) {
+	  LOGGER.info("Fetching polygons");
+	  return companySiteService.fetchPolygons(companySites);
+	}
+	
+	@BatchMapping(field = "rings", typeName = "PolygonOut")
+	public Map<CompanySite, List<Polygon>> fetchRings(List<Polygon> polygons) {
+	  LOGGER.info("Fetching rings");
+	  return companySiteService.fetchRings(polygons);
 	}
 }
