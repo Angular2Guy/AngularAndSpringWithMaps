@@ -36,6 +36,11 @@ public class CompanySiteRepositoryBean implements CompanySiteRepository {
 	public Optional<CompanySite> findById(Long id) {
 		return this.jpaCompanySiteRepository.findById(id);
 	}
+	
+	@Override
+	public Optional<CompanySite> findByIdWithChildren(Long id) {
+		return this.jpaCompanySiteRepository.findByIdWithChildren(id);
+	}
 
 	@Override
 	public CompanySite save(CompanySite companySite) {

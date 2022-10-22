@@ -101,9 +101,13 @@ public class CompanySiteService {
 		return companySites;
 	}
 
-	public Optional<CompanySite> findCompanySiteById(Long id, boolean withPolygons, boolean withRings,
-			boolean withLocations) {
+	public Optional<CompanySite> findCompanySiteById(Long id) {
+		return Optional.ofNullable(id).flatMap(myId -> this.companySiteRepository.findByIdWithChildren(myId)).stream()
+				.findFirst();
+	}
 
+	public Optional<CompanySite> findCompanySiteByIdDetached(Long id, boolean withPolygons, boolean withRings,
+			boolean withLocations) {
 		return Optional.ofNullable(id).flatMap(myId -> this.companySiteRepository.findById(myId)).stream()
 				.peek(myCompanySite -> this.addEntities(withPolygons, withRings, withLocations, List.of(myCompanySite)))
 				.findFirst();

@@ -9,6 +9,7 @@ public interface CompanySiteRepository {
 
 	Collection<CompanySite> findByTitleFromTo(String lowerCase, LocalDate beginOfYear, LocalDate endOfYear);  
 	Optional<CompanySite> findById(Long id);
+	Optional<CompanySite> findByIdWithChildren(Long id);
 
 	CompanySite save(CompanySite companySite);
 

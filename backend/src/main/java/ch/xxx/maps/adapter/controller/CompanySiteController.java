@@ -67,14 +67,14 @@ public class CompanySiteController {
 	@QueryMapping
 	public CompanySiteDto getCompanySiteById(@Argument Long id, DataFetchingEnvironment dataFetchingEnvironment) {
 		Selections selections = createSelections(dataFetchingEnvironment);
-		CompanySite companySite = this.companySiteService.findCompanySiteById(id, selections.withPolygons(), selections.withRings(), selections.withLocations())
+		CompanySite companySite = this.companySiteService.findCompanySiteByIdDetached(id, selections.withPolygons(), selections.withRings(), selections.withLocations())
 				.orElseThrow(() -> new ResourceNotFoundException(String.format("No CompanySite found for id: %d", id)));
 		return this.entityDtoMapper.mapToDto(companySite);
 	}
 
 	@MutationMapping
 	public CompanySiteDto upsertCompanySite(@Argument(value = "companySite") CompanySiteDto companySiteDto) {
-		CompanySite companySite = this.companySiteService.findCompanySiteById(companySiteDto.getId(), true, true, true)
+		CompanySite companySite = this.companySiteService.findCompanySiteById(companySiteDto.getId())
 				.orElse(new CompanySite());
 		companySite = this.companySiteService
 				.upsertCompanySite(this.entityDtoMapper.mapToEntity(companySiteDto, companySite));
