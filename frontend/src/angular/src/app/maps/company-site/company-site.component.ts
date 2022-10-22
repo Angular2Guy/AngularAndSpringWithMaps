@@ -53,14 +53,14 @@ interface PolygonMetaData {
 })
 export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	@ViewChild('bingMap')
-	bingMapContainer: ElementRef;
+	protected bingMapContainer: ElementRef;
 
-	newLocations: NewLocation[] = [];
-	map: Microsoft.Maps.Map = null;
-	resetInProgress = false;
+	protected newLocations: NewLocation[] = [];
+	protected map: Microsoft.Maps.Map = null;
+	protected resetInProgress = false;
 
-	companySiteOptions: Observable<CompanySite[]>;
-	componentForm = this.formBuilder.group({
+	protected companySiteOptions: Observable<CompanySite[]>;
+	protected componentForm = this.formBuilder.group({
 		companySite: ['Finkenwerder' as string | CompanySite, Validators.required],
 		sliderYear: [2020],
 		property: ['add Property', Validators.required]

@@ -27,8 +27,8 @@ export interface DialogMetaData {
   styleUrls: ['./polygon-delete-dialog.component.scss']
 })
 export class PolygonDeleteDialogComponent {
-  dialogResults = MyDialogResult;
-  isTestData = false;
+  protected dialogResults = MyDialogResult;
+  protected isTestData = false;
 
   constructor(public dialogRef: MatDialogRef<PolygonDeleteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogMetaData) {
