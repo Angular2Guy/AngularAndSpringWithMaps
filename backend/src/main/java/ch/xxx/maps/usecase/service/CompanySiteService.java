@@ -63,7 +63,7 @@ public class CompanySiteService {
 
 	public Collection<CompanySite> findCompanySiteByTitleAndYear(String title, Long year, boolean withPolygons,
 			boolean withRings, boolean withLocations) {
-		if (title == null || title.length() < 2) {
+		if (title == null || title.length() < 2 || year == null) {
 			return List.of();
 		}
 		LocalDate beginOfYear = LocalDate.of(year.intValue(), 1, 1);

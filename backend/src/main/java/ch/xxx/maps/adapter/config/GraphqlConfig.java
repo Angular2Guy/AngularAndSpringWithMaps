@@ -26,8 +26,7 @@ import graphql.schema.DataFetcher;
 
 @Configuration
 public class GraphqlConfig {
-
-
+	
 	@Bean
 	public RuntimeWiringConfigurer runtimeWiringConfigurer(@Qualifier("CompanySite") DataFetcher<Iterable<CompanySite>> dataFetcherCs, @Qualifier("Polygon") DataFetcher<Iterable<Polygon>> dataFetcherPg,
 			@Qualifier("Ring") DataFetcher<Iterable<Ring>> dataFetcherRi, @Qualifier("Location") DataFetcher<Iterable<Location>> dataFetcherLo) {
