@@ -19,14 +19,18 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Location extends BaseEntity {
+	@NotNull
 	private BigDecimal longitude;
+	@NotNull
 	private BigDecimal latitude;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ring_id")
 	private Ring ring;
+	@NotNull
 	private Integer orderId;
 
 	public Ring getRing() {

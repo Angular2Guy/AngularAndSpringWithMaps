@@ -21,11 +21,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class CompanySite extends BaseEntity{
-
+	@NotBlank
 	private String title;
+	@NotNull
 	private LocalDate atDate;
 	@OneToMany(mappedBy = "companySite", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Polygon> polygons = new LinkedHashSet<>();
