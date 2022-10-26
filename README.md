@@ -67,7 +67,7 @@ An example Graphql query/params with all fields:
 { 'title': 'Finkenwerder', 'year': 2020 }
 ```
 
-Spring Graphql executes it with 4 sql queries.
+Spring Graphql executes it with 4 sql queries. One query for the CompanySites, Polygons, Rings and Locations.
 
 ## Setup
 Java 17 or newer.
