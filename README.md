@@ -27,7 +27,7 @@ The project serves as an example howto integrate Angular and Bing Maps with Spri
 The previous version of the project has used Rest endpoints. That version is available in the [Rest Branch](https://github.com/Angular2Guy/AngularAndSpringWithMaps/tree/rest).
 
 ## GraphQl
-The data is read and stored with GraphQl. The frontend uses the Angular http client to access the GraphQl endpoint. The backend uses Spring GraphQl to provide the endpoint with the schema. GraphiQl provides a Ui to test the endpoint. Spring Graphql uses the QueryDsl and in Eclipse 'gradle clean build' needs to be executed after changes that affect Jpa relevant classes.
+The data is read and stored with GraphQl. The frontend uses the Angular http client to access the GraphQl endpoint. The backend uses Spring GraphQl to provide the endpoint with the schema. GraphiQl provides a Ui to test the endpoint.
 
 ## Postgresql
 In the postgresql.sh file are the commands to pull and run Postgresql in a Docker image locally. To build a Jar with Postgresql setup build it with 'gradlew build -PwithAngular=true'. The Spring Boot jar can then be started with the VM parameter '-Dspring.profiles.active=prod' and the 'BINGMAPKEY' has to availiable in an environment variable. The database will be initialized by Liquibase.

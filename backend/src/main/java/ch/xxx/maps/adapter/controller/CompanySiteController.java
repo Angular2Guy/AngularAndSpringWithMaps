@@ -90,31 +90,4 @@ public class CompanySiteController {
 		LOGGER.info("companySiteId: {} polygonId: {}", companySiteId, polygonId);
 		return this.companySiteService.deletePolygon(companySiteId, polygonId);
 	}
-
-//	@BatchMapping(field = "polygons", typeName = "CompanySiteOut")
-//	public Mono<Map<CompanySite, List<Polygon>>> fetchPolygons(List<CompanySiteDto> companySites) {
-//		LOGGER.info("Fetching polygons");
-//		Map<CompanySite, List<Polygon>> result = companySiteService.fetchPolygons(companySites.stream()
-//				.map(myDto -> {
-//					CompanySite entity = this.entityDtoMapper.mapToEntity(myDto, new CompanySite());
-//					entity.setId(myDto.getId());
-//					return entity;
-//				}).toList());
-//		LOGGER.info("Polygons Done.");
-//		return Mono.just(result);
-//	}
-//
-//	@BatchMapping(field = "rings", typeName = "PolygonOut")
-//	public Map<Polygon, List<Ring>> fetchRings(List<Polygon> polygons) {
-//		LOGGER.info("Fetching rings");
-//		Map<Polygon, List<Ring>> result = companySiteService.fetchRings(polygons);
-//		return result;
-//	}
-//
-//	@BatchMapping(field = "locations", typeName= "RingOut")
-//	public Map<Ring, List<Location>> fetchLocations(List<Ring> polygons) {
-//		LOGGER.info("Fetching rings");
-//		Map<Ring, List<Location>> result = companySiteService.fetchLocations(polygons);
-//		return result;
-//	}
 }

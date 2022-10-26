@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,9 +35,6 @@ import ch.xxx.maps.domain.model.entity.Polygon;
 import ch.xxx.maps.domain.model.entity.PolygonRepository;
 import ch.xxx.maps.domain.model.entity.Ring;
 import ch.xxx.maps.domain.model.entity.RingRepository;
-import ch.xxx.maps.domain.utils.StreamUtils;
-import graphql.schema.DataFetcher;
-import graphql.schema.DataFetchingEnvironment;
 
 @Transactional
 @Service
@@ -47,17 +43,14 @@ public class CompanySiteService {
 	private final PolygonRepository polygonRepository;
 	private final RingRepository ringRepository;
 	private final LocationRepository locationRepository;
-	private final DataFetcher<Iterable<CompanySite>> dataFetcherCs;
 	private final EntityManager entityManager;
 
-	public CompanySiteService(@Qualifier("CompanySite") DataFetcher<Iterable<CompanySite>> dataFetcherCs,
-			CompanySiteRepository companySiteRepository, PolygonRepository polygonRepository,
+	public CompanySiteService(CompanySiteRepository companySiteRepository, PolygonRepository polygonRepository,
 			RingRepository ringRepository, LocationRepository locationRepository, EntityManager entityManager) {
 		this.companySiteRepository = companySiteRepository;
 		this.polygonRepository = polygonRepository;
 		this.ringRepository = ringRepository;
 		this.locationRepository = locationRepository;
-		this.dataFetcherCs = dataFetcherCs;
 		this.entityManager = entityManager;
 	}
 
@@ -111,17 +104,6 @@ public class CompanySiteService {
 		return Optional.ofNullable(id).flatMap(myId -> this.companySiteRepository.findById(myId)).stream()
 				.peek(myCompanySite -> this.addEntities(withPolygons, withRings, withLocations, List.of(myCompanySite)))
 				.findFirst();
-	}
-
-	public Collection<CompanySite> findCompanySiteByDaFetchEnv(DataFetchingEnvironment dataFetchingEnvironment) {
-		Collection<CompanySite> result = List.of();
-		try {
-			Iterable<CompanySite> iterable = this.dataFetcherCs.get(dataFetchingEnvironment);
-			result = StreamUtils.toStream(iterable).collect(Collectors.toList());
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return result;
 	}
 
 	public CompanySite upsertCompanySite(CompanySite companySite) {

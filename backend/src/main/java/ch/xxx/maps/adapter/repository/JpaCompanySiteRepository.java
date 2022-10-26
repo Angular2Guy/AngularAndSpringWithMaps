@@ -18,12 +18,11 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 
 import ch.xxx.maps.domain.model.entity.CompanySite;
 
-public interface JpaCompanySiteRepository extends JpaRepository<CompanySite, Long>, QuerydslPredicateExecutor<CompanySite> {
+public interface JpaCompanySiteRepository extends JpaRepository<CompanySite, Long> {
 	@Query("select cs from CompanySite cs where lower(cs.title) like %:title% and cs.atDate >= :from and cs.atDate <= :to")
 	List<CompanySite> findByTitleFromTo(@Param("title") String title, @Param("from") LocalDate from,  @Param("to") LocalDate to);
 	@Query("select distinct cs from CompanySite cs inner join fetch cs.polygons p inner join fetch p.rings r inner join fetch r.locations l where lower(cs.title) like %:title% and cs.atDate >= :from and cs.atDate <= :to")

@@ -12,24 +12,17 @@
  */
 package ch.xxx.maps.adapter.config;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 
-import ch.xxx.maps.domain.model.entity.CompanySite;
-import ch.xxx.maps.domain.model.entity.Location;
-import ch.xxx.maps.domain.model.entity.Polygon;
-import ch.xxx.maps.domain.model.entity.Ring;
 import graphql.scalars.ExtendedScalars;
-import graphql.schema.DataFetcher;
 
 @Configuration
 public class GraphqlConfig {
 	
 	@Bean
-	public RuntimeWiringConfigurer runtimeWiringConfigurer(@Qualifier("CompanySite") DataFetcher<Iterable<CompanySite>> dataFetcherCs, @Qualifier("Polygon") DataFetcher<Iterable<Polygon>> dataFetcherPg,
-			@Qualifier("Ring") DataFetcher<Iterable<Ring>> dataFetcherRi, @Qualifier("Location") DataFetcher<Iterable<Location>> dataFetcherLo) {
+	public RuntimeWiringConfigurer runtimeWiringConfigurer() {
 		RuntimeWiringConfigurer result = wiringBuilder -> wiringBuilder.scalar(ExtendedScalars.Date)
 				.scalar(ExtendedScalars.DateTime).scalar(ExtendedScalars.GraphQLBigDecimal)
 				.scalar(ExtendedScalars.GraphQLBigInteger).scalar(ExtendedScalars.GraphQLByte)
@@ -39,11 +32,7 @@ public class GraphqlConfig {
 				.scalar(ExtendedScalars.NegativeInt).scalar(ExtendedScalars.NonNegativeFloat)
 				.scalar(ExtendedScalars.NonNegativeInt).scalar(ExtendedScalars.NonPositiveFloat)
 				.scalar(ExtendedScalars.NonPositiveInt).scalar(ExtendedScalars.Object).scalar(ExtendedScalars.Time)
-				.scalar(ExtendedScalars.Url).scalar(ExtendedScalars.UUID)
-				.type("Query",
-						builder -> builder.dataFetcher("companySite", dataFetcherCs)
-								.dataFetcher("polygon", dataFetcherPg).dataFetcher("ring", dataFetcherRi)
-								.dataFetcher("location", dataFetcherLo));
+				.scalar(ExtendedScalars.Url).scalar(ExtendedScalars.UUID);
 		return result;
 	}
 }
