@@ -29,7 +29,6 @@ import ch.xxx.maps.domain.model.entity.CompanySite;
 import ch.xxx.maps.usecase.mapper.EntityDtoMapper;
 import ch.xxx.maps.usecase.service.CompanySiteService;
 import graphql.schema.DataFetchingEnvironment;
-import reactor.core.publisher.Mono;
 
 @Controller
 public class CompanySiteController {
@@ -44,13 +43,13 @@ public class CompanySiteController {
 	}
 
 	@QueryMapping
-	public Mono<List<CompanySiteDto>> getCompanySiteByTitle(@Argument String title, @Argument Long year,
+	public List<CompanySiteDto> getCompanySiteByTitle(@Argument String title, @Argument Long year,
 			DataFetchingEnvironment dataFetchingEnvironment) {
 		Selections selections = createSelections(dataFetchingEnvironment);
 		List<CompanySiteDto> companySiteDtos = this.companySiteService.findCompanySiteByTitleAndYear(title, year, selections.withPolygons(), selections.withRings(), selections.withLocations())
 				.stream().map(companySite -> this.entityDtoMapper.mapToDto(companySite))
 				.collect(Collectors.toList());
-		return Mono.just(companySiteDtos);
+		return companySiteDtos;
 	}
 
 	private Selections createSelections(DataFetchingEnvironment dataFetchingEnvironment) {
