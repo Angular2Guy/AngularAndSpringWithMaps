@@ -14,7 +14,7 @@ Technologies: Angular, Spring Boot, Java, Gradle, GraphQl, GraphiQl, Typescript,
 
 ## Features
 - Integration of Angular and Bing Maps
-- Load/Save property borders from rest endpoint
+- Load/Save property borders from GraphQl interface
 - Show different border at different points in time
 - Select different sites
 - read/edit/delete site data with GraphQl
