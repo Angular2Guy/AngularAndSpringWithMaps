@@ -247,7 +247,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 		}
 	}
 
-	private updateMap(companySite: CompanySite): void {
+	protected updateMap(companySite: CompanySite): void {
 		if (this.map) {
 			this.map.setOptions({
 				center: new Microsoft.Maps.Location(companySite.polygons[0].latitude,
