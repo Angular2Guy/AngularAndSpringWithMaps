@@ -66,9 +66,10 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 		property: ['add Property', Validators.required]
 	});
 
-	readonly COMPANY_SITE = 'companySite';
-	readonly SLIDER_YEAR = 'sliderYear';
-	readonly PROPERTY = 'property';
+	protected readonly COMPANY_SITE = 'companySite';
+	protected readonly SLIDER_YEAR = 'sliderYear';
+	protected readonly PROPERTY = 'property';
+	protected currentCompanySite: CompanySite = null;
 	private mainConfiguration: MainConfiguration = null;
 	private readonly containerInitSubject = new Subject<Container>();
 	private containerInitSubjectSubscription: Subscription;
@@ -97,8 +98,8 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 				switchMap(companySite =>
 					this.companySiteService.findByTitleAndYearWithChildren(companySite,
 						this.componentForm.controls[this.SLIDER_YEAR].value as number)),
-				filter(companySite => companySite?.length && companySite?.length > 0))
-			.subscribe(companySite => this.updateMap(companySite[0]));
+				filter(companySite => companySite?.length && companySite?.length > 0))				
+				.subscribe(companySite => this.currentCompanySite = companySite[0]);
 		this.sliderYearSubscription = this.componentForm.controls[this.SLIDER_YEAR].valueChanges
 			.pipe(debounceTime(500),
 				filter(year => !(typeof this.componentForm.get(this.COMPANY_SITE).value === 'string')),
