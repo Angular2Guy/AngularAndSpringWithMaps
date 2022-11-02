@@ -69,7 +69,6 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 	protected readonly COMPANY_SITE = 'companySite';
 	protected readonly SLIDER_YEAR = 'sliderYear';
 	protected readonly PROPERTY = 'property';
-	protected currentCompanySite: CompanySite = null;
 	private mainConfiguration: MainConfiguration = null;
 	private readonly containerInitSubject = new Subject<Container>();
 	private containerInitSubjectSubscription: Subscription;
@@ -90,16 +89,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 					|| !this.componentForm.get(this.SLIDER_YEAR).value), of<CompanySite[]>([]),
 					this.companySiteService.findByTitleAndYear(this.getCompanySiteTitle(),
 					this.componentForm.get(this.SLIDER_YEAR).value))
-			));
-		this.companySiteSubscription = this.componentForm.controls[this.COMPANY_SITE].valueChanges
-			.pipe(debounceTime(500),
-				map(companySite => (typeof companySite === 'string') ? companySite : companySite.title),	
-				filter(companySite => !!companySite && companySite.length > 2),	
-				switchMap(companySite =>
-					this.companySiteService.findByTitleAndYearWithChildren(companySite,
-						this.componentForm.controls[this.SLIDER_YEAR].value as number)),
-				filter(companySite => companySite?.length && companySite?.length > 0))				
-				.subscribe(companySite => this.currentCompanySite = companySite[0]);
+			));		
 		this.sliderYearSubscription = this.componentForm.controls[this.SLIDER_YEAR].valueChanges
 			.pipe(debounceTime(500),
 				filter(year => !(typeof this.componentForm.get(this.COMPANY_SITE).value === 'string')),
@@ -247,7 +237,13 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 		}
 	}
 
-	protected updateMap(companySite: CompanySite): void {
+    protected updateMapByCompanySite(): void {
+					this.companySiteService.findByTitleAndYearWithChildren(this.getCompanySiteTitle(),
+						this.componentForm.controls[this.SLIDER_YEAR].value as number)			
+				.subscribe(companySite => this.updateMap(companySite[0]));
+    }
+
+	private updateMap(companySite: CompanySite): void {
 		if (this.map) {
 			this.map.setOptions({
 				center: new Microsoft.Maps.Location(companySite.polygons[0].latitude,

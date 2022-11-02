@@ -6,7 +6,8 @@
 					<mat-form-field class="example-full-width"> 
 						<input type="text" placeholder="Pick one" aria-label="Number" matInput
 							formControlName="{{COMPANY_SITE}}" [matAutocomplete]="auto"> 
-						<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayTitle" (optionSelected)="updateMap(currentCompanySite)"> 
+						<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayTitle" 
+						   (optionSelected)="updateMapByCompanySite()"> 
 							<mat-option *ngFor="let option of companySiteOptions | async" [value]="option">
 								{{option.title}} 
 							</mat-option> 
