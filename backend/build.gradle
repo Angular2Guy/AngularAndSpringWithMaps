@@ -10,11 +10,10 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-plugins {
-	id 'org.springframework.boot' version '2.7.4'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+ plugins {
 	id 'java'
-//	id 'java-library'
+	id 'org.springframework.boot' version '3.0.0-RC2'
+	id 'io.spring.dependency-management' version '1.1.0'
 }
 
 group = 'ch.xxx'
@@ -23,12 +22,7 @@ sourceCompatibility = '17'
 
 repositories {
 	mavenCentral()
-}
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+	maven { url 'https://repo.spring.io/milestone' }
 }
 
 dependencies {
@@ -40,10 +34,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-graphql'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-//	api 'com.querydsl:querydsl-jpa:5.0.0'
 	implementation 'io.micrometer:micrometer-registry-prometheus'
 	implementation 'org.liquibase:liquibase-core'
-	implementation 'com.graphql-java:graphql-java-extended-scalars:18.1'
+	implementation 'com.graphql-java:graphql-java-extended-scalars:19.1'
 	implementation 'commons-net:commons-net:3.8.0'		
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
@@ -56,10 +49,8 @@ dependencies {
 	} else {
 		runtimeOnly 'com.h2database:h2'
 	}
-//	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jpa'
-	annotationProcessor 'org.springframework.boot:spring-boot-starter-data-jpa'
-//	testAnnotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jpa'
-	testAnnotationProcessor 'org.springframework.boot:spring-boot-starter-data-jpa'
+//	annotationProcessor 'org.springframework.boot:spring-boot-starter-data-jpa'
+//	testAnnotationProcessor 'org.springframework.boot:spring-boot-starter-data-jpa'
 }
 
 bootJar {

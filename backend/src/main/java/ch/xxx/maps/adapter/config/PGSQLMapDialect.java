@@ -12,20 +12,12 @@
  */
 package ch.xxx.maps.adapter.config;
 
-import java.sql.Types;
+import org.hibernate.dialect.DatabaseVersion;
+import org.hibernate.dialect.PostgreSQLDialect;
 
-import org.hibernate.dialect.PostgreSQL9Dialect;
-import org.hibernate.type.descriptor.sql.LongVarcharTypeDescriptor;
-import org.hibernate.type.descriptor.sql.SqlTypeDescriptor;
+public class PGSQLMapDialect extends PostgreSQLDialect {
 
-public class PGSQLMapDialect extends PostgreSQL9Dialect {
-
-	@Override
-	public SqlTypeDescriptor remapSqlTypeDescriptor(SqlTypeDescriptor sqlTypeDescriptor) {
-		if (Types.CLOB == sqlTypeDescriptor.getSqlType()) {
-			return LongVarcharTypeDescriptor.INSTANCE;
-		}
-		return super.remapSqlTypeDescriptor(sqlTypeDescriptor);
+	public PGSQLMapDialect() {
+		super(DatabaseVersion.make( 9, 5 ));
 	}
-
 }

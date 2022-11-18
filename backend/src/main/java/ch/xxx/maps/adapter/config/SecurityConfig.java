@@ -12,19 +12,21 @@
  */
 package ch.xxx.maps.adapter.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().antMatcher("**")
-				.anonymous().and().csrf().disable().headers().frameOptions().sameOrigin();
+	@Bean
+	public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        HttpSecurity result = http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+				.anonymous().and().headers().frameOptions().sameOrigin().and().csrf().disable();
+		return result.build();
 	}
 }
