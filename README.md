@@ -78,10 +78,10 @@ Eclipse IDE for Enterprise Java and Web Developers newest version.
 
 Install Eclipse Plugin 'Eclipse Wild Web Developer' of the Eclipse Marketplace.
 
-Gradle 7.3 or newer.
+Gradle 7.5 or newer.
 
-Nodejs 14.15.x or newer
+Nodejs 14.20.x or newer
 
 Npm 6.13.x or newer
 
-Angular Cli 14 or newer.
+Angular Cli 15 or newer.
