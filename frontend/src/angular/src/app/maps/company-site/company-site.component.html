@@ -15,8 +15,9 @@
 					</mat-form-field>
 				</div>
 				<div>
-					<mat-slider class="my-slider" thumbLabel [displayWith]="formatLabel" step="10"
-						min="1970" max="2020" formControlName="{{SLIDER_YEAR}}"><input matSliderThumb />
+					<mat-slider class="my-slider" showTickMarks discrete [displayWith]="formatLabel" step="10"
+						min="1970" max="2020">
+						<input matSliderThumb formControlName="{{SLIDER_YEAR}}"/>
 					</mat-slider>
 					<span class="my-year" i18n="@@companysite.slideryear">
 						Year: {{ componentForm.get('sliderYear').value }}</span>
