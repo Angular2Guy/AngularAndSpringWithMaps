@@ -30,7 +30,7 @@ public class CompanySite extends BaseEntity{
 	private String title;
 	@NotNull
 	private LocalDate atDate;
-	@OneToMany(mappedBy = "companySite", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "companySite", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private Set<Polygon> polygons = new LinkedHashSet<>();
 
 	public Set<Polygon> getPolygons() {

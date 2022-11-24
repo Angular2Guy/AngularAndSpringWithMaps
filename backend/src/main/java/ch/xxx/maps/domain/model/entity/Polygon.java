@@ -31,7 +31,7 @@ public class Polygon extends BaseEntity {
 	private String title;
 	private BigDecimal longitude;
 	private BigDecimal latitude;
-	@OneToMany(mappedBy = "polygon", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "polygon", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private Set<Ring> rings = new LinkedHashSet<>();
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_site_id")
