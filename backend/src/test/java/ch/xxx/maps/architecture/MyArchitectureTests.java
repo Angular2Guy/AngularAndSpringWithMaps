@@ -17,6 +17,9 @@ package ch.xxx.maps.architecture;
 
 import static com.tngtech.archunit.lang.conditions.ArchConditions.beAnnotatedWith;
 
+import java.util.List;
+import java.util.regex.Pattern;
+
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.springframework.boot.web.reactive.error.DefaultErrorAttributes;
@@ -28,7 +31,9 @@ import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.domain.JavaField;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
+import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.core.importer.ImportOption.DoNotIncludeTests;
+import com.tngtech.archunit.core.importer.Location;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchCondition;
@@ -39,20 +44,26 @@ import com.tngtech.archunit.library.Architectures;
 import com.tngtech.archunit.library.GeneralCodingRules;
 import com.tngtech.archunit.library.dependencies.SlicesRuleDefinition;
 
+import ch.xxx.maps.architecture.MyArchitectureTests.DoNotIncludeAotGenerated;
+
+
+
 //import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 
-@AnalyzeClasses(packages = "ch.xxx.maps", importOptions = { DoNotIncludeTests.class })
+@AnalyzeClasses(packages = "ch.xxx.maps", importOptions = { DoNotIncludeTests.class, DoNotIncludeAotGenerated.class })
 public class MyArchitectureTests {
 	private static final ArchRule NO_CLASSES_SHOULD_USE_FIELD_INJECTION = createNoFieldInjectionRule();
 
-	private JavaClasses importedClasses = new ClassFileImporter().importPackages("ch.xxx.maps");
+	private JavaClasses importedClasses = new ClassFileImporter()
+			.withImportOptions(List.of(new DoNotIncludeTests(), new DoNotIncludeAotGenerated()))
+			.importPackages("ch.xxx.maps");
 
 	@ArchTest
 	static final ArchRule clean_architecture_respected = Architectures.onionArchitecture().domainModels("..domain..")
 			.applicationServices("..usecase..").adapter("rest", "..adapter.controller..")
 //			.adapter("cron", "..adapter.cron..")
-			.adapter("repo", "..adapter.repository..")
-			.adapter("client", "..adapter.client..").adapter("config", "..adapter.config..", "..adapter.repository..").withOptionalLayers(true);
+			.adapter("repo", "..adapter.repository..").adapter("client", "..adapter.client..")
+			.adapter("config", "..adapter.config..", "..adapter.repository..").withOptionalLayers(true);
 
 	@ArchTest
 	static final ArchRule cyclesDomain = SlicesRuleDefinition.slices().matching("..domain.(*)..").should()
@@ -68,8 +79,9 @@ public class MyArchitectureTests {
 
 	@Test
 	public void ruleControllerAnnotations() {
-		ArchRule beAnnotatedWith = ArchRuleDefinition.classes().that().resideInAPackage("..adapter.controller..").and().arePublic()
-				.should().beAnnotatedWith(Controller.class).orShould().beAnnotatedWith(RestController.class).orShould().beAnnotatedWith(Configuration.class);
+		ArchRule beAnnotatedWith = ArchRuleDefinition.classes().that().resideInAPackage("..adapter.controller..").and()
+				.arePublic().should().beAnnotatedWith(Controller.class).orShould().beAnnotatedWith(RestController.class)
+				.orShould().beAnnotatedWith(Configuration.class);
 		beAnnotatedWith.check(this.importedClasses);
 	}
 
@@ -112,5 +124,17 @@ public class MyArchitectureTests {
 				.should(annotatedWithSpringAutowired.or(annotatedWithGuiceInject).or(annotatedWithJakartaInject)
 						.as("be annotated with an injection annotation"));
 		return beAnnotatedWithAnInjectionAnnotation;
+	}
+
+	static final class DoNotIncludeAotGenerated implements ImportOption {
+		private static final Pattern AOT_GENERATED_PATTERN = Pattern
+				.compile(".*(__BeanDefinitions|SpringCGLIB\\$\\$0)\\.class$");
+		private static final Pattern AOT_TEST_GENERATED_PATTERN = Pattern
+				.compile(".*__TestContext.*\\.class$");
+
+		@Override
+		public boolean includes(Location location) {
+			return !(location.matches(AOT_GENERATED_PATTERN) || location.matches(AOT_TEST_GENERATED_PATTERN));
+		}
 	}
 }
