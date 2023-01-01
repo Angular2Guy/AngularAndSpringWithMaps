@@ -12,9 +12,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { GraphqlService } from './graphql.service';
+import { GraphqlService } from "./graphql.service";
 /*
 describe('GraphqlService', () => {
   let service: GraphqlService;

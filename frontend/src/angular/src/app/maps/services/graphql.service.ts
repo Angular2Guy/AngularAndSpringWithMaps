@@ -12,26 +12,25 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable, of } from "rxjs";
+import { map } from "rxjs/operators";
 
 export interface GraphqlOptions {
-	operationName: string;
-    query: string;
-    variables?: { [key: string]: any};
+  operationName: string;
+  query: string;
+  variables?: { [key: string]: any };
 }
 
 @Injectable()
 export class GraphqlService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-  
   public query<T>(options: GraphqlOptions): Observable<T> {
     return this.http
       .post<{ data: T }>(`/graphql`, {
-	    operationName: options.operationName,
+        operationName: options.operationName,
         query: options.query,
         variables: options.variables,
       })
@@ -41,7 +40,7 @@ export class GraphqlService {
   public mutate<T>(options: GraphqlOptions): Observable<any> {
     return this.http
       .post<{ data: T }>(`/graphql`, {
-	    operationName: options.operationName,
+        operationName: options.operationName,
         query: options.query,
         variables: options.variables,
       })

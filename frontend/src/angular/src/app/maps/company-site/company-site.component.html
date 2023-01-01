@@ -1,51 +1,102 @@
 <div>
-	<form class="example-form" [formGroup]="componentForm">
-		<div class="form-container form-container-input">
-			<div>
-				<div>
-					<mat-form-field class="example-full-width"> 
-						<input type="text" placeholder="Pick one" aria-label="Number" matInput
-							formControlName="{{COMPANY_SITE}}" [matAutocomplete]="auto"> 
-						<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayTitle" 
-						   (optionSelected)="updateMapByCompanySite()"> 
-							<mat-option *ngFor="let option of companySiteOptions | async" [value]="option">
-								{{option.title}} 
-							</mat-option> 
-						</mat-autocomplete> 
-					</mat-form-field>
-				</div>
-				<div>
-					<mat-slider class="my-slider" showTickMarks discrete [displayWith]="formatLabel" step="10"
-						min="1970" max="2020">
-						<input matSliderThumb formControlName="{{SLIDER_YEAR}}"/>
-					</mat-slider>
-					<span class="my-year" i18n="@@companysite.slideryear">
-						Year: {{ componentForm.get('sliderYear').value }}</span>
-				</div>
-			</div>			
-		</div>
-		<div class="form-container form-container-scroll">
-			<mat-selection-list class="new-locations" (selectionChange)="newLocationsChanged($event)">
-  				<mat-list-option *ngFor="let newLocation of newLocations" [selected]="newLocation.selected">
-    				{{newLocation.id}}: {{newLocation.location.latitude}} - {{newLocation.location.longitude}}
-  				</mat-list-option>
-			</mat-selection-list>
-		</div>
-		<div class="form-container form-property-container">
-			<div *ngIf="newLocations.length > 0">
-				<mat-form-field class="input-property-name example-full-width">
-    				<mat-label i18n="@@companySite.property">Property</mat-label>
-    				<input matInput placeholder="Property Name" formControlName="{{PROPERTY}}">
-  				</mat-form-field>
-  			</div>
-			<div *ngIf="newLocations.length > 0" class=" form-container-buttons">			
-	    		<button mat-raised-button color="primary" (click)="upsertCompanySite()" 
-	    			*ngIf="newLocationsValid()" i18n="@@companySite.add">Add</button>			
-				<button mat-raised-button (click)="clearMapPins()" i18n="@@companySite.clear">Clear</button>
-				<button mat-raised-button (click)="resetDb()" [disabled]="resetInProgress" 
-					i18n="@@companySite.resetDb">Reset DB</button>
-			</div>
-		</div>
-	</form>
-	<div #bingMap class="bing-map-container"></div>
+  <form class="example-form" [formGroup]="componentForm">
+    <div class="form-container form-container-input">
+      <div>
+        <div>
+          <mat-form-field class="example-full-width">
+            <input
+              type="text"
+              placeholder="Pick one"
+              aria-label="Number"
+              matInput
+              formControlName="{{ COMPANY_SITE }}"
+              [matAutocomplete]="auto"
+            />
+            <mat-autocomplete
+              autoActiveFirstOption
+              #auto="matAutocomplete"
+              [displayWith]="displayTitle"
+              (optionSelected)="updateMapByCompanySite()"
+            >
+              <mat-option
+                *ngFor="let option of companySiteOptions | async"
+                [value]="option"
+              >
+                {{ option.title }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-slider
+            class="my-slider"
+            showTickMarks
+            discrete
+            [displayWith]="formatLabel"
+            step="10"
+            min="1970"
+            max="2020"
+          >
+            <input matSliderThumb formControlName="{{ SLIDER_YEAR }}" />
+          </mat-slider>
+          <span class="my-year" i18n="@@companysite.slideryear">
+            Year: {{ componentForm.get("sliderYear").value }}</span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="form-container form-container-scroll">
+      <mat-selection-list
+        class="new-locations"
+        (selectionChange)="newLocationsChanged($event)"
+      >
+        <mat-list-option
+          *ngFor="let newLocation of newLocations"
+          [selected]="newLocation.selected"
+        >
+          {{ newLocation.id }}: {{ newLocation.location.latitude }} -
+          {{ newLocation.location.longitude }}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+    <div class="form-container form-property-container">
+      <div *ngIf="newLocations.length > 0">
+        <mat-form-field class="input-property-name example-full-width">
+          <mat-label i18n="@@companySite.property">Property</mat-label>
+          <input
+            matInput
+            placeholder="Property Name"
+            formControlName="{{ PROPERTY }}"
+          />
+        </mat-form-field>
+      </div>
+      <div *ngIf="newLocations.length > 0" class="form-container-buttons">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="upsertCompanySite()"
+          *ngIf="newLocationsValid()"
+          i18n="@@companySite.add"
+        >
+          Add
+        </button>
+        <button
+          mat-raised-button
+          (click)="clearMapPins()"
+          i18n="@@companySite.clear"
+        >
+          Clear
+        </button>
+        <button
+          mat-raised-button
+          (click)="resetDb()"
+          [disabled]="resetInProgress"
+          i18n="@@companySite.resetDb"
+        >
+          Reset DB
+        </button>
+      </div>
+    </div>
+  </form>
+  <div #bingMap class="bing-map-container"></div>
 </div>

@@ -9,30 +9,34 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject } from "@angular/core";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 // eslint-disable-next-line no-shadow
 export enum MyDialogResult {
-	ok,	cancel, delete
+  ok,
+  cancel,
+  delete,
 }
 export interface DialogMetaData {
-	polygonName: string;
-	polygonId: number;
+  polygonName: string;
+  polygonId: number;
 }
 
 @Component({
-  selector: 'app-polygon-delete-dialog',
-  templateUrl: './polygon-delete-dialog.component.html',
-  styleUrls: ['./polygon-delete-dialog.component.scss']
+  selector: "app-polygon-delete-dialog",
+  templateUrl: "./polygon-delete-dialog.component.html",
+  styleUrls: ["./polygon-delete-dialog.component.scss"],
 })
 export class PolygonDeleteDialogComponent {
   protected dialogResults = MyDialogResult;
   protected isTestData = false;
 
-  constructor(public dialogRef: MatDialogRef<PolygonDeleteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogMetaData) {
-	this.isTestData = data.polygonId < 1000;
+  constructor(
+    public dialogRef: MatDialogRef<PolygonDeleteDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogMetaData
+  ) {
+    this.isTestData = data.polygonId < 1000;
   }
 
   cancelClick(): void {

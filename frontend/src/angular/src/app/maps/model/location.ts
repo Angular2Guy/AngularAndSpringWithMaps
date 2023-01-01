@@ -14,7 +14,7 @@
  */
 
 export interface Location {
-	id?: number;
-	longitude: number;
-	latitude: number;
+  id?: number;
+  longitude: number;
+  latitude: number;
 }

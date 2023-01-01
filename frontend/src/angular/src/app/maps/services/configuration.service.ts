@@ -12,28 +12,35 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Injectable } from '@angular/core';
-import { MainConfiguration } from '../model/main-configuration';
-import { map } from 'rxjs/operators';
-import { of, Observable } from 'rxjs';
-import { GraphqlService } from './graphql.service';
+import { Injectable } from "@angular/core";
+import { MainConfiguration } from "../model/main-configuration";
+import { map } from "rxjs/operators";
+import { of, Observable } from "rxjs";
+import { GraphqlService } from "./graphql.service";
 
 @Injectable()
 export class ConfigurationService {
   private mainConfiguration: MainConfiguration = null;
 
-  constructor(private graphqlService: GraphqlService) { }
+  constructor(private graphqlService: GraphqlService) {}
 
   public importConfiguration(): Observable<MainConfiguration> {
-	if(!this.mainConfiguration) {
-		const options = {operationName: 'getMainConfiguration', query: 'query getMainConfiguration {getMainConfiguration {mapKey}}'};
-		return this.graphqlService.query<MainConfiguration>(options).pipe(map(config => {			
-		   this.mainConfiguration = (config as unknown as any)[options.operationName];
-		   //console.log(this.mainConfiguration.mapKey);
-		   return this.mainConfiguration;
-		}));
-	} else {
-		return of(this.mainConfiguration);
-	}
+    if (!this.mainConfiguration) {
+      const options = {
+        operationName: "getMainConfiguration",
+        query: "query getMainConfiguration {getMainConfiguration {mapKey}}",
+      };
+      return this.graphqlService.query<MainConfiguration>(options).pipe(
+        map((config) => {
+          this.mainConfiguration = (config as unknown as any)[
+            options.operationName
+          ];
+          //console.log(this.mainConfiguration.mapKey);
+          return this.mainConfiguration;
+        })
+      );
+    } else {
+      return of(this.mainConfiguration);
+    }
   }
 }

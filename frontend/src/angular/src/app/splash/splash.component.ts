@@ -12,30 +12,36 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Component, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { trigger, state, animate, transition, style } from '@angular/animations';
+import { Component, AfterViewInit } from "@angular/core";
+import { Router } from "@angular/router";
+import {
+  trigger,
+  state,
+  animate,
+  transition,
+  style,
+} from "@angular/animations";
 
 @Component({
-  selector: 'app-splash',
-  templateUrl: './splash.component.html',
-  styleUrls: ['./splash.component.scss'],
+  selector: "app-splash",
+  templateUrl: "./splash.component.html",
+  styleUrls: ["./splash.component.scss"],
   animations: [
-               trigger( 'showSplash', [
-                   state( 'true', style( { opacity: 1 } ) ),
-                   state( 'false', style( { opacity: 0 } ) ),
-                   transition( '1 => 0', animate( '100ms' ) ),
-                   transition( '0 => 1', animate( '100ms' ) )
-               ])]
+    trigger("showSplash", [
+      state("true", style({ opacity: 1 })),
+      state("false", style({ opacity: 0 })),
+      transition("1 => 0", animate("100ms")),
+      transition("0 => 1", animate("100ms")),
+    ]),
+  ],
 })
 export class SplashComponent implements AfterViewInit {
   myState = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngAfterViewInit(): void {
-	this.router.navigate(['/maps']);
-    setTimeout(() => this.myState = true);
+    this.router.navigate(["/maps"]);
+    setTimeout(() => (this.myState = true));
   }
-
 }

@@ -1,14 +1,31 @@
-<h1 mat-dialog-title *ngIf="!isTestData" i18n="@@DeleteDialog.Header">Delete Property</h1>
-<h1 mat-dialog-title *ngIf="isTestData" i18n="@@DeleteDialog.Header.Testdata">Testdata can not be deleted</h1>
+<h1 mat-dialog-title *ngIf="!isTestData" i18n="@@DeleteDialog.Header">
+  Delete Property
+</h1>
+<h1 mat-dialog-title *ngIf="isTestData" i18n="@@DeleteDialog.Header.Testdata">
+  Testdata can not be deleted
+</h1>
 <div mat-dialog-content *ngIf="!isTestData">
   <p i18n="@@DeleteDialog.Content">Do you want to delete this property?</p>
-  <p>{{data.polygonName}}</p>
+  <p>{{ data.polygonName }}</p>
 </div>
 <div mat-dialog-content *ngIf="isTestData">
-  <p i18n="@@DeleteDialog.Content.Testdata">To return please click cancel.</p>  
+  <p i18n="@@DeleteDialog.Content.Testdata">To return please click cancel.</p>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="cancelClick()" cdkFocusInitial i18n="@@DeleteDialog.Cancel">Cancel</button>
-  <button mat-button *ngIf="!isTestData" [mat-dialog-close]="dialogResults.delete" i18n="@@DeleteDialog.Delete">Delete</button>
+  <button
+    mat-button
+    (click)="cancelClick()"
+    cdkFocusInitial
+    i18n="@@DeleteDialog.Cancel"
+  >
+    Cancel
+  </button>
+  <button
+    mat-button
+    *ngIf="!isTestData"
+    [mat-dialog-close]="dialogResults.delete"
+    i18n="@@DeleteDialog.Delete"
+  >
+    Delete
+  </button>
 </div>
-

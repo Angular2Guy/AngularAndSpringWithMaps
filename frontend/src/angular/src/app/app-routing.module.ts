@@ -12,18 +12,21 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { SplashComponent } from './splash/splash.component';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { SplashComponent } from "./splash/splash.component";
 
 const routes: Routes = [
-    {path: '', redirectTo: '/splash', pathMatch: 'full'},
-    {path: 'maps', loadChildren: () => import('./maps/maps.module').then(m => m.MapsModule)},
-    {path: 'splash', component: SplashComponent},
+  { path: "", redirectTo: "/splash", pathMatch: "full" },
+  {
+    path: "maps",
+    loadChildren: () => import("./maps/maps.module").then((m) => m.MapsModule),
+  },
+  { path: "splash", component: SplashComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {})],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

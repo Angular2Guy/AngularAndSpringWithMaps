@@ -12,38 +12,38 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CompanySiteComponent } from './company-site/company-site.component';
-import { CompanySiteService } from './services/company-site.service';
-import { ConfigurationService } from './services/configuration.service';
-import { GraphqlService } from './services/graphql.service';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSliderModule } from '@angular/material/slider';
-import { MapsRoutingModule } from './maps-routing.module';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
-import { PolygonDeleteDialogComponent } from './polygon-delete-dialog/polygon-delete-dialog.component';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { CompanySiteComponent } from "./company-site/company-site.component";
+import { CompanySiteService } from "./services/company-site.service";
+import { ConfigurationService } from "./services/configuration.service";
+import { GraphqlService } from "./services/graphql.service";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatSliderModule } from "@angular/material/slider";
+import { MapsRoutingModule } from "./maps-routing.module";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { MatInputModule } from "@angular/material/input";
+import { MatListModule } from "@angular/material/list";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDialogModule } from "@angular/material/dialog";
+import { PolygonDeleteDialogComponent } from "./polygon-delete-dialog/polygon-delete-dialog.component";
 
 @NgModule({
-	declarations: [CompanySiteComponent, PolygonDeleteDialogComponent],
-	imports: [
-		CommonModule,
-		MapsRoutingModule,
-		ReactiveFormsModule,
-		FormsModule,
-		MatAutocompleteModule,
-		MatFormFieldModule,
-		MatSliderModule,
-		MatInputModule,
-		MatListModule,
-		MatButtonModule,
-		MatDialogModule,
-	],
-	providers: [CompanySiteService, ConfigurationService, GraphqlService]
+  declarations: [CompanySiteComponent, PolygonDeleteDialogComponent],
+  imports: [
+    CommonModule,
+    MapsRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatSliderModule,
+    MatInputModule,
+    MatListModule,
+    MatButtonModule,
+    MatDialogModule,
+  ],
+  providers: [CompanySiteService, ConfigurationService, GraphqlService],
 })
-export class MapsModule { }
+export class MapsModule {}

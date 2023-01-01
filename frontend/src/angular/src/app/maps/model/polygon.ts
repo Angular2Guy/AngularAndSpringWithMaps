@@ -12,14 +12,14 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Ring } from './ring';
+import { Ring } from "./ring";
 
 export interface Polygon {
-	id?: number;
-	fillColor: string;
-	borderColor: string;
-	title: string;
-	longitude: number;
-	latitude: number;
-	rings: Ring[];
+  id?: number;
+  fillColor: string;
+  borderColor: string;
+  title: string;
+  longitude: number;
+  latitude: number;
+  rings: Ring[];
 }

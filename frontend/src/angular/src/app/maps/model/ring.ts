@@ -12,11 +12,10 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Location } from './location';
-
+import { Location } from "./location";
 
 export interface Ring {
-	id?: number;
-	primaryRing: boolean;
-	locations: Location[];
+  id?: number;
+  primaryRing: boolean;
+  locations: Location[];
 }

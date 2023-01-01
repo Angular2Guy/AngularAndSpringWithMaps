@@ -12,11 +12,11 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Polygon } from './polygon';
+import { Polygon } from "./polygon";
 
 export interface CompanySite {
-	id?: number;
-	title: string;
-	atDate: Date;
-	polygons: Polygon[];
+  id?: number;
+  title: string;
+  atDate: Date;
+  polygons: Polygon[];
 }

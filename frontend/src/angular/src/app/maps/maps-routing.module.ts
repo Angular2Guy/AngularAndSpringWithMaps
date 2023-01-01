@@ -12,18 +12,22 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Routes, RouterModule } from '@angular/router';
-import { NgModule } from '@angular/core';
-import { CompanySiteComponent } from './company-site/company-site.component';
-import { AuthGuardService } from '../services/auth-guard.service';
+import { Routes, RouterModule } from "@angular/router";
+import { NgModule } from "@angular/core";
+import { CompanySiteComponent } from "./company-site/company-site.component";
+import { AuthGuardService } from "../services/auth-guard.service";
 
 const routes: Routes = [
-    {path: '', redirectTo: 'companySite', pathMatch: 'full'},
-    {path: 'companySite', component: CompanySiteComponent, canActivate: [AuthGuardService]},
+  { path: "", redirectTo: "companySite", pathMatch: "full" },
+  {
+    path: "companySite",
+    component: CompanySiteComponent,
+    canActivate: [AuthGuardService],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class MapsRoutingModule { }
+export class MapsRoutingModule {}
