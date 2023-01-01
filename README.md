@@ -24,6 +24,8 @@ Technologies: Angular, Spring Boot, Java, Gradle, GraphQl, GraphiQl, Typescript,
 ## Mission Statement
 The project serves as an example howto integrate Angular and Bing Maps with Spring Boot and relational databases. The frontend shows different property borders at different points in time for different company sites. The backend stores multiple company sites at different points in time with multiple property borders in clean architecture. Graphql is used to read and write the data in this project. The backend manages/initialzies the H2/Postgresql databases with Liquibase. The data access is done with Jpa and Spring Repositories. The architecture is checked with ArchUnit in a test.
 
+Currently Liquibase needs '-Dliquibase.duplicateFileMode=WARN' as VM Parameter at startup.
+
 ## Rest Branch
 The previous version of the project has used Rest endpoints. That version is available in the [Rest Branch](https://github.com/Angular2Guy/AngularAndSpringWithMaps/tree/rest).
 
