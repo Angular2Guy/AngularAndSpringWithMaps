@@ -12,10 +12,14 @@
  */
 package ch.xxx.maps.adapter.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +30,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.graphql.test.tester.GraphQlTester;
 
+import ch.xxx.maps.domain.model.dto.CompanySiteDto;
 import ch.xxx.maps.domain.model.entity.CompanySite;
+import ch.xxx.maps.domain.model.entity.Location;
+import ch.xxx.maps.domain.model.entity.Polygon;
+import ch.xxx.maps.domain.model.entity.Ring;
 import ch.xxx.maps.usecase.mapper.EntityDtoMapper;
 import ch.xxx.maps.usecase.service.CompanySiteService;
 
@@ -39,8 +47,8 @@ public class CompanySiteControllerTest extends BaseControllerTest {
 	private CompanySiteService companySiteService;
 	@MockBean
 	private EntityDtoMapper entityDtoMapper;
-    @Autowired
-    private GraphQlTester graphQlTester;
+	@Autowired
+	private GraphQlTester graphQlTester;
 
 	@BeforeEach
 	public void init() {
@@ -49,23 +57,40 @@ public class CompanySiteControllerTest extends BaseControllerTest {
 
 	@Test
 	public void getCompanySiteByIdFound() throws Exception {
-		Mockito.when(this.companySiteService.findCompanySiteByIdDetached(any(Long.class), anyBoolean(), anyBoolean(),anyBoolean()))
-				.thenReturn(Optional.of(this.createCompanySiteEntity()));
+		Mockito.when(this.companySiteService.findCompanySiteByIdDetached(any(Long.class), anyBoolean(), anyBoolean(),
+				anyBoolean())).thenReturn(Optional.of(this.createCompanySiteEntity()));
 		String myDocument = "{ getCompanySiteById(id:1) \n" + "    { id, title, atDate, \n"
 				+ "      polygons { id, fillColor, borderColor, title, longitude, latitude,\n"
 				+ "        rings{ id, primaryRing,\n" + " locations { id, longitude, latitude}}}}}";
-		this.graphQlTester.document(myDocument).variable("id", 1).execute() ;
-//		mockMvc.perform(post("/graphql").contentType(MediaType.APPLICATION_JSON).servletPath("/graphql")
-//				.content("{ getCompanySiteById(id:1) \n" + "    { id, title, atDate, \n"
-//						+ "      polygons { id, fillColor, borderColor, title, longitude, latitude,\n"
-//						+ "        rings{ id, primaryRing,\n" + "          locations { id, longitude, latitude}}}}}"))
-//				.andExpect(status().isNotFound());
+		this.graphQlTester.document(myDocument).variable("id", 1).execute().path("getCompanySiteById")
+				.entity(CompanySiteDto.class).satisfies(companySiteDto -> assertEquals(1L, companySiteDto.getId()));
 	}
 
 	private CompanySite createCompanySiteEntity() {
 		CompanySite companySite = new CompanySite();
 		companySite.setId(1L);
 		companySite.setTitle("XXX");
+		companySite.setAtDate(LocalDate.now());
+		Location location = new Location();
+		location.setId(5L);
+		location.setLatitude(BigDecimal.valueOf(6L));
+		location.setLongitude(BigDecimal.valueOf(7L));
+		location.setOrderId(0);
+		Ring ring = new Ring();
+		location.setRing(ring);
+		ring.setId(4L);
+		ring.setPrimaryRing(true);
+		ring.setLocations(Set.of(location));
+		Polygon polygon = new Polygon();
+		ring.setPolygon(polygon);
+		polygon.setCompanySite(companySite);
+		polygon.setBorderColor("aaa");
+		polygon.setFillColor("bbb");
+		polygon.setId(2L);
+		polygon.setLatitude(BigDecimal.valueOf(2L));
+		polygon.setLongitude(BigDecimal.valueOf(3L));
+		polygon.setTitle("Title");
+		companySite.setPolygons(Set.of(polygon));
 		return companySite;
 	}
 }
