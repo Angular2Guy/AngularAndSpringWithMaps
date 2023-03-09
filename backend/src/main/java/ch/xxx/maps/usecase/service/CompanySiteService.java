@@ -21,8 +21,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import jakarta.persistence.EntityManager;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +33,8 @@ import ch.xxx.maps.domain.model.entity.Polygon;
 import ch.xxx.maps.domain.model.entity.PolygonRepository;
 import ch.xxx.maps.domain.model.entity.Ring;
 import ch.xxx.maps.domain.model.entity.RingRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.validation.Valid;
 
 @Transactional
 @Service
@@ -106,7 +106,7 @@ public class CompanySiteService {
 				.findFirst();
 	}
 
-	public CompanySite upsertCompanySite(CompanySite companySite) {
+	public CompanySite upsertCompanySite(@Valid CompanySite companySite) {
 		return this.companySiteRepository.save(companySite);
 	}
 

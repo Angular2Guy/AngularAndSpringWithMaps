@@ -36,7 +36,7 @@ public class CompanySiteRepositoryBean implements CompanySiteRepository {
 	}
 
 	@Override
-	public CompanySite save(@Valid CompanySite companySite) {
+	public CompanySite save(CompanySite companySite) {
 		return this.jpaCompanySiteRepository.save(companySite);
 	}
 
