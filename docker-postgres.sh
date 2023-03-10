@@ -1,5 +1,5 @@
-docker pull postgres:12
-docker run --name local-postgres-maps -e POSTGRES_PASSWORD=sven1 -e POSTGRES_USER=sven1 -e POSTGRES_DB=maps -p 5432:5432 -d postgres:12
+docker pull postgres:14
+docker run --name local-postgres-maps -e POSTGRES_PASSWORD=sven1 -e POSTGRES_USER=sven1 -e POSTGRES_DB=maps -p 5432:5432 -d postgres:14
 
 # docker start local-postgres-maps
 # docker stop local-postgres-maps

@@ -15,6 +15,7 @@
 	id 'org.springframework.boot' version '3.0.4'
 	id 'org.graalvm.buildtools.native' version '0.9.20'
 	id 'io.spring.dependency-management' version '1.1.0'
+	id 'org.hibernate.orm' version '6.1.7.Final'
 }
 
 group = 'ch.xxx'
@@ -23,6 +24,13 @@ sourceCompatibility = '17'
 
 repositories {
 	mavenCentral()
+}
+
+hibernate {
+  enhancement {
+    lazyInitialization = true
+    dirtyTracking = true    
+  }
 }
 
 dependencies {
@@ -49,8 +57,6 @@ dependencies {
 	} else {
 		runtimeOnly 'com.h2database:h2'
 	}
-//	annotationProcessor 'org.springframework.boot:spring-boot-starter-data-jpa'
-//	testAnnotationProcessor 'org.springframework.boot:spring-boot-starter-data-jpa'
 }
 
 bootJar {
