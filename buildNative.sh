@@ -1,4 +1,5 @@
 #!/bin/bash
+# add Spring Boot Aot/Hibernate Enhancement plugin
 # install graalvm
 # fix native build environment(missing libs)
 # set prod profile in application.properties

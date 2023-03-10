@@ -3,7 +3,7 @@ dbName: postgresserver
 webImageName: angular2guy/angularandspringwithmaps
 webImageVersion: latest
 dbImageName: postgres
-dbImageVersion: 13
+dbImageVersion: 14
 volumeClaimName: postgres-pv-claim
 persistentVolumeName: task-pv-volume
 webServiceName: angularandspringwithmapsservice
