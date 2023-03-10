@@ -4,7 +4,7 @@
 
 Author: Sven Loesekann
 
-Technologies: Angular, Spring Boot, Java, Gradle, GraphQl, GraphiQl, Typescript, Angular Cli, Angular Material, H2/Postgresql Databases, Jpa, Bing Maps
+Technologies: Angular, Spring Boot, Java, Gradle, GraphQl, GraphiQl, Typescript, Angular Cli, Angular Material, H2/Postgresql Databases, Jpa, Bing Maps, GraalVM native image
 
 ## Articles
 * [Spring Boot 3 update experience](https://angular2guy.wordpress.com/2022/11/15/spring-boot-3-update-experience/)
@@ -20,9 +20,10 @@ Technologies: Angular, Spring Boot, Java, Gradle, GraphQl, GraphiQl, Typescript,
 - Select different sites
 - read/edit/delete site data with GraphQl
 - Load/Save the site data in the H2/Postgresql Databases
+- Create a native image with GraalVM Community Edition
 
 ## Mission Statement
-The project serves as an example howto integrate Angular and Bing Maps with Spring Boot and relational databases. The frontend shows different property borders at different points in time for different company sites. The backend stores multiple company sites at different points in time with multiple property borders in clean architecture. Graphql is used to read and write the data in this project. The backend manages/initialzies the H2/Postgresql databases with Liquibase. The data access is done with Jpa and Spring Repositories. The architecture is checked with ArchUnit in a test.
+The project serves as an example howto integrate Angular and Bing Maps with Spring Boot and relational databases. The frontend shows different property borders at different points in time for different company sites. The backend stores multiple company sites at different points in time with multiple property borders in clean architecture. Graphql is used to read and write the data in this project. The backend manages/initialzies the H2/Postgresql databases with Liquibase. The data access is done with Jpa and Spring Repositories. The architecture is checked with ArchUnit in a test. A GraalVM native image can be created.
 
 Currently Liquibase needs '-Dliquibase.duplicateFileMode=WARN' as VM Parameter at startup.
 
@@ -43,6 +44,9 @@ The testdata for the company site is Airbus Finkenwerder/Toulouse for the year 2
 
 ## Kubernetes setup
 In the helm directory is a kubernetes setup to run the angularandspringwithmaps project with minikube. The Helm chart deployes the postgres database and the angularandspringwithmaps with the needed parameters to run. It uses the resource limit support of Jdk 16 to limit memory. Kubernetes limits the cpu use and uses the startupprobes and livenessprobes that Spring Actuator provides.
+
+## GraalVM native image
+In the file buildNative.sh are the steps to create a native image of the project with GraalVM. The image uses the prod profile and needs a Postgresql Database. A example howto provide the database can be found in the file docker-postgres.sh. Then the native image can be run(start time around 0.5 sec). 
 
 ## Monitoring
 The Spring Actuator interface with Prometheus interface can be used as it is described in this article: 
@@ -75,7 +79,7 @@ Spring Graphql executes it with 4 sql queries. One query for the CompanySites, P
 ## Setup
 Java 17 or newer.
 
-Postgresql 12.x or newer.
+Postgresql 14.x or newer.
 
 Eclipse IDE for Enterprise Java and Web Developers newest version.
 
@@ -88,3 +92,5 @@ Nodejs 14.20.x or newer
 Npm 6.13.x or newer
 
 Angular Cli 15 or newer.
+
+GraalVM 22.3 or newer
