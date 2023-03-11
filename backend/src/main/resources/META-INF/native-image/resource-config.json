@@ -167,6 +167,9 @@
       "pattern":"\\Qorg/springframework/boot/web/server/mime-mappings.properties\\E"
     }, 
     {
+      "pattern":"\\Qstatic/en/assets/map-pin.png\\E"
+    }, 
+    {
       "pattern":"\\Qstatic/en/favicon.ico\\E"
     }, 
     {

@@ -274,7 +274,9 @@
   "queryAllDeclaredMethods":true,
   "methods":[
     {"name":"<init>","parameterTypes":["ch.xxx.maps.usecase.service.CompanySiteService","ch.xxx.maps.usecase.mapper.EntityDtoMapper"] }, 
-    {"name":"getCompanySiteByTitle","parameterTypes":["java.lang.String","java.lang.Long","graphql.schema.DataFetchingEnvironment"] }
+    {"name":"getCompanySiteByTitle","parameterTypes":["java.lang.String","java.lang.Long","graphql.schema.DataFetchingEnvironment"] }, 
+    {"name":"resetDb","parameterTypes":[] }, 
+    {"name":"upsertCompanySite","parameterTypes":["ch.xxx.maps.domain.model.dto.CompanySiteDto"] }
   ]
 },
 {
@@ -382,19 +384,34 @@
 },
 {
   "name":"ch.xxx.maps.domain.model.dto.CompanySiteDto",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllPublicConstructors":true,
   "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
     {"name":"getAtDate","parameterTypes":[] }, 
     {"name":"getId","parameterTypes":[] }, 
     {"name":"getPolygons","parameterTypes":[] }, 
-    {"name":"getTitle","parameterTypes":[] }
+    {"name":"getTitle","parameterTypes":[] }, 
+    {"name":"setAtDate","parameterTypes":["java.time.LocalDate"] }, 
+    {"name":"setId","parameterTypes":["java.lang.Long"] }, 
+    {"name":"setPolygons","parameterTypes":["java.util.List"] }, 
+    {"name":"setTitle","parameterTypes":["java.lang.String"] }
   ]
 },
 {
   "name":"ch.xxx.maps.domain.model.dto.LocationDto",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllPublicConstructors":true,
   "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
     {"name":"getId","parameterTypes":[] }, 
     {"name":"getLatitude","parameterTypes":[] }, 
-    {"name":"getLongitude","parameterTypes":[] }
+    {"name":"getLongitude","parameterTypes":[] }, 
+    {"name":"setId","parameterTypes":["java.lang.Long"] }, 
+    {"name":"setLatitude","parameterTypes":["java.math.BigDecimal"] }, 
+    {"name":"setLongitude","parameterTypes":["java.math.BigDecimal"] }
   ]
 },
 {
@@ -403,22 +420,40 @@
 },
 {
   "name":"ch.xxx.maps.domain.model.dto.PolygonDto",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllPublicConstructors":true,
   "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
     {"name":"getBorderColor","parameterTypes":[] }, 
     {"name":"getFillColor","parameterTypes":[] }, 
     {"name":"getId","parameterTypes":[] }, 
     {"name":"getLatitude","parameterTypes":[] }, 
     {"name":"getLongitude","parameterTypes":[] }, 
     {"name":"getRings","parameterTypes":[] }, 
-    {"name":"getTitle","parameterTypes":[] }
+    {"name":"getTitle","parameterTypes":[] }, 
+    {"name":"setBorderColor","parameterTypes":["java.lang.String"] }, 
+    {"name":"setFillColor","parameterTypes":["java.lang.String"] }, 
+    {"name":"setId","parameterTypes":["java.lang.Long"] }, 
+    {"name":"setLatitude","parameterTypes":["java.math.BigDecimal"] }, 
+    {"name":"setLongitude","parameterTypes":["java.math.BigDecimal"] }, 
+    {"name":"setRings","parameterTypes":["java.util.List"] }, 
+    {"name":"setTitle","parameterTypes":["java.lang.String"] }
   ]
 },
 {
   "name":"ch.xxx.maps.domain.model.dto.RingDto",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllPublicConstructors":true,
   "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
     {"name":"getId","parameterTypes":[] }, 
     {"name":"getLocations","parameterTypes":[] }, 
-    {"name":"isPrimaryRing","parameterTypes":[] }
+    {"name":"isPrimaryRing","parameterTypes":[] }, 
+    {"name":"setId","parameterTypes":["java.lang.Long"] }, 
+    {"name":"setLocations","parameterTypes":["java.util.List"] }, 
+    {"name":"setPrimaryRing","parameterTypes":["boolean"] }
   ]
 },
 {
@@ -515,7 +550,10 @@
   "queryAllDeclaredMethods":true,
   "methods":[
     {"name":"<init>","parameterTypes":["ch.xxx.maps.domain.model.entity.CompanySiteRepository","ch.xxx.maps.domain.model.entity.PolygonRepository","ch.xxx.maps.domain.model.entity.RingRepository","ch.xxx.maps.domain.model.entity.LocationRepository","jakarta.persistence.EntityManager"] }, 
-    {"name":"findCompanySiteByTitleAndYear","parameterTypes":["java.lang.String","java.lang.Long","boolean","boolean","boolean"] }
+    {"name":"findCompanySiteById","parameterTypes":["java.lang.Long"] }, 
+    {"name":"findCompanySiteByTitleAndYear","parameterTypes":["java.lang.String","java.lang.Long","boolean","boolean","boolean"] }, 
+    {"name":"resetDb","parameterTypes":[] }, 
+    {"name":"upsertCompanySite","parameterTypes":["ch.xxx.maps.domain.model.entity.CompanySite"] }
   ]
 },
 {
@@ -543,7 +581,8 @@
   "methods":[
     {"name":"getJsonFactory","parameterTypes":[] }, 
     {"name":"readValues","parameterTypes":["com.fasterxml.jackson.core.JsonParser","com.fasterxml.jackson.core.type.ResolvedType"] }, 
-    {"name":"readValues","parameterTypes":["com.fasterxml.jackson.core.JsonParser","com.fasterxml.jackson.core.type.TypeReference"] }
+    {"name":"readValues","parameterTypes":["com.fasterxml.jackson.core.JsonParser","com.fasterxml.jackson.core.type.TypeReference"] }, 
+    {"name":"readValues","parameterTypes":["com.fasterxml.jackson.core.JsonParser","java.lang.Class"] }
   ]
 },
 {
@@ -2647,6 +2686,10 @@
   "queryAllPublicMethods":true
 },
 {
+  "name":"org.hibernate.engine.jdbc.batch.internal.BatchBuilderImpl",
+  "queryAllPublicMethods":true
+},
+{
   "name":"org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl",
   "queryAllPublicMethods":true,
   "methods":[{"name":"setJndiService","parameterTypes":["org.hibernate.engine.jndi.spi.JndiService"] }]
@@ -2890,6 +2933,10 @@
 {
   "name":"org.hibernate.type.SqlTypes",
   "allPublicFields":true
+},
+{
+  "name":"org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"org.hibernate.validator.internal.engine.AbstractConfigurationImpl",
@@ -5512,6 +5559,10 @@
   ]
 },
 {
+  "name":"org.springframework.data.jpa.repository.JpaSpecificationExecutor",
+  "queryAllPublicMethods":true
+},
+{
   "name":"org.springframework.data.jpa.repository.Query",
   "queryAllDeclaredMethods":true,
   "methods":[
@@ -5533,7 +5584,13 @@
 },
 {
   "name":"org.springframework.data.jpa.repository.support.CrudMethodMetadata",
-  "queryAllDeclaredMethods":true
+  "queryAllDeclaredMethods":true,
+  "methods":[
+    {"name":"getComment","parameterTypes":[] }, 
+    {"name":"getEntityGraph","parameterTypes":[] }, 
+    {"name":"getLockModeType","parameterTypes":[] }, 
+    {"name":"getQueryHints","parameterTypes":[] }
+  ]
 },
 {
   "name":"org.springframework.data.jpa.repository.support.JpaEvaluationContextExtension",
@@ -5558,10 +5615,20 @@
   ]
 },
 {
+  "name":"org.springframework.data.jpa.repository.support.JpaRepositoryImplementation",
+  "queryAllPublicMethods":true
+},
+{
   "name":"org.springframework.data.jpa.repository.support.SimpleJpaRepository",
+  "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["org.springframework.data.jpa.repository.support.JpaEntityInformation","jakarta.persistence.EntityManager"] }]
+  "methods":[
+    {"name":"<init>","parameterTypes":["org.springframework.data.jpa.repository.support.JpaEntityInformation","jakarta.persistence.EntityManager"] }, 
+    {"name":"deleteAll","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"findAll","parameterTypes":[] }, 
+    {"name":"save","parameterTypes":["java.lang.Object"] }
+  ]
 },
 {
   "name":"org.springframework.data.jpa.util.HibernateProxyDetector",
