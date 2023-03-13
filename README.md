@@ -28,6 +28,9 @@ The project serves as an example howto integrate Angular and Bing Maps with Spri
 
 Currently Liquibase needs '-Dliquibase.duplicateFileMode=WARN' as VM Parameter at startup.
 
+## C4 Architecture Diagrams
+The project has a [System Context Diagram](structurizr/diagrams/structurizr-1-SystemContext.svg), a [Container Diagram](structurizr/diagrams/structurizr-1-Containers.svg) and a [Component Diagram](structurizr/diagrams/structurizr-1-Components.svg). The Diagrams have been created with Structurizr. The file runStructurizr.sh contains the commands to use Structurizr and the directory structurizr contains the dsl file.
+
 ## Rest Branch
 The previous version of the project has used Rest endpoints. That version is available in the [Rest Branch](https://github.com/Angular2Guy/AngularAndSpringWithMaps/tree/rest).
 

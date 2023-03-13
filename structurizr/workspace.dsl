@@ -4,6 +4,7 @@ workspace "AngularAndSpringWithMaps" "The project shows howto integrate Bing map
         user = person "User"
         angularAndSpringWithMapsSystem = softwareSystem "AngularAndSpring WithMaps System" "AngularAndSpringWithMaps System to manage locations on a map." {
         	angularAndSpringWithMaps = container "AngularAndSpring WithMaps" "SPA with Angular and Bing Maps and a Spring Boot Backend." {
+        		angularFrontend = component "Angular Frontend" "The SPA manages the companysites with Bing maps and Graphql." tag "Browser"
         		companySiteController = component "CompanySiteController" "Graphql controller for the companysites with its child elements."
         		companySiteService = component "CompanySiteService" "Implements the companysite logic for different graphs."
         		companySiteRepositories = component "CompanySite Repositories" "CompanySite repository with its child repositories."
@@ -14,10 +15,11 @@ workspace "AngularAndSpringWithMaps" "The project shows howto integrate Bing map
         user -> angularAndSpringWithMapsSystem "manages locations"
         
         # relationships containers
-        user -> angularAndSpringWithMaps
+        user -> angularAndSpringWithMaps "Graphql requests"
         angularAndSpringWithMaps -> database
         
         # relationships components
+        angularFrontend -> companySiteController "Graphql requests" 
         companySiteController -> companySiteService
         companySiteService -> companySiteRepositories
     }
