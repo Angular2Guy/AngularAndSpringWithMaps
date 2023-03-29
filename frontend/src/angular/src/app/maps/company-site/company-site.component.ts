@@ -429,7 +429,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
           mapPinsToAdd.push(
             new Microsoft.Maps.Pushpin(newLocation.location, {
               title: "" + newLocation.id,
-              icon: "https://bingmapsisdk.blob.core.windows.net/isdksamples/defaultPushpin.png",
+              icon: "assets/map-pin.png",
               anchor: new Microsoft.Maps.Point(12, 39),
             })
           );
