@@ -25,6 +25,6 @@ java -Dspring.aot.enabled=true -agentlib:native-image-agent=config-merge-dir=bac
 # run native binary(more than 160MB)
 ./backend/build/native/nativeCompile/backend
 # build Docker image
-docker build -t angular2guy/angularandspringwithmaps-native:latest --build-arg APP_FILE=backend --no-cache .
+docker build -t angular2guy/angularandspringwithmaps-native:latest --build-arg APP_FILE=native/nativeCompile/backend --no-cache .
 # run Docker image
 docker run -p 8080:8080 --memory="210m" --network="host" angular2guy/angularandspringwithmaps-native:latest

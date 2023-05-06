@@ -3,6 +3,6 @@ VOLUME /tmp
 ARG SPRING_PROFILE=prod
 ENV MY_SPRING_PROFILE=$SPRING_PROFILE
 ARG APP_FILE
-ADD backend/build/native/nativeCompile/$APP_FILE /application
+ADD backend/$APP_FILE /application
 #ENV JAVA_OPTS="-XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication"
 ENTRYPOINT exec /application
