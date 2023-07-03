@@ -12,13 +12,13 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 	<changeSet id="init-data" author="angular2guy" runOnChange="true">
-		<loadUpdateData file="dbchangelog/data/company_site.csv" tableName="company_site" primaryKey="id"
+		<loadUpdateData file="data/company_site.csv" tableName="company_site" primaryKey="id"
 			relativeToChangelogFile="true" />
-		<loadUpdateData file="dbchangelog/data/polygon.csv" tableName="polygon" primaryKey="id"
+		<loadUpdateData file="data/polygon.csv" tableName="polygon" primaryKey="id"
 			relativeToChangelogFile="true"/>
-		<loadUpdateData file="dbchangelog/data/ring.csv" tableName="ring" primaryKey="id"
+		<loadUpdateData file="data/ring.csv" tableName="ring" primaryKey="id"
 			relativeToChangelogFile="true"/>
-		<loadUpdateData file="dbchangelog/data/location.csv" tableName="location" primaryKey="id"
+		<loadUpdateData file="data/location.csv" tableName="location" primaryKey="id"
 			relativeToChangelogFile="true"/>
 	</changeSet>
 </databaseChangeLog>
