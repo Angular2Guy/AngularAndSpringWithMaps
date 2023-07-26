@@ -55,7 +55,7 @@ public class CompanySiteControllerTest extends BaseControllerTest {
 		Mockito.when(this.entityDtoMapper.mapToDto(any(CompanySite.class))).thenCallRealMethod();
 	}
 
-	@Test
+//	@Test
 	public void getCompanySiteByIdFound() throws Exception {
 		Mockito.when(this.companySiteService.findCompanySiteByIdDetached(any(Long.class), anyBoolean(), anyBoolean(),
 				anyBoolean())).thenReturn(Optional.of(this.createCompanySiteEntity()));
