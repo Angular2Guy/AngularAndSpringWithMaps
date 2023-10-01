@@ -94,7 +94,7 @@ public class EntityDtoMapper {
 	public CompanySiteDto mapToDto(CompanySite companySite) {
 		List<PolygonDto> myPolygons;
 		try {
-			myPolygons = companySite.getPolygons().stream().map(polygon -> this.mapToDto(polygon))
+			myPolygons = companySite.getPolygons().stream().map(this::mapToDto)
 					.collect(Collectors.toList());
 		} catch (PersistenceException e) {
 			myPolygons = List.of();
@@ -107,7 +107,7 @@ public class EntityDtoMapper {
 	public PolygonDto mapToDto(Polygon polygon) {
 		List<RingDto> myRings;
 		try {
-			myRings = polygon.getRings().stream().map(ring -> this.mapToDto(ring)).collect(Collectors.toList());
+			myRings = polygon.getRings().stream().map(this::mapToDto).collect(Collectors.toList());
 		} catch (PersistenceException e) {
 			myRings = List.of();
 		}
@@ -119,7 +119,7 @@ public class EntityDtoMapper {
 	public RingDto mapToDto(Ring ring) {
 		List<LocationDto> myLocations;
 		try {
-			myLocations = ring.getLocations().stream().map(location -> this.mapToDto(location))
+			myLocations = ring.getLocations().stream().map(this::mapToDto)
 					.sorted((LocationDto l1, LocationDto l2) -> l1.getOrderId().compareTo(l2.getOrderId()))
 					.collect(Collectors.toList());
 		} catch (PersistenceException e) {

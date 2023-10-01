@@ -35,7 +35,9 @@ public class CompanySiteController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CompanySite.class);
 	private final CompanySiteService companySiteService;
 	private final EntityDtoMapper entityDtoMapper;
-	private record Selections(boolean withPolygons, boolean withRings, boolean withLocations) {	}
+
+	private record Selections(boolean withPolygons, boolean withRings, boolean withLocations) {
+	}
 
 	public CompanySiteController(CompanySiteService companySiteService, EntityDtoMapper entityDtoMapper) {
 		this.companySiteService = companySiteService;
@@ -46,9 +48,10 @@ public class CompanySiteController {
 	public List<CompanySiteDto> getCompanySiteByTitle(@Argument String title, @Argument Long year,
 			DataFetchingEnvironment dataFetchingEnvironment) {
 		Selections selections = createSelections(dataFetchingEnvironment);
-		List<CompanySiteDto> companySiteDtos = this.companySiteService.findCompanySiteByTitleAndYear(title, year, selections.withPolygons(), selections.withRings(), selections.withLocations())
-				.stream().map(companySite -> this.entityDtoMapper.mapToDto(companySite))
-				.collect(Collectors.toList());
+		List<CompanySiteDto> companySiteDtos = this.companySiteService
+				.findCompanySiteByTitleAndYear(title, year, selections.withPolygons(), selections.withRings(),
+						selections.withLocations())
+				.stream().map(this.entityDtoMapper::mapToDto).collect(Collectors.toList());
 		return companySiteDtos;
 	}
 
@@ -66,18 +69,19 @@ public class CompanySiteController {
 	@QueryMapping
 	public CompanySiteDto getCompanySiteById(@Argument Long id, DataFetchingEnvironment dataFetchingEnvironment) {
 		Selections selections = createSelections(dataFetchingEnvironment);
-		CompanySite companySite = this.companySiteService.findCompanySiteByIdDetached(id, selections.withPolygons(), selections.withRings(), selections.withLocations())
+		return this.companySiteService
+				.findCompanySiteByIdDetached(id, selections.withPolygons(), selections.withRings(),
+						selections.withLocations())
+				.stream().map(this.entityDtoMapper::mapToDto).findFirst()
 				.orElseThrow(() -> new ResourceNotFoundException(String.format("No CompanySite found for id: %d", id)));
-		return this.entityDtoMapper.mapToDto(companySite);
 	}
 
 	@MutationMapping
 	public CompanySiteDto upsertCompanySite(@Argument(value = "companySite") CompanySiteDto companySiteDto) {
 		CompanySite companySite = this.companySiteService.findCompanySiteById(companySiteDto.getId())
 				.orElse(new CompanySite());
-		companySite = this.companySiteService
-				.upsertCompanySite(this.entityDtoMapper.mapToEntity(companySiteDto, companySite));
-		return this.entityDtoMapper.mapToDto(companySite);
+		return this.entityDtoMapper.mapToDto(this.companySiteService
+				.upsertCompanySite(this.entityDtoMapper.mapToEntity(companySiteDto, companySite)));
 	}
 
 	@MutationMapping
