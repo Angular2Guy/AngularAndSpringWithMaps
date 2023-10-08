@@ -20,12 +20,15 @@ import {
   ElementRef,
   AfterViewInit,
   OnDestroy,
+  DestroyRef,
+  inject,
 } from "@angular/core";
 import { CompanySiteService } from "../services/company-site.service";
 import "bingmaps";
 import { ConfigurationService } from "../services/configuration.service";
 import { MainConfiguration } from "../model/main-configuration";
-import { Observable, of, iif, Subject, forkJoin, Subscription } from "rxjs";
+import { Observable, of, iif, Subject, forkJoin } from "rxjs";
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CompanySite } from "../model/company-site";
 import { FormBuilder, Validators } from "@angular/forms";
 import {
@@ -88,10 +91,8 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
   protected readonly SLIDER_YEAR = "sliderYear";
   protected readonly PROPERTY = "property";
   private mainConfiguration: MainConfiguration = null;
-  private readonly containerInitSubject = new Subject<Container>();
-  private containerInitSubjectSubscription: Subscription;
-  private companySiteSubscription: Subscription;
-  private sliderYearSubscription: Subscription;
+  private readonly containerInitSubject = new Subject<Container>();  
+  private readonly destroy: DestroyRef = inject(DestroyRef);
 
   constructor(
     public dialog: MatDialog,
@@ -116,9 +117,10 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
             this.componentForm.get(this.SLIDER_YEAR).value
           )
         )
-      )
+      ),
+      takeUntilDestroyed(this.destroy)
     );
-    this.sliderYearSubscription = this.componentForm.controls[
+    this.componentForm.controls[
       this.SLIDER_YEAR
     ].valueChanges
       .pipe(
@@ -141,7 +143,8 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
             companySite?.length &&
             companySite.length > 0 &&
             companySite[0].polygons.length > 0
-        )
+        ),
+        takeUntilDestroyed(this.destroy)
       )
       .subscribe((companySite) => this.updateMap(companySite[0]));
     forkJoin([
@@ -150,7 +153,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getCompanySiteTitle(),
         this.componentForm.controls[this.SLIDER_YEAR].value
       ),
-    ]).subscribe((values) => {
+    ]).pipe(takeUntilDestroyed(this.destroy)).subscribe((values) => {
       this.mainConfiguration = values[0];
       this.containerInitSubject.next({
         companySite: values[1][0],
@@ -160,7 +163,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.containerInitSubjectSubscription = this.containerInitSubject
+    this.containerInitSubject
       .pipe(
         filter(
           (myContainer) =>
@@ -173,7 +176,8 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
           this.bingMapsService
             .initialize(myContainer.mainConfiguration.mapKey)
             .pipe(flatMap(() => of(myContainer)))
-        )
+        ),
+        takeUntilDestroyed(this.destroy)
       )
       .subscribe((container) => {
         const mapOptions =
@@ -203,9 +207,6 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.containerInitSubject.complete();
-    this.containerInitSubjectSubscription.unsubscribe();
-    this.companySiteSubscription.unsubscribe();
-    this.sliderYearSubscription.unsubscribe();
     this.map.dispose();
   }
 
@@ -255,6 +256,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
       myCompanySite.polygons.push(newPolygon);
       this.companySiteService
         .upsertCompanySite(myCompanySite)
+        .pipe(takeUntilDestroyed(this.destroy))
         .subscribe((newCompanySite) => {
           this.componentForm.controls[this.COMPANY_SITE].setValue(
             newCompanySite
@@ -282,7 +284,8 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
         ),
         filter(
           (myCompanySite) => myCompanySite?.length && myCompanySite?.length > 0
-        )
+        ),
+        takeUntilDestroyed(this.destroy)
       )
       .subscribe((companySite) => {
         this.componentForm.controls[this.COMPANY_SITE].setValue(companySite[0]);
@@ -370,6 +373,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getCompanySiteTitle(),
         this.componentForm.controls[this.SLIDER_YEAR].value as number
       )
+      .pipe(takeUntilDestroyed(this.destroy))
       .subscribe((companySite) => this.updateMap(companySite[0]));
   }
 
@@ -464,7 +468,8 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
             .pipe(
               switchMap(() =>
                 this.companySiteService.findById(polygonMetaData.companySiteId)
-              )
+              ),
+              takeUntilDestroyed(this.destroy)
             )
             .subscribe((myCompanySite) => {
               this.componentForm.controls[this.COMPANY_SITE].setValue(
