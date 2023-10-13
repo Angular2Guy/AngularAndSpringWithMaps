@@ -81,7 +81,7 @@ An example Graphql query/params with all fields:
 Spring Graphql executes it with 4 sql queries. One query for the CompanySites, Polygons, Rings and Locations.
 
 ## Setup
-Java 17 or newer.
+Java 21 or newer.
 
 Postgresql 14.x or newer.
 
@@ -89,12 +89,12 @@ Eclipse IDE for Enterprise Java and Web Developers newest version.
 
 Install Eclipse Plugin 'Eclipse Wild Web Developer' of the Eclipse Marketplace.
 
-Gradle 7.5 or newer.
+Gradle 8.4 or newer.
 
-Nodejs 14.20.x or newer
+Nodejs 16.19.x or newer
 
-Npm 6.13.x or newer
+Npm 8.19.x or newer
 
-Angular Cli 15 or newer.
+Angular Cli 16 or newer.
 
 GraalVM 22.3 or newer
