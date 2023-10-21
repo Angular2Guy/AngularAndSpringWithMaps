@@ -67,6 +67,14 @@ test {
 	useJUnitPlatform()
 }
 
+graalvmNative {
+    binaries {
+        main {
+          buildArgs.add("--gc=G1")
+        }
+    }
+}
+
 //eclpise fix
 tasks.register('copyClasses') {
    doLast{
