@@ -5,12 +5,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Repository;
 
 import ch.xxx.maps.domain.model.entity.CompanySite;
 import ch.xxx.maps.domain.model.entity.CompanySiteRepository;
 
 @Repository
+@RegisterReflectionForBinding({JpaCompanySiteRepository.class, CompanySiteRepositoryBean.class})
 public class CompanySiteRepositoryBean implements CompanySiteRepository {
 	private final JpaCompanySiteRepository jpaCompanySiteRepository;
 	

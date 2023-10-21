@@ -3,12 +3,14 @@ package ch.xxx.maps.adapter.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Repository;
 
 import ch.xxx.maps.domain.model.entity.Polygon;
 import ch.xxx.maps.domain.model.entity.PolygonRepository;
 
 @Repository
+@RegisterReflectionForBinding({JpaPolygonRepository.class, PolygonRepositoryBean.class})
 public class PolygonRepositoryBean implements PolygonRepository {
 	private final JpaPolygonRepository jpaPolygonRepository;
 	

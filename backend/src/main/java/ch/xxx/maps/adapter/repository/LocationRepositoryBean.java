@@ -2,12 +2,14 @@ package ch.xxx.maps.adapter.repository;
 
 import java.util.List;
 
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Repository;
 
 import ch.xxx.maps.domain.model.entity.Location;
 import ch.xxx.maps.domain.model.entity.LocationRepository;
 
 @Repository
+@RegisterReflectionForBinding({JpaLocationRepository.class, LocationRepositoryBean.class})
 public class LocationRepositoryBean implements LocationRepository {
 	private final JpaLocationRepository jpaLocationRepository;
 	

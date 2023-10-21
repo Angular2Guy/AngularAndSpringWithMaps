@@ -2,12 +2,14 @@ package ch.xxx.maps.adapter.repository;
 
 import java.util.List;
 
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Repository;
 
 import ch.xxx.maps.domain.model.entity.Ring;
 import ch.xxx.maps.domain.model.entity.RingRepository;
 
 @Repository
+@RegisterReflectionForBinding({JpaRingRepository.class, RingRepositoryBean.class})
 public class RingRepositoryBean implements RingRepository {
 	private final JpaRingRepository jpaRingRepository;
 
