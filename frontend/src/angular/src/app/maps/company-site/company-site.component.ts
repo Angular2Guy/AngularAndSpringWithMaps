@@ -336,6 +336,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
       | Microsoft.Maps.IMouseEventArgs
       | Microsoft.Maps.IPrimitiveChangedEventArgs
   ): void {
+	console.log(e);
     if (
       (e as Microsoft.Maps.IMouseEventArgs).targetType === "polygon" &&
       (e as Microsoft.Maps.IMouseEventArgs).eventName === "click"

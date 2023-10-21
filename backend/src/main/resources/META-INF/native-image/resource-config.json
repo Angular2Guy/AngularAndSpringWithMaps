@@ -17,9 +17,13 @@
   }, {
     "pattern":"\\QMETA-INF/resources/en/polyfills.543c9ace48f24050.js\\E"
   }, {
+    "pattern":"\\QMETA-INF/resources/en/runtime.03d8045030ddc257.js\\E"
+  }, {
     "pattern":"\\QMETA-INF/resources/en/runtime.583feae14b258374.js\\E"
   }, {
     "pattern":"\\QMETA-INF/resources/en/src_app_maps_maps_module_ts.8db969ab77701b76.js\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/en/src_app_maps_maps_module_ts.95e5dc7703ff6819.js\\E"
   }, {
     "pattern":"\\QMETA-INF/resources/en/styles.c77941ca37c7cc31.css\\E"
   }, {
@@ -141,6 +145,14 @@
   }, {
     "pattern":"\\Q\\E"
   }, {
+    "pattern":"\\Qapplication-default.properties\\E"
+  }, {
+    "pattern":"\\Qapplication-default.xml\\E"
+  }, {
+    "pattern":"\\Qapplication-default.yaml\\E"
+  }, {
+    "pattern":"\\Qapplication-default.yml\\E"
+  }, {
     "pattern":"\\Qapplication-prod.properties\\E"
   }, {
     "pattern":"\\Qapplication-prod.xml\\E"
@@ -170,6 +182,14 @@
     "pattern":"\\Qch/xxx/maps/domain/model/entity/Polygon.class\\E"
   }, {
     "pattern":"\\Qch/xxx/maps/domain/model/entity/Ring.class\\E"
+  }, {
+    "pattern":"\\Qconfig/application-default.properties\\E"
+  }, {
+    "pattern":"\\Qconfig/application-default.xml\\E"
+  }, {
+    "pattern":"\\Qconfig/application-default.yaml\\E"
+  }, {
+    "pattern":"\\Qconfig/application-default.yml\\E"
   }, {
     "pattern":"\\Qconfig/application-prod.properties\\E"
   }, {
@@ -273,9 +293,13 @@
   }, {
     "pattern":"\\Qresources/en/polyfills.543c9ace48f24050.js\\E"
   }, {
+    "pattern":"\\Qresources/en/runtime.03d8045030ddc257.js\\E"
+  }, {
     "pattern":"\\Qresources/en/runtime.583feae14b258374.js\\E"
   }, {
     "pattern":"\\Qresources/en/src_app_maps_maps_module_ts.8db969ab77701b76.js\\E"
+  }, {
+    "pattern":"\\Qresources/en/src_app_maps_maps_module_ts.95e5dc7703ff6819.js\\E"
   }, {
     "pattern":"\\Qresources/en/styles.c77941ca37c7cc31.css\\E"
   }, {
@@ -297,9 +321,13 @@
   }, {
     "pattern":"\\Qstatic/en/polyfills.543c9ace48f24050.js\\E"
   }, {
+    "pattern":"\\Qstatic/en/runtime.03d8045030ddc257.js\\E"
+  }, {
     "pattern":"\\Qstatic/en/runtime.583feae14b258374.js\\E"
   }, {
     "pattern":"\\Qstatic/en/src_app_maps_maps_module_ts.8db969ab77701b76.js\\E"
+  }, {
+    "pattern":"\\Qstatic/en/src_app_maps_maps_module_ts.95e5dc7703ff6819.js\\E"
   }, {
     "pattern":"\\Qstatic/en/styles.c77941ca37c7cc31.css\\E"
   }, {
