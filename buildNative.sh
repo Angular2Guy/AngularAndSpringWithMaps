@@ -5,9 +5,9 @@
 # set prod profile in application.properties
 # normal build
 ./gradlew clean build  -PwithAngular=true -PuseChromium=true
-# run with native-image-agent
+# run with native-image-agent to generate the 'native-image' config files
 java -Dspring.aot.enabled=true -agentlib:native-image-agent=config-merge-dir=backend/src/main/resources/META-INF/native-image -jar ./backend/build/libs/angularAndSpringWithMaps.jar
-# add liquibase data/*.csv files to META-INF/native-image/resource-config.json
+# liquibase data/*.csv files have to be included in META-INF/native-image/resource-config.json
 #    {
 #      "pattern":"\\Qdbchangelog/data/company_site.csv\\E"
 #    },  
@@ -22,7 +22,7 @@ java -Dspring.aot.enabled=true -agentlib:native-image-agent=config-merge-dir=bac
 #    },
 # native build
 ./gradlew clean nativeCompile -PwithAngular=true -PuseChromium=true
-# run native binary(more than 200MB)
+# run native binary(more than 240MB)
 ./backend/build/native/nativeCompile/backend
 # build Docker image
 docker build -t angular2guy/angularandspringwithmaps-native:latest --build-arg APP_FILE=build/native/nativeCompile/backend --no-cache .

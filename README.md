@@ -7,6 +7,7 @@ Author: Sven Loesekann
 Technologies: Angular, Spring Boot, Java, Gradle, GraphQl, GraphiQl, Typescript, Angular Cli, Angular Material, H2/Postgresql Databases, Jpa, Bing Maps, GraalVM native image
 
 ## Articles
+* [Comparing the efficency of a Spring Boot project as GraalVm native image and on the Jdk to a Go project](https://angular2guy.wordpress.com/2023/10/21/comparing-the-efficiency-of-a-spring-boot-project-as-graalvm-native-image-and-on-the-jdk-to-a-go-project/)
 * [Spring Boot 3 update experience](https://angular2guy.wordpress.com/2022/11/15/spring-boot-3-update-experience/)
 * [Graphql in Mircoservices](https://angular2guy.wordpress.com/2022/10/24/graphql-in-microservices/)
 * [Bing Maps With Angular in a Spring Boot Application](https://angular2guy.wordpress.com/2021/07/31/bing-maps-with-angular-in-a-spring-boot-application/)
