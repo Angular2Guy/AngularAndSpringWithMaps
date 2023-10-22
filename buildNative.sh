@@ -6,7 +6,7 @@
 # normal build
 ./gradlew clean build  -PwithAngular=true -PuseChromium=true
 # run with native-image-agent to generate the 'native-image' config files
-java -Dspring.aot.enabled=true -agentlib:native-image-agent=config-merge-dir=backend/src/main/resources/META-INF/native-image -jar ./backend/build/libs/angularAndSpringWithMaps.jar
+java -Dspring.aot.enabled=true -agentlib:native-image-agent=config-merge-dir=backend/src/main/resources/META-INF/native-image -jar ./backend/build/libs/angularAndSpringWithMaps.jar --spring.profiles.active=prod
 # liquibase data/*.csv files have to be included in META-INF/native-image/resource-config.json
 #    {
 #      "pattern":"\\Qdbchangelog/data/company_site.csv\\E"

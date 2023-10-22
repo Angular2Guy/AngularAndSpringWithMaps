@@ -449,6 +449,11 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"ch.xxx.maps.domain.model.entity.CompanySite$HibernateAccessOptimizer$loVlzlUa",
+  "fields":[{"name":"invocationTarget$jf9egg1"}],
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"ch.xxx.maps.domain.model.entity.CompanySite$HibernateAccessOptimizer$naTC4Gef",
   "fields":[{"name":"invocationTarget$idi4701"}],
   "methods":[{"name":"<init>","parameterTypes":[] }]
@@ -460,6 +465,10 @@
 },
 {
   "name":"ch.xxx.maps.domain.model.entity.CompanySite$HibernateInstantiator$1MZlExIF",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.xxx.maps.domain.model.entity.CompanySite$HibernateInstantiator$CZribKFJ",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -501,6 +510,11 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"ch.xxx.maps.domain.model.entity.Location$HibernateAccessOptimizer$JH0fxLF2",
+  "fields":[{"name":"invocationTarget$913p011"}],
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"ch.xxx.maps.domain.model.entity.Location$HibernateAccessOptimizer$Q9ORDfC2",
   "fields":[{"name":"invocationTarget$2gd9290"}],
   "methods":[{"name":"<init>","parameterTypes":[] }]
@@ -520,6 +534,10 @@
 },
 {
   "name":"ch.xxx.maps.domain.model.entity.Location$HibernateInstantiator$qUgnV9Lt",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.xxx.maps.domain.model.entity.Location$HibernateInstantiator$sHTl2fev",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -545,6 +563,11 @@
 {
   "name":"ch.xxx.maps.domain.model.entity.Polygon$HibernateAccessOptimizer$6MDiaLHx",
   "fields":[{"name":"invocationTarget$a1rlqk1"}],
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.xxx.maps.domain.model.entity.Polygon$HibernateAccessOptimizer$KMM4ElHd",
+  "fields":[{"name":"invocationTarget$aq7o381"}],
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -575,6 +598,10 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"ch.xxx.maps.domain.model.entity.Polygon$HibernateInstantiator$PudzqqjR",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"ch.xxx.maps.domain.model.entity.Polygon$HibernateInstantiator$aVXym1zE",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
@@ -597,6 +624,11 @@
 {
   "name":"ch.xxx.maps.domain.model.entity.Ring$HibernateAccessOptimizer$3tbStxjU",
   "fields":[{"name":"invocationTarget$p1mk6h1"}],
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.xxx.maps.domain.model.entity.Ring$HibernateAccessOptimizer$CKbWahgR",
+  "fields":[{"name":"invocationTarget$6dkm160"}],
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -624,6 +656,10 @@
 },
 {
   "name":"ch.xxx.maps.domain.model.entity.Ring$HibernateInstantiator$FjzEnlka",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.xxx.maps.domain.model.entity.Ring$HibernateInstantiator$G9aD0dob",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -877,12 +913,18 @@
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"close","parameterTypes":[] }, {"name":"getConnection","parameterTypes":[] }, {"name":"getConnection","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"getLogWriter","parameterTypes":[] }, {"name":"getLoginTimeout","parameterTypes":[] }, {"name":"getParentLogger","parameterTypes":[] }, {"name":"isWrapperFor","parameterTypes":["java.lang.Class"] }, {"name":"setHealthCheckRegistry","parameterTypes":["java.lang.Object"] }, {"name":"setLogWriter","parameterTypes":["java.io.PrintWriter"] }, {"name":"setLoginTimeout","parameterTypes":["int"] }, {"name":"setMetricRegistry","parameterTypes":["java.lang.Object"] }, {"name":"setMetricsTrackerFactory","parameterTypes":["com.zaxxer.hikari.metrics.MetricsTrackerFactory"] }, {"name":"unwrap","parameterTypes":["java.lang.Class"] }]
 },
 {
+  "name":"com.zaxxer.hikari.pool.HikariPool"
+},
+{
   "name":"com.zaxxer.hikari.pool.PoolBase",
   "fields":[{"name":"catalog"}]
 },
 {
   "name":"com.zaxxer.hikari.pool.PoolEntry",
   "fields":[{"name":"state"}]
+},
+{
+  "name":"com.zaxxer.hikari.util.DriverDataSource"
 },
 {
   "name":"double",
@@ -1667,6 +1709,10 @@
 },
 {
   "name":"java.sql.DriverManager"
+},
+{
+  "name":"java.sql.SQLException",
+  "fields":[{"name":"next"}]
 },
 {
   "name":"java.sql.Types",
@@ -3324,8 +3370,20 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"org.postgresql.core.ConnectionFactory"
+},
+{
   "name":"org.postgresql.core.QueryExecutorCloseAction",
   "fields":[{"name":"pgStream"}]
+},
+{
+  "name":"org.postgresql.core.v3.ConnectionFactoryImpl"
+},
+{
+  "name":"org.postgresql.core.v3.QueryExecutorImpl"
+},
+{
+  "name":"org.postgresql.jdbc.PgConnection"
 },
 {
   "name":"org.postgresql.jdbc.PgStatement",
