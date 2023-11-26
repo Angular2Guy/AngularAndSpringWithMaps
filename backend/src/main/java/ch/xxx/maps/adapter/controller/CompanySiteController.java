@@ -45,7 +45,7 @@ public class CompanySiteController {
 	}
 
 	@QueryMapping
-	public List<CompanySiteDto> getCompanySiteByTitle(@Argument String title, @Argument Long year,
+	public List<CompanySiteDto> getCompanySiteByTitle(@Argument("title") String title, @Argument("year") Long year,
 			DataFetchingEnvironment dataFetchingEnvironment) {
 		Selections selections = createSelections(dataFetchingEnvironment);
 		List<CompanySiteDto> companySiteDtos = this.companySiteService
@@ -67,7 +67,7 @@ public class CompanySiteController {
 	}
 
 	@QueryMapping
-	public CompanySiteDto getCompanySiteById(@Argument Long id, DataFetchingEnvironment dataFetchingEnvironment) {
+	public CompanySiteDto getCompanySiteById(@Argument("id") Long id, DataFetchingEnvironment dataFetchingEnvironment) {
 		Selections selections = createSelections(dataFetchingEnvironment);
 		return this.companySiteService
 				.findCompanySiteByIdDetached(id, selections.withPolygons(), selections.withRings(),
