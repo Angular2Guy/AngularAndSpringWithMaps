@@ -5,4 +5,4 @@ ENV MY_SPRING_PROFILE=$SPRING_PROFILE
 ARG APP_FILE
 ADD backend/${APP_FILE} /app.jar
 ENV JAVA_OPTS="-XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication"
-ENTRYPOINT exec java $JAVA_OPTS -Dspring.profiles.active=$MY_SPRING_PROFILE -Dliquibase.duplicateFileMode=WARN -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+ENTRYPOINT exec java $JAVA_OPTS -DspringAot=true -Dspring.profiles.active=$MY_SPRING_PROFILE -Dliquibase.duplicateFileMode=WARN -Djava.security.egd=file:/dev/./urandom -jar /app.jar
