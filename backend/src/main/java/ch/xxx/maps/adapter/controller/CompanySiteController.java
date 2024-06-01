@@ -90,7 +90,7 @@ public class CompanySiteController {
 	}
 
 	@MutationMapping
-	public Boolean deletePolygon(@Argument Long companySiteId, @Argument Long polygonId) {
+	public Boolean deletePolygon(@Argument("companySiteId") Long companySiteId, @Argument("polygonId") Long polygonId) {
 		LOGGER.info("companySiteId: {} polygonId: {}", companySiteId, polygonId);
 		return this.companySiteService.deletePolygon(companySiteId, polygonId);
 	}
