@@ -6,6 +6,8 @@ Author: Sven Loesekann
 
 Technologies: Angular, Spring Boot, Java, Gradle, GraphQl, GraphiQl, Typescript, Angular Cli, Angular Material, H2/Postgresql Databases, Jpa, Bing Maps, GraalVM native image
 
+[![CodeQL](https://github.com/Angular2Guy/AngularAndSpringWithMaps/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Angular2Guy/AngularAndSpringWithMaps/actions/workflows/codeql-analysis.yml)
+
 ## Articles
 * [Comparing the efficency of a Spring Boot project as GraalVm native image and on the Jdk to a Go project](https://angular2guy.wordpress.com/2023/10/21/comparing-the-efficiency-of-a-spring-boot-project-as-graalvm-native-image-and-on-the-jdk-to-a-go-project/)
 * [Spring Boot 3 update experience](https://angular2guy.wordpress.com/2022/11/15/spring-boot-3-update-experience/)
