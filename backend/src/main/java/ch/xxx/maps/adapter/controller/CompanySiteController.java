@@ -18,30 +18,43 @@ import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import ch.xxx.maps.domain.exceptions.ResourceNotFoundException;
 import ch.xxx.maps.domain.model.dto.CompanySiteDto;
+import ch.xxx.maps.domain.model.dto.LocationDto;
+import ch.xxx.maps.domain.model.dto.PolygonDto;
+import ch.xxx.maps.domain.model.dto.RingDto;
 import ch.xxx.maps.domain.model.entity.CompanySite;
+import ch.xxx.maps.domain.model.entity.CompanySiteRepository;
+import ch.xxx.maps.domain.model.entity.LocationRepository;
+import ch.xxx.maps.domain.model.entity.PolygonRepository;
+import ch.xxx.maps.domain.model.entity.RingRepository;
 import ch.xxx.maps.usecase.mapper.EntityDtoMapper;
 import ch.xxx.maps.usecase.service.CompanySiteService;
 import graphql.schema.DataFetchingEnvironment;
+import jakarta.persistence.EntityManager;
 
 @Controller
 public class CompanySiteController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CompanySite.class);
 	private final CompanySiteService companySiteService;
 	private final EntityDtoMapper entityDtoMapper;
+	private final ApplicationContext applicationContext;
 
 	private record Selections(boolean withPolygons, boolean withRings, boolean withLocations) {
 	}
 
-	public CompanySiteController(CompanySiteService companySiteService, EntityDtoMapper entityDtoMapper) {
+	public CompanySiteController(CompanySiteService companySiteService, EntityDtoMapper entityDtoMapper,
+			ApplicationContext applicationContext) {
 		this.companySiteService = companySiteService;
 		this.entityDtoMapper = entityDtoMapper;
+		this.applicationContext = applicationContext;
 	}
 
 	@QueryMapping
@@ -74,6 +87,25 @@ public class CompanySiteController {
 						selections.withLocations())
 				.stream().map(this.entityDtoMapper::mapToDto).findFirst()
 				.orElseThrow(() -> new ResourceNotFoundException(String.format("No CompanySite found for id: %d", id)));
+	}
+
+	@BatchMapping(typeName = "CompanySiteOut")
+	public List<List<PolygonDto>> polygons(List<CompanySiteDto> companySiteDtos) {
+		return this.companySiteService.fetchPolygonDtos(companySiteDtos).entrySet().stream().map(value -> value
+				.getValue().stream().map(myValue -> this.entityDtoMapper.mapToDtoNew(myValue, value.getKey())).toList())
+				.toList();
+	}
+
+	@BatchMapping(typeName = "PolygonOut")
+	public List<List<RingDto>> rings(List<PolygonDto> polygonDtos) {
+		return this.companySiteService.fetchRingDtos(polygonDtos).entrySet().stream().map(value -> value.getValue()
+				.stream().map(myValue -> this.entityDtoMapper.mapToDtoNew(myValue, value.getKey())).toList()).toList();
+	}
+
+	@BatchMapping(typeName = "RingOut")
+	public List<List<LocationDto>> locations(List<RingDto> ringDtos) {
+		return this.companySiteService.fetchLocationDtos(ringDtos).entrySet().stream().map(value -> value.getValue()
+				.stream().map(myValue -> this.entityDtoMapper.mapToDtoNew(myValue, value.getKey())).toList()).toList();
 	}
 
 	@MutationMapping

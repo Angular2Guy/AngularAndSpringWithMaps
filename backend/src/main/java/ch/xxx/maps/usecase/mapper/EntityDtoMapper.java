@@ -13,6 +13,7 @@
 package ch.xxx.maps.usecase.mapper;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -97,25 +98,50 @@ public class EntityDtoMapper {
 			myPolygons = companySite.getPolygons().stream().map(this::mapToDto)
 					.collect(Collectors.toList());
 		} catch (PersistenceException e) {
-			myPolygons = List.of();
+			myPolygons = new ArrayList<PolygonDto>();
 		}
 		CompanySiteDto dto = new CompanySiteDto(companySite.getId(), companySite.getTitle(), companySite.getAtDate(),
 				myPolygons);
 		return dto;
 	}
+	
+	public CompanySiteDto mapToDtoNew(CompanySite companySite) {
+		var dto = new CompanySiteDto(companySite.getId(), companySite.getTitle(), companySite.getAtDate(),
+				new ArrayList<PolygonDto>());
+		return dto;
+	}
 
+	public PolygonDto mapToDtoNew(Polygon polygon, CompanySiteDto companySiteDto) {
+		PolygonDto dto = new PolygonDto(polygon.getId(), polygon.getFillColor(), polygon.getBorderColor(),
+				polygon.getTitle(), polygon.getLongitude(), polygon.getLatitude(), new ArrayList<RingDto>());
+		companySiteDto.getPolygons().add(dto);
+		return dto;
+	}
+	
 	public PolygonDto mapToDto(Polygon polygon) {
 		List<RingDto> myRings;
 		try {
 			myRings = polygon.getRings().stream().map(this::mapToDto).collect(Collectors.toList());
 		} catch (PersistenceException e) {
-			myRings = List.of();
+			myRings = new ArrayList<RingDto>();
 		}
 		PolygonDto dto = new PolygonDto(polygon.getId(), polygon.getFillColor(), polygon.getBorderColor(),
 				polygon.getTitle(), polygon.getLongitude(), polygon.getLatitude(), myRings);
 		return dto;
 	}
 
+	public RingDto mapToDtoNew(Ring ring, PolygonDto polygonDto) {
+		var dto = new RingDto(ring.getId(), ring.isPrimaryRing(), new ArrayList<LocationDto>());
+		polygonDto.getRings().add(dto);
+		return dto;
+	}
+	
+	public LocationDto mapToDtoNew(Location location, RingDto ringDto) {
+		var dto = new LocationDto(location.getId(), location.getLongitude(), location.getLatitude(), location.getOrderId());
+		ringDto.getLocations().add(dto);
+		return dto;
+	}
+	
 	public RingDto mapToDto(Ring ring) {
 		List<LocationDto> myLocations;
 		try {
@@ -123,7 +149,7 @@ public class EntityDtoMapper {
 					.sorted((LocationDto l1, LocationDto l2) -> l1.getOrderId().compareTo(l2.getOrderId()))
 					.collect(Collectors.toList());
 		} catch (PersistenceException e) {
-			myLocations = List.of();
+			myLocations = new ArrayList<LocationDto>();
 		}
 		RingDto dto = new RingDto(ring.getId(), ring.isPrimaryRing(), myLocations);
 		return dto;
