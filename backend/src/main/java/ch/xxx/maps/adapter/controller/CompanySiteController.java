@@ -18,7 +18,6 @@ import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -31,30 +30,22 @@ import ch.xxx.maps.domain.model.dto.LocationDto;
 import ch.xxx.maps.domain.model.dto.PolygonDto;
 import ch.xxx.maps.domain.model.dto.RingDto;
 import ch.xxx.maps.domain.model.entity.CompanySite;
-import ch.xxx.maps.domain.model.entity.CompanySiteRepository;
-import ch.xxx.maps.domain.model.entity.LocationRepository;
-import ch.xxx.maps.domain.model.entity.PolygonRepository;
-import ch.xxx.maps.domain.model.entity.RingRepository;
 import ch.xxx.maps.usecase.mapper.EntityDtoMapper;
 import ch.xxx.maps.usecase.service.CompanySiteService;
 import graphql.schema.DataFetchingEnvironment;
-import jakarta.persistence.EntityManager;
 
 @Controller
 public class CompanySiteController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CompanySite.class);
 	private final CompanySiteService companySiteService;
 	private final EntityDtoMapper entityDtoMapper;
-	private final ApplicationContext applicationContext;
 
 	private record Selections(boolean withPolygons, boolean withRings, boolean withLocations) {
 	}
 
-	public CompanySiteController(CompanySiteService companySiteService, EntityDtoMapper entityDtoMapper,
-			ApplicationContext applicationContext) {
+	public CompanySiteController(CompanySiteService companySiteService, EntityDtoMapper entityDtoMapper) {
 		this.companySiteService = companySiteService;
 		this.entityDtoMapper = entityDtoMapper;
-		this.applicationContext = applicationContext;
 	}
 
 	@QueryMapping

@@ -68,35 +68,6 @@ public class CompanySiteService {
 		title = title.trim().toLowerCase();
 		List<CompanySite> companySites = this.companySiteRepository.findByTitleFromTo(title, beginOfYear, endOfYear)
 				.stream().peek(this.entityManager::detach).toList();
-//		companySites = addEntities(withPolygons, withRings, withLocations, companySites);
-		return companySites;
-	}
-
-	
-	
-	private List<CompanySite> addEntities(boolean withPolygons, boolean withRings, boolean withLocations,
-			List<CompanySite> companySites) {
-		if (withPolygons) {
-			Map<Long, List<Polygon>> fetchPolygons = this.fetchPolygonEntitys(companySites);
-			Map<Long, List<Ring>> fetchRings = !withRings ? Map.of()
-					: this.fetchRings(fetchPolygons.values().stream().flatMap(List::stream).toList());
-			Map<Long, List<Location>> fetchLocations = !withLocations ? Map.of()
-					: this.fetchLocations(fetchRings.values().stream().flatMap(List::stream).toList());
-			companySites.forEach(myCompanySite -> {
-				myCompanySite.setPolygons(new HashSet<>(fetchPolygons.getOrDefault(myCompanySite.getId(), List.of())));
-				if (withRings) {
-					myCompanySite.getPolygons().forEach(myPolygon -> {
-						myPolygon.setRings(new HashSet<>(fetchRings.getOrDefault(myPolygon.getId(), List.of())));
-						if (withLocations) {
-							myPolygon.getRings().forEach(myRing -> {
-								myRing.setLocations(
-										new HashSet<>(fetchLocations.getOrDefault(myRing.getId(), List.of())));
-							});
-						}
-					});
-				}
-			});
-		}
 		return companySites;
 	}
 
@@ -108,7 +79,6 @@ public class CompanySiteService {
 	public Optional<CompanySite> findCompanySiteByIdDetached(Long id, boolean withPolygons, boolean withRings,
 			boolean withLocations) {
 		return Optional.ofNullable(id).flatMap(myId -> this.companySiteRepository.findById(myId)).stream()
-//				.peek(myCompanySite -> this.addEntities(withPolygons, withRings, withLocations, List.of(myCompanySite)))
 				.findFirst();
 	}
 
@@ -208,7 +178,7 @@ public class CompanySiteService {
 				.findAllByRingIds(ringDtos.stream().map(RingDto::getId).collect(Collectors.toList())).stream()
 				.peek(this.entityManager::detach).toList();
 		return ringDtos.stream()
-				.map(myRi -> Map.entry(myRi, findLocations(locations, myRi.getId())))
+				.map(myRi -> Map.entry(myRi, findLocations(locations, myRi.getId())))				
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> {throw new RuntimeException();}, LinkedHashMap::new));
 	}
 	
@@ -236,6 +206,7 @@ public class CompanySiteService {
 
 	private List<Location> findLocations(List<Location> locations, Long myRiId) {
 		return locations.stream().filter(myLocation -> myLocation.getRing().getId().equals(myRiId))
+				.sorted((a,b) -> a.getOrderId().compareTo(b.getOrderId()))
 				.collect(Collectors.toList());
 	}
 }
