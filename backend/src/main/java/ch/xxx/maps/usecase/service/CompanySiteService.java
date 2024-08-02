@@ -143,23 +143,10 @@ public class CompanySiteService {
 		return companySiteDtos.stream()
 				.map(myCs -> Map.entry(myCs, findPolygons(polygons, myCs.getId())))
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> {throw new RuntimeException();}, LinkedHashMap::new));
-	}
-	
-	public LinkedHashMap<Long, List<Polygon>> fetchPolygonEntitys(List<CompanySite> companySites) {
-		List<Polygon> polygons = this.polygonRepository
-				.findAllByCompanySiteIds(companySites.stream().map(myDto -> myDto.getId()).toList())
-				.stream().peek(this.entityManager::detach).toList();
-		return companySites.stream()
-				.map(myCs -> Map.entry(myCs.getId(), findPolygons(polygons, myCs.getId())))
-				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> {throw new RuntimeException();}, LinkedHashMap::new));
-	}
+	}		
 
 	private List<Polygon> findPolygons(List<Polygon> polygons, Long myCsId) {
 		return polygons.stream().filter(myPolygon -> myPolygon.getCompanySite().getId().equals(myCsId)).toList();
-	}
-
-	private <T extends BaseEntity> T findEntity(List<T> companySites, Long myCsId) {
-		return companySites.stream().filter(myCs -> myCs.getId().equals(myCsId)).findFirst().orElseThrow();
 	}
 
 	public LinkedHashMap<PolygonDto, List<Ring>> fetchRingDtos(List<PolygonDto> polygonDtos) {
@@ -179,27 +166,9 @@ public class CompanySiteService {
 				.map(myRi -> Map.entry(myRi, findLocations(locations, myRi.getId())))				
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> {throw new RuntimeException();}, LinkedHashMap::new));
 	}
-	
-	public Map<Long, List<Ring>> fetchRings(List<Polygon> polygons) {
-		List<Ring> rings = this.ringRepository
-				.findAllByPolygonIds(polygons.stream().map(Polygon::getId).collect(Collectors.toList())).stream()
-				.peek(this.entityManager::detach).toList();
-		return polygons.stream().map(Polygon::getId)
-				.map(myPgId -> Map.entry(this.findEntity(polygons, myPgId).getId(), findRings(rings, myPgId)))
-				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-	}
 
 	private List<Ring> findRings(List<Ring> rings, Long myPgId) {
 		return rings.stream().filter(myRing -> myRing.getPolygon().getId().equals(myPgId)).collect(Collectors.toList());
-	}
-
-	public Map<Long, List<Location>> fetchLocations(List<Ring> rings) {
-		List<Location> locations = this.locationRepository
-				.findAllByRingIds(rings.stream().map(Ring::getId).collect(Collectors.toList())).stream()
-				.peek(this.entityManager::detach).toList();
-		return rings.stream().map(Ring::getId)
-				.map(myRiId -> Map.entry(this.findEntity(rings, myRiId).getId(), findLocations(locations, myRiId)))
-				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 	}
 
 	private List<Location> findLocations(List<Location> locations, Long myRiId) {
