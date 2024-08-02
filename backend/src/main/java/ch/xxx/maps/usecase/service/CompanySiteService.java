@@ -58,8 +58,7 @@ public class CompanySiteService {
 		this.entityManager = entityManager;
 	}
 
-	public Collection<CompanySite> findCompanySiteByTitleAndYear(String title, Long year, boolean withPolygons,
-			boolean withRings, boolean withLocations) {
+	public Collection<CompanySite> findCompanySiteByTitleAndYear(String title, Long year) {
 		if (title == null || title.length() < 2 || year == null) {
 			return List.of();
 		}
@@ -76,8 +75,7 @@ public class CompanySiteService {
 				.findFirst();
 	}
 
-	public Optional<CompanySite> findCompanySiteByIdDetached(Long id, boolean withPolygons, boolean withRings,
-			boolean withLocations) {
+	public Optional<CompanySite> findCompanySiteByIdDetached(Long id) {
 		return Optional.ofNullable(id).flatMap(myId -> this.companySiteRepository.findById(myId)).stream()
 				.findFirst();
 	}

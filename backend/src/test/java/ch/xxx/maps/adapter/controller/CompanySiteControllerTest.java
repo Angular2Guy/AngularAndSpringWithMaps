@@ -14,7 +14,6 @@ package ch.xxx.maps.adapter.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -22,6 +21,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
@@ -58,8 +58,7 @@ public class CompanySiteControllerTest extends BaseControllerTest {
 
 //	@Test
 	public void getCompanySiteByIdFound() throws Exception {
-		Mockito.when(this.companySiteService.findCompanySiteByIdDetached(any(Long.class), anyBoolean(), anyBoolean(),
-				anyBoolean())).thenReturn(Optional.of(this.createCompanySiteEntity()));
+		Mockito.when(this.companySiteService.findCompanySiteByIdDetached(any(Long.class))).thenReturn(Optional.of(this.createCompanySiteEntity()));
 		String myDocument = "{ getCompanySiteById(id:1) \n" + "    { id, title, atDate, \n"
 				+ "      polygons { id, fillColor, borderColor, title, longitude, latitude,\n"
 				+ "        rings{ id, primaryRing,\n" + " locations { id, longitude, latitude}}}}}";
