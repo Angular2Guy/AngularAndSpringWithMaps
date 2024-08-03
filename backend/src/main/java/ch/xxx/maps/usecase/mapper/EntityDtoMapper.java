@@ -95,26 +95,20 @@ public class EntityDtoMapper {
 		return dto;
 	}
 	
-	public CompanySiteDto mapToDtoNew(CompanySite companySite) {
-		var dto = new CompanySiteDto(companySite.getId(), companySite.getTitle(), companySite.getAtDate(),
-				new ArrayList<PolygonDto>());
-		return dto;
-	}
-
-	public PolygonDto mapToDtoNew(Polygon polygon, CompanySiteDto companySiteDto) {
+	public PolygonDto mapToDto(Polygon polygon, CompanySiteDto companySiteDto) {
 		PolygonDto dto = new PolygonDto(polygon.getId(), polygon.getFillColor(), polygon.getBorderColor(),
 				polygon.getTitle(), polygon.getLongitude(), polygon.getLatitude(), new ArrayList<RingDto>());
 		companySiteDto.getPolygons().add(dto);
 		return dto;
 	}
 	
-	public RingDto mapToDtoNew(Ring ring, PolygonDto polygonDto) {
+	public RingDto mapToDto(Ring ring, PolygonDto polygonDto) {
 		var dto = new RingDto(ring.getId(), ring.isPrimaryRing(), new ArrayList<LocationDto>());
 		polygonDto.getRings().add(dto);
 		return dto;
 	}
 	
-	public LocationDto mapToDtoNew(Location location, RingDto ringDto) {
+	public LocationDto mapToDto(Location location, RingDto ringDto) {
 		var dto = new LocationDto(location.getId(), location.getLongitude(), location.getLatitude(), location.getOrderId());
 		ringDto.getLocations().add(dto);
 		return dto;

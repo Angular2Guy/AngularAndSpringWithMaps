@@ -62,20 +62,20 @@ public class CompanySiteController {
 	@BatchMapping(typeName = "CompanySiteOut")
 	public List<List<PolygonDto>> polygons(List<CompanySiteDto> companySiteDtos) {
 		return this.companySiteService.fetchPolygonDtos(companySiteDtos).entrySet().stream().map(value -> value
-				.getValue().stream().map(myValue -> this.entityDtoMapper.mapToDtoNew(myValue, value.getKey())).toList())
+				.getValue().stream().map(myValue -> this.entityDtoMapper.mapToDto(myValue, value.getKey())).toList())
 				.toList();
 	}
 
 	@BatchMapping(typeName = "PolygonOut")
 	public List<List<RingDto>> rings(List<PolygonDto> polygonDtos) {
 		return this.companySiteService.fetchRingDtos(polygonDtos).entrySet().stream().map(value -> value.getValue()
-				.stream().map(myValue -> this.entityDtoMapper.mapToDtoNew(myValue, value.getKey())).toList()).toList();
+				.stream().map(myValue -> this.entityDtoMapper.mapToDto(myValue, value.getKey())).toList()).toList();
 	}
 
 	@BatchMapping(typeName = "RingOut")
 	public List<List<LocationDto>> locations(List<RingDto> ringDtos) {
 		return this.companySiteService.fetchLocationDtos(ringDtos).entrySet().stream().map(value -> value.getValue()
-				.stream().map(myValue -> this.entityDtoMapper.mapToDtoNew(myValue, value.getKey())).toList()).toList();
+				.stream().map(myValue -> this.entityDtoMapper.mapToDto(myValue, value.getKey())).toList()).toList();
 	}
 
 	@MutationMapping
