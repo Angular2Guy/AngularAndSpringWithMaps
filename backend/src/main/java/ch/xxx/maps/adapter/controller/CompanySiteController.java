@@ -31,7 +31,6 @@ import ch.xxx.maps.domain.model.dto.RingDto;
 import ch.xxx.maps.domain.model.entity.CompanySite;
 import ch.xxx.maps.usecase.mapper.EntityDtoMapper;
 import ch.xxx.maps.usecase.service.CompanySiteService;
-import graphql.schema.DataFetchingEnvironment;
 
 @Controller
 public class CompanySiteController {
@@ -45,8 +44,7 @@ public class CompanySiteController {
 	}
 
 	@QueryMapping
-	public List<CompanySiteDto> getCompanySiteByTitle(@Argument("title") String title, @Argument("year") Long year,
-			DataFetchingEnvironment dataFetchingEnvironment) {
+	public List<CompanySiteDto> getCompanySiteByTitle(@Argument("title") String title, @Argument("year") Long year) {
 		List<CompanySiteDto> companySiteDtos = this.companySiteService
 				.findCompanySiteByTitleAndYear(title, year)
 				.stream().map(this.entityDtoMapper::mapToDto).collect(Collectors.toList());
@@ -54,7 +52,7 @@ public class CompanySiteController {
 	}
 
 	@QueryMapping
-	public CompanySiteDto getCompanySiteById(@Argument("id") Long id, DataFetchingEnvironment dataFetchingEnvironment) {
+	public CompanySiteDto getCompanySiteById(@Argument("id") Long id) {
 		return this.companySiteService
 				.findCompanySiteByIdDetached(id)
 				.stream().map(this.entityDtoMapper::mapToDto).findFirst()

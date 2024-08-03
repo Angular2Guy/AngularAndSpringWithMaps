@@ -28,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ch.xxx.maps.domain.model.dto.CompanySiteDto;
 import ch.xxx.maps.domain.model.dto.PolygonDto;
 import ch.xxx.maps.domain.model.dto.RingDto;
-import ch.xxx.maps.domain.model.entity.BaseEntity;
 import ch.xxx.maps.domain.model.entity.CompanySite;
 import ch.xxx.maps.domain.model.entity.CompanySiteRepository;
 import ch.xxx.maps.domain.model.entity.Location;
