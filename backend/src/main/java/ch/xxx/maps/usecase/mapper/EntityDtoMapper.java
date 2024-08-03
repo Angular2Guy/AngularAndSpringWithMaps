@@ -23,7 +23,6 @@ import ch.xxx.maps.domain.model.dto.CompanySiteDto;
 import ch.xxx.maps.domain.model.dto.LocationDto;
 import ch.xxx.maps.domain.model.dto.PolygonDto;
 import ch.xxx.maps.domain.model.dto.RingDto;
-import ch.xxx.maps.domain.model.dto.Tuple;
 import ch.xxx.maps.domain.model.entity.CompanySite;
 import ch.xxx.maps.domain.model.entity.Location;
 import ch.xxx.maps.domain.model.entity.Polygon;
@@ -33,20 +32,22 @@ import ch.xxx.maps.domain.model.entity.Ring;
 public class EntityDtoMapper {
 
 	public CompanySite mapToEntity(CompanySiteDto dto, CompanySite entity) {
+		record Polygons(PolygonDto dto, Polygon entity) {};
 		entity.setAtDate(dto.getAtDate() == null ? LocalDate.now() : dto.getAtDate());
 		entity.setTitle(dto.getTitle());
-		entity.setPolygons(dto.getPolygons().stream().flatMap(myPolygonDto -> Stream.of(new Tuple<PolygonDto, Polygon>(
+		entity.setPolygons(dto.getPolygons().stream().flatMap(myPolygonDto -> Stream.of(new Polygons(
 				myPolygonDto,
 				entity.getPolygons().stream()
 						.filter(myPolygon -> myPolygon.getId() != null && entity.getId() != null
 								&& myPolygon.getId().equals(myPolygonDto.getId()))
 						.findFirst().orElse(new Polygon()))))
-				.flatMap(tuple -> Stream.of(this.mapToEntity(tuple.getA(), tuple.getB(), entity)))
+				.flatMap(myRecord -> Stream.of(this.mapToEntity(myRecord.dto(), myRecord.entity(), entity)))
 				.collect(Collectors.toSet()));
 		return entity;
 	}
 
 	public Polygon mapToEntity(PolygonDto dto, Polygon entity, CompanySite companySite) {
+		record Rings(RingDto dto, Ring entity) {};
 		entity.setBorderColor(dto.getBorderColor());
 		entity.setLatitude(dto.getLatitude());
 		entity.setLongitude(dto.getLongitude());
@@ -55,28 +56,29 @@ public class EntityDtoMapper {
 		entity.setTitle(dto.getTitle());
 		entity.setRings(
 				dto.getRings().stream()
-						.flatMap(myRingDto -> Stream.of(new Tuple<RingDto, Ring>(myRingDto, entity.getRings().stream()
+						.flatMap(myRingDto -> Stream.of(new Rings(myRingDto, entity.getRings().stream()
 								.filter(myRing -> myRing.getId() != null && myRingDto.getId() != null
 										&& myRing.getId().equals(myRingDto.getId()))
 								.findFirst().orElse(new Ring()))))
-						.flatMap(myTuple -> Stream.of(this.mapToEntity(myTuple.getA(), myTuple.getB(), entity)))
+						.flatMap(myTuple -> Stream.of(this.mapToEntity(myTuple.dto(), myTuple.entity(), entity)))
 						.collect(Collectors.toSet()));
 		return entity;
 	}
 
 	public Ring mapToEntity(RingDto dto, Ring entity, Polygon polygon) {
+		record Locations(LocationDto dto, Location entity) { };
 		for (int i = 0; i < dto.getLocations().size(); i++) {
 			dto.getLocations().get(i).setOrderId(i + 1);
 		}
 		entity.setPolygon(polygon);
 		entity.setPrimaryRing(dto.isPrimaryRing());
 		entity.setLocations(dto.getLocations().stream()
-				.flatMap(myLocationDto -> Stream.of(new Tuple<LocationDto, Location>(myLocationDto,
+				.flatMap(myLocationDto -> Stream.of(new Locations(myLocationDto,
 						entity.getLocations().stream()
 								.filter(myLocation -> myLocation.getId() != null && myLocationDto.getId() != null
 										&& myLocation.getId().equals(myLocationDto.getId()))
 								.findFirst().orElse(new Location()))))
-				.flatMap(tuple -> Stream.of(this.mapToEntity(tuple.getA(), tuple.getB(), null, entity)))
+				.flatMap(tuple -> Stream.of(this.mapToEntity(tuple.dto(), tuple.entity(), null, entity)))
 				.collect(Collectors.toSet()));
 		return entity;
 	}
