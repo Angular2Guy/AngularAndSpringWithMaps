@@ -68,9 +68,10 @@ interface PolygonMetaData {
 }
 
 @Component({
-  selector: "app-company-site",
-  templateUrl: "./company-site.component.html",
-  styleUrls: ["./company-site.component.scss"],
+    selector: "app-company-site",
+    templateUrl: "./company-site.component.html",
+    styleUrls: ["./company-site.component.scss"],
+    standalone: false
 })
 export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild("bingMap")

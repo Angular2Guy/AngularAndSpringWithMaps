@@ -23,17 +23,18 @@ import {
 } from "@angular/animations";
 
 @Component({
-  selector: "app-splash",
-  templateUrl: "./splash.component.html",
-  styleUrls: ["./splash.component.scss"],
-  animations: [
-    trigger("showSplash", [
-      state("true", style({ opacity: 1 })),
-      state("false", style({ opacity: 0 })),
-      transition("1 => 0", animate("100ms")),
-      transition("0 => 1", animate("100ms")),
-    ]),
-  ],
+    selector: "app-splash",
+    templateUrl: "./splash.component.html",
+    styleUrls: ["./splash.component.scss"],
+    animations: [
+        trigger("showSplash", [
+            state("true", style({ opacity: 1 })),
+            state("false", style({ opacity: 0 })),
+            transition("1 => 0", animate("100ms")),
+            transition("0 => 1", animate("100ms")),
+        ]),
+    ],
+    standalone: false
 })
 export class SplashComponent implements AfterViewInit {
   myState = false;

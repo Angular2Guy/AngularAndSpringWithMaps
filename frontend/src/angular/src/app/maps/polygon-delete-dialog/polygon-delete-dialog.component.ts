@@ -24,9 +24,10 @@ export interface DialogMetaData {
 }
 
 @Component({
-  selector: "app-polygon-delete-dialog",
-  templateUrl: "./polygon-delete-dialog.component.html",
-  styleUrls: ["./polygon-delete-dialog.component.scss"],
+    selector: "app-polygon-delete-dialog",
+    templateUrl: "./polygon-delete-dialog.component.html",
+    styleUrls: ["./polygon-delete-dialog.component.scss"],
+    standalone: false
 })
 export class PolygonDeleteDialogComponent {
   protected dialogResults = MyDialogResult;
