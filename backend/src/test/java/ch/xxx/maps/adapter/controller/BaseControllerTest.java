@@ -12,7 +12,7 @@
  */
 package ch.xxx.maps.adapter.controller;
 
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import ch.xxx.maps.adapter.repository.JpaCompanySiteRepository;
 import ch.xxx.maps.adapter.repository.JpaLocationRepository;
@@ -20,12 +20,12 @@ import ch.xxx.maps.adapter.repository.JpaPolygonRepository;
 import ch.xxx.maps.adapter.repository.JpaRingRepository;
 
 public class BaseControllerTest {
-	@MockBean
+	@MockitoBean
 	protected JpaCompanySiteRepository jpaCompanySiteRepository;
-	@MockBean
+	@MockitoBean
 	protected JpaLocationRepository jpaLocationRepository;
-	@MockBean
+	@MockitoBean
 	protected JpaPolygonRepository jpaPolygonRepository;
-	@MockBean
+	@MockitoBean
 	protected JpaRingRepository jpaRingRepository;
 }

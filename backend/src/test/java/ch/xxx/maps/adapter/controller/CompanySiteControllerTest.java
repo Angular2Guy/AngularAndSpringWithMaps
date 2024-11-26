@@ -21,14 +21,13 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.graphql.test.tester.GraphQlTester;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import ch.xxx.maps.domain.model.dto.CompanySiteDto;
 import ch.xxx.maps.domain.model.entity.CompanySite;
@@ -44,9 +43,9 @@ import ch.xxx.maps.usecase.service.CompanySiteService;
 //,excludeFilters = @Filter(type = FilterType.REGEX, pattern = ".*\\.(adapter|usecase)\\.(repository|service).*")
 )
 public class CompanySiteControllerTest extends BaseControllerTest {
-	@MockBean
+	@MockitoBean
 	private CompanySiteService companySiteService;
-	@MockBean
+	@MockitoBean
 	private EntityDtoMapper entityDtoMapper;
 	@Autowired
 	private GraphQlTester graphQlTester;
