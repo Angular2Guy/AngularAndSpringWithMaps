@@ -51,7 +51,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
-        java-version: 21
+        java-version: 24
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
@@ -61,8 +61,7 @@ jobs:
 
     - if: matrix.language == 'java' 
       name: Build Java
-      run: |
-        gradle build -PwithAngular=true 
+      run: ./gradlew build -PwithAngular=true 
 
     # ������ Command-line programs to run using the OS shell.
     # ���� https://git.io/JvXDl
