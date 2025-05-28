@@ -12,10 +12,10 @@
  */
  plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.4.0'
+	id 'org.springframework.boot' version '3.5.0'
 	id 'org.graalvm.buildtools.native' version '0.10.6'
 	id 'io.spring.dependency-management' version '1.1.7'
-	id 'org.hibernate.orm' version '6.6.3.Final'
+	id 'org.hibernate.orm' version '6.6.15.Final'
 }
 
 group = 'ch.xxx'
@@ -30,14 +30,14 @@ java {
 repositories {
 	mavenCentral()
 }
-/*
+
 hibernate {
   enhancement {
     lazyInitialization = true
     dirtyTracking = true    
   }
 }
-*/
+
 dependencies {
 	implementation project(':frontend')
 	implementation 'org.springframework.boot:spring-boot-starter'
