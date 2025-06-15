@@ -1,4 +1,5 @@
 FROM ubuntu:jammy
+#FROM alpine:latest
 VOLUME /tmp
 ARG SPRING_PROFILE=prod
 ENV MY_SPRING_PROFILE=$SPRING_PROFILE
