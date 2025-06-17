@@ -33,8 +33,9 @@ repositories {
 
 hibernate {
   enhancement {
-    lazyInitialization = true
-    dirtyTracking = true    
+    enableAssociationManagement = true
+    //lazyInitialization = true
+    //dirtyTracking = true    
   }
 }
 
