@@ -1,4 +1,4 @@
-FROM eclipse-temurin:24-jdk-alpine
+FROM eclipse-temurin:25-jdk-alpine
 VOLUME /tmp
 ARG SPRING_PROFILE=prod
 ENV MY_SPRING_PROFILE=$SPRING_PROFILE
