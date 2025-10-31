@@ -13,9 +13,7 @@
  plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.5.0'
-	id 'org.graalvm.buildtools.native' version '0.10.6'
 	id 'io.spring.dependency-management' version '1.1.7'
-	id 'org.hibernate.orm' version '6.6.15.Final'
 }
 
 group = 'ch.xxx'
@@ -23,20 +21,12 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(24)
+		languageVersion = JavaLanguageVersion.of(25)
 	}
 }
 
 repositories {
 	mavenCentral()
-}
-
-hibernate {
-  enhancement {
-    enableAssociationManagement = true
-    //lazyInitialization = true
-    //dirtyTracking = true    
-  }
 }
 
 dependencies {
@@ -55,7 +45,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.springframework.graphql:spring-graphql-test'
-	testImplementation 'com.tngtech.archunit:archunit-junit5:1.4.0'
+	testImplementation 'com.tngtech.archunit:archunit-junit5:1.4.1'
 	
 	if(project.hasProperty('withAngular')) {
 		implementation 'org.postgresql:postgresql'
@@ -73,23 +63,18 @@ test {
 	useJUnitPlatform()
 }
 
-graalvmNative {
-    binaries {
-        main {
-          buildArgs.add("--gc=G1")
-        }
-    }
+// Ensure backend tasks wait for frontend
+
+tasks.named('processResources') {
+    dependsOn(':frontend:buildAngular')
 }
 
-//eclpise fix
-tasks.register('copyClasses') {
-   doLast{
-      copy {
-         from layout.buildDirectory.dir("classes/java")
-         include "**/*.class"
-         into layout.projectDirectory.dir("bin")
-      }
-   }
+tasks.named('classes') {
+    dependsOn(':frontend:buildAngular')
+}
+
+tasks.named('bootJar') {
+    dependsOn(':frontend:buildAngular')
 }
 
 task buildDockerImage {
@@ -102,5 +87,3 @@ task buildDockerImage {
 		}
 	}
 }
-
-build.dependsOn copyClasses
