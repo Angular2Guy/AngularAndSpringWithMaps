@@ -13,7 +13,7 @@
    limitations under the License.
  */
 import { Component } from "@angular/core";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { Router, RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
@@ -23,7 +23,6 @@ import { CommonModule } from "@angular/common";
     imports: [
       RouterModule,
       CommonModule,        
-        BrowserAnimationsModule,
         MatProgressSpinnerModule],
     templateUrl: "./app.component.html",
     styleUrls: ["./app.component.scss"],

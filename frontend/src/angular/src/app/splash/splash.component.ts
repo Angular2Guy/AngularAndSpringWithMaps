@@ -22,14 +22,12 @@ import {
   style,
 } from "@angular/animations";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { BrowserModule } from "@angular/platform-browser";
+import { CommonModule } from "@angular/common";
 
 @Component({
     selector: "app-splash",
     imports: [
-      BrowserModule,
-        BrowserAnimationsModule,
+      CommonModule,        
         MatProgressSpinnerModule],
     templateUrl: "./splash.component.html",
     styleUrls: ["./splash.component.scss"],
