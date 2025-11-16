@@ -13,16 +13,16 @@
    limitations under the License.
  */
 import { Component } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { Router, RouterModule } from "@angular/router";
+import { CommonModule } from "@angular/common";
 
 @Component({
     selector: "app-root",
     imports: [
       RouterModule,
-      BrowserModule,        
+      CommonModule,        
         BrowserAnimationsModule,
         MatProgressSpinnerModule],
     templateUrl: "./app.component.html",
