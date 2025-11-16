@@ -13,12 +13,20 @@
    limitations under the License.
  */
 import { Component } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { Router, RouterModule } from "@angular/router";
 
 @Component({
     selector: "app-root",
+    imports: [
+      RouterModule,
+      BrowserModule,        
+        BrowserAnimationsModule,
+        MatProgressSpinnerModule],
     templateUrl: "./app.component.html",
     styleUrls: ["./app.component.scss"],
-    standalone: false
 })
 export class AppComponent {
   protected title = "app";

@@ -13,12 +13,12 @@
    limitations under the License.
  */
 import { Injectable } from "@angular/core";
-import { MainConfiguration } from "../model/main-configuration";
+import { MainConfiguration } from "../maps/model/main-configuration";
 import { map } from "rxjs/operators";
 import { of, Observable } from "rxjs";
 import { GraphqlService } from "./graphql.service";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class ConfigurationService {
   private mainConfiguration: MainConfiguration = null;
 

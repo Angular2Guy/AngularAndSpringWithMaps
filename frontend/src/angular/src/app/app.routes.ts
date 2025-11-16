@@ -12,21 +12,14 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { SplashComponent } from "./splash/splash.component";
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: "", redirectTo: "/splash", pathMatch: "full" },
   {
     path: "maps",
-    loadChildren: () => import("./maps/maps.module").then((m) => m.MapsModule),
+    loadChildren: () => import("./maps/maps.routes").then((m) => m.routes),
   },
   { path: "splash", component: SplashComponent },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes, {})],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}

@@ -15,10 +15,10 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { CompanySite } from "../model/company-site";
+import { CompanySite } from "../maps/model/company-site";
 import { GraphqlService, GraphqlOptions } from "./graphql.service";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class CompanySiteService {
   constructor(private graphqlService: GraphqlService) {}
 

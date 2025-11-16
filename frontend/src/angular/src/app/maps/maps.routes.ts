@@ -13,11 +13,10 @@
    limitations under the License.
  */
 import { Routes, RouterModule } from "@angular/router";
-import { NgModule } from "@angular/core";
 import { CompanySiteComponent } from "./company-site/company-site.component";
 import { AuthGuardService } from "../services/auth-guard.service";
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: "", redirectTo: "companySite", pathMatch: "full" },
   {
     path: "companySite",
@@ -25,9 +24,3 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class MapsRoutingModule {}

@@ -23,33 +23,37 @@ import {
   DestroyRef,
   inject,
 } from "@angular/core";
-import { CompanySiteService } from "../services/company-site.service";
+import { CompanySiteService } from "../../services/company-site.service";
 import "bingmaps";
-import { ConfigurationService } from "../services/configuration.service";
+import { ConfigurationService } from "../../services/configuration.service";
 import { MainConfiguration } from "../model/main-configuration";
 import { Observable, of, iif, Subject, forkJoin } from "rxjs";
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CompanySite } from "../model/company-site";
-import { FormBuilder, Validators } from "@angular/forms";
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import {
   switchMap,
   debounceTime,
   filter,
-  flatMap,
-  tap,
-  map,
+  mergeMap,
 } from "rxjs/operators";
 import { BingMapsService } from "../../services/bing-maps.service";
-import { MatSelectionListChange } from "@angular/material/list";
+import { MatListModule, MatSelectionListChange } from "@angular/material/list";
 import { Polygon } from "../model/polygon";
 import { Location } from "../model/location";
 import { Ring } from "../model/ring";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import {
   PolygonDeleteDialogComponent,
   MyDialogResult,
   DialogMetaData,
 } from "../polygon-delete-dialog/polygon-delete-dialog.component";
+import { CommonModule } from "@angular/common";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatSliderModule } from "@angular/material/slider";
 
 interface Container {
   companySite: CompanySite;
@@ -69,9 +73,19 @@ interface PolygonMetaData {
 
 @Component({
     selector: "app-company-site",
+    imports: [ 
+      CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatSliderModule,
+    MatInputModule,
+    MatListModule,
+    MatButtonModule,
+    MatDialogModule,],
     templateUrl: "./company-site.component.html",
     styleUrls: ["./company-site.component.scss"],
-    standalone: false
 })
 export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild("bingMap")
@@ -173,10 +187,10 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
             !!myContainer.companySite.polygons &&
             !!myContainer.mainConfiguration
         ),
-        flatMap((myContainer) =>
+        mergeMap((myContainer) =>
           this.bingMapsService
             .initialize(myContainer.mainConfiguration.mapKey)
-            .pipe(flatMap(() => of(myContainer)))
+            .pipe(mergeMap(() => of(myContainer)))
         ),
         takeUntilDestroyed(this.destroy)
       )

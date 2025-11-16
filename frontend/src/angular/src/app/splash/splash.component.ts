@@ -21,9 +21,16 @@ import {
   transition,
   style,
 } from "@angular/animations";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { BrowserModule } from "@angular/platform-browser";
 
 @Component({
     selector: "app-splash",
+    imports: [
+      BrowserModule,
+        BrowserAnimationsModule,
+        MatProgressSpinnerModule],
     templateUrl: "./splash.component.html",
     styleUrls: ["./splash.component.scss"],
     animations: [
@@ -34,7 +41,6 @@ import {
             transition("0 => 1", animate("100ms")),
         ]),
     ],
-    standalone: false
 })
 export class SplashComponent implements AfterViewInit {
   myState = false;

@@ -1,4 +1,5 @@
-/**Copyright 2016 Sven Loesekann
+/*
+   Copyright 2016 Sven Loesekann
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -12,16 +13,12 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { enableProdMode } from "@angular/core";
-import { environment } from "./environments/environment";
-import { appConfig } from "./app/app.config";
-import { AppComponent } from "./app/app.component";
-import { bootstrapApplication } from "@angular/platform-browser";
+import { ApplicationConfig, importProvidersFrom } from "@angular/core";
+import { provideAnimations } from "@angular/platform-browser/animations";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { provideRouter } from "@angular/router";
+import { routes } from "./app.routes";
 
-if (environment.production) {
-  enableProdMode();
-}
-
-bootstrapApplication(AppComponent, appConfig).catch((err) =>
-  console.error(err)
-);
+export const appConfig: ApplicationConfig = {
+  providers: [provideRouter(routes), provideAnimations(), provideHttpClient(withInterceptorsFromDi())]
+};

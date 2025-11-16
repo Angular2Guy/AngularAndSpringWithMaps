@@ -23,7 +23,7 @@ export interface GraphqlOptions {
   variables?: { [key: string]: any };
 }
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class GraphqlService {
   constructor(private http: HttpClient) {}
 
