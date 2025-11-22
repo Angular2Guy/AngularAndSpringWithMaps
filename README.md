@@ -6,6 +6,8 @@ Author: Sven Loesekann
 
 Technologies: Angular, Spring Boot, Java, Gradle, GraphQl, GraphiQl, Typescript, Angular Cli, Angular Material, H2/Postgresql Databases, Jpa, Bing Maps, GraalVM native image
 
+Updated to Spring Boot 4
+
 [![CodeQL](https://github.com/Angular2Guy/AngularAndSpringWithMaps/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Angular2Guy/AngularAndSpringWithMaps/actions/workflows/codeql-analysis.yml)
 
 ## Articles
