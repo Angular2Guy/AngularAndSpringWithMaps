@@ -25,7 +25,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ch.xxx.maps.domain.model.entity.CompanySite;
 import ch.xxx.maps.domain.model.entity.CompanySiteRepository;
@@ -34,7 +34,8 @@ import ch.xxx.maps.domain.model.entity.PolygonRepository;
 import ch.xxx.maps.domain.model.entity.RingRepository;
 import jakarta.persistence.EntityManager;
 
-@ExtendWith(SpringExtension.class)
+
+@ExtendWith(MockitoExtension.class)
 public class CompanySiteServiceTest {
 	@Mock
 	private CompanySiteRepository companySiteRepository;
