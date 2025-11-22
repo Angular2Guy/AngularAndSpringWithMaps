@@ -23,7 +23,7 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
+import org.springframework.boot.graphql.test.autoconfigure.tester.AutoConfigureHttpGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.graphql.test.tester.GraphQlTester;
@@ -38,7 +38,7 @@ import ch.xxx.maps.usecase.mapper.EntityDtoMapper;
 import ch.xxx.maps.usecase.service.CompanySiteService;
 
 @SpringBootTest
-@AutoConfigureGraphQlTester
+@AutoConfigureHttpGraphQlTester
 @ComponentScan(basePackages = "ch.xxx.maps"
 //,excludeFilters = @Filter(type = FilterType.REGEX, pattern = ".*\\.(adapter|usecase)\\.(repository|service).*")
 )
