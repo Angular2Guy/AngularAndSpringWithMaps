@@ -20,7 +20,7 @@ import { GraphqlService } from "./graphql.service";
 
 @Injectable({ providedIn: "root" })
 export class ConfigurationService {
-  private mainConfiguration: MainConfiguration = null;
+  private mainConfiguration!: MainConfiguration;
 
   constructor(private graphqlService: GraphqlService) {}
 

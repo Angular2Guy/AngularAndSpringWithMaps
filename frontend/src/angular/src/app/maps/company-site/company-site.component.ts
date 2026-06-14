@@ -1,3 +1,4 @@
+/// <reference types="bingmaps" />
 /**Copyright 2016 Sven Loesekann
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +14,7 @@
    limitations under the License.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
+declare const Microsoft: any;
 import {
   Component,
   OnInit,
@@ -24,7 +26,6 @@ import {
   inject,
 } from "@angular/core";
 import { CompanySiteService } from "../../services/company-site.service";
-import "bingmaps";
 import { ConfigurationService } from "../../services/configuration.service";
 import { MainConfiguration } from "../model/main-configuration";
 import { Observable, of, iif, Subject, forkJoin } from "rxjs";
@@ -89,13 +90,13 @@ interface PolygonMetaData {
 })
 export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild("bingMap")
-  protected bingMapContainer: ElementRef;
+  protected bingMapContainer!: ElementRef;
 
   protected newLocations: NewLocation[] = [];
-  protected map: Microsoft.Maps.Map = null;
+  protected map: any = null;
   protected resetInProgress = false;
 
-  protected companySiteOptions: Observable<CompanySite[]>;
+  protected companySiteOptions!: Observable<CompanySite[]>;
   protected componentForm = this.formBuilder.group({
     companySite: ["Finkenwerder" as string | CompanySite, Validators.required],
     sliderYear: [2020],
@@ -105,7 +106,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
   protected readonly COMPANY_SITE = "companySite";
   protected readonly SLIDER_YEAR = "sliderYear";
   protected readonly PROPERTY = "property";
-  private mainConfiguration: MainConfiguration = null;
+  private mainConfiguration!: MainConfiguration;
   private readonly containerInitSubject = new Subject<Container>();  
   private readonly destroy: DestroyRef = inject(DestroyRef);
 
@@ -125,11 +126,11 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
           () =>
             !this.getCompanySiteTitle() ||
             this.getCompanySiteTitle().length < 3 ||
-            !this.componentForm.get(this.SLIDER_YEAR).value,
+            !this.componentForm.get(this.SLIDER_YEAR)?.value,
           of<CompanySite[]>([]),
           this.companySiteService.findByTitleAndYear(
             this.getCompanySiteTitle(),
-            this.componentForm.get(this.SLIDER_YEAR).value
+            this.componentForm.get(this.SLIDER_YEAR)?.value ?? 0
           )
         )
       ),
@@ -143,7 +144,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
         filter(
           (year) =>
             !(
-              typeof this.componentForm.get(this.COMPANY_SITE).value ===
+              typeof this.componentForm.get(this.COMPANY_SITE)?.value ===
               "string"
             )
         ),
@@ -155,7 +156,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
         ),
         filter(
           (companySite) =>
-            companySite?.length &&
+            companySite != null &&
             companySite.length > 0 &&
             companySite[0].polygons.length > 0
         ),
@@ -166,7 +167,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
       this.configurationService.importConfiguration(),
       this.companySiteService.findByTitleAndYearWithChildren(
         this.getCompanySiteTitle(),
-        this.componentForm.controls[this.SLIDER_YEAR].value
+        this.componentForm.controls[this.SLIDER_YEAR]?.value ?? 0
       ),
     ]).pipe(takeUntilDestroyed(this.destroy)).subscribe((values) => {
       this.mainConfiguration = values[0];
@@ -197,13 +198,13 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((container) => {
         const mapOptions =
           container.companySite.polygons.length < 1
-            ? ({} as Microsoft.Maps.IMapLoadOptions)
-            : ({
+            ? {}
+            : {
                 center: new Microsoft.Maps.Location(
                   container.companySite.polygons[0].latitude,
                   container.companySite.polygons[0].longitude
                 ),
-              } as Microsoft.Maps.IMapLoadOptions);
+              };
         this.map = new Microsoft.Maps.Map(
           this.bingMapContainer.nativeElement as HTMLElement,
           mapOptions
@@ -214,7 +215,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
         container.companySite.polygons.forEach((polygon) =>
           this.addPolygon(polygon)
         );
-        Microsoft.Maps.Events.addHandler(this.map, "click", (e) =>
+        Microsoft.Maps.Events.addHandler(this.map, "click", (e: any) =>
           this.onMapClick(e)
         );
       });
@@ -237,10 +238,10 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   upsertCompanySite(): void {
-    if (typeof this.componentForm.get(this.COMPANY_SITE).value === "string") {
+    if (typeof this.componentForm.get(this.COMPANY_SITE)?.value === "string") {
       console.log(
         "should create new company site: " +
-          this.componentForm.get(this.COMPANY_SITE).value
+          this.componentForm.get(this.COMPANY_SITE)?.value
       );
     } else {
       const myCompanySite = this.componentForm.controls[this.COMPANY_SITE]
@@ -298,7 +299,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
           this.companySiteService.findByTitleAndYear("Finkenwerder", 2020)
         ),
         filter(
-          (myCompanySite) => myCompanySite?.length && myCompanySite?.length > 0
+          (myCompanySite) => myCompanySite != null && myCompanySite.length > 0
         ),
         takeUntilDestroyed(this.destroy)
       )
@@ -333,49 +334,41 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
           new Microsoft.Maps.Location(myLocation.latitude, myLocation.longitude)
       )
     );
-    const mapPolygon = new Microsoft.Maps.Polygon(polygonRings);
-    mapPolygon.metadata = {
+    const mapPolygon = new Microsoft.Maps.Polygon(polygonRings.flat());
+    (mapPolygon as any).metadata = {
       companySiteId: (
         this.componentForm.controls[this.COMPANY_SITE].value as CompanySite
       ).id,
       polygonId: polygon.id,
     } as PolygonMetaData;
-    Microsoft.Maps.Events.addHandler(mapPolygon, "click", (e) =>
+    Microsoft.Maps.Events.addHandler(mapPolygon, "click", (e: any) =>
       this.onPolygonDblClick(e)
     );
     this.map.entities.push(mapPolygon);
   }
 
-  private onPolygonDblClick(
-    e:
-      | Microsoft.Maps.IMouseEventArgs
-      | Microsoft.Maps.IPrimitiveChangedEventArgs
-  ): void {
+  private onPolygonDblClick(e: any): void {
 	console.log(e);
     if (
-      (e as Microsoft.Maps.IMouseEventArgs).targetType === "polygon" &&
-      (e as Microsoft.Maps.IMouseEventArgs).eventName === "click"
+      (e as any).targetType === "polygon" &&
+      (e as any).eventName === "click"
     ) {
-      //console.log((e as Microsoft.Maps.IMouseEventArgs).target);
-      const myPolygon = (e as Microsoft.Maps.IMouseEventArgs)
-        .target as Microsoft.Maps.Polygon;
+      //console.log((e as MicrosoftMapsIMouseEventArgs).target);
+      const myPolygon = (e as any).target as any;
       this.openDeleteDialog(myPolygon.metadata as PolygonMetaData);
     }
   }
 
-  private onMapClick(
-    e: Microsoft.Maps.IMouseEventArgs | Microsoft.Maps.IMapTypeChangeEventArgs
-  ): void {
-    if ((e as Microsoft.Maps.IMouseEventArgs).location) {
+  private onMapClick(e: any): void {
+    if ((e as any).location) {
       const myLocation = {
         id: this.newLocations.length + 1,
-        location: (e as Microsoft.Maps.IMouseEventArgs).location,
+        location: (e as any).location,
         selected: true,
       };
       this.newLocations.push(myLocation);
       this.map.entities.push(
         new Microsoft.Maps.Pushpin(myLocation.location, {
-          title: "" + myLocation.id,
           icon: "assets/map-pin.png",
           anchor: new Microsoft.Maps.Point(12, 39),
         })
@@ -400,7 +393,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
           companySite.polygons[0].latitude,
           companySite.polygons[0].longitude
         ),
-      } as Microsoft.Maps.IMapLoadOptions);
+      });
       this.map.entities.clear();
       companySite.polygons.forEach((polygon) => this.addPolygon(polygon));
       this.map.setView({
@@ -414,23 +407,21 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getCompanySiteTitle(): string {
-    return typeof this.componentForm.get(this.COMPANY_SITE).value === "string"
-      ? (this.componentForm.get(this.COMPANY_SITE).value as string)
-      : (this.componentForm.get(this.COMPANY_SITE).value as CompanySite).title;
+    return typeof this.componentForm.get(this.COMPANY_SITE)?.value === "string"
+      ? (this.componentForm.get(this.COMPANY_SITE)?.value as string)
+      : (this.componentForm.get(this.COMPANY_SITE)?.value as CompanySite).title;
   }
 
   private updateMapPushPins(): void {
-    const mapPinsToAdd: Microsoft.Maps.Pushpin[] = [];
-    const mapPinsToRemove: Microsoft.Maps.Pushpin[] = [];
-    const mapPins: Microsoft.Maps.Pushpin[] = [];
+    const mapPinsToAdd: any[] = [];
+    const mapPinsToRemove: any[] = [];
+    const mapPins: any[] = [];
     for (let i = 0; i < this.map.entities.getLength(); i++) {
       if (
-        typeof (this.map.entities.get(i) as Microsoft.Maps.Pushpin).getIcon ===
-          "function" &&
-        typeof (this.map.entities.get(i) as Microsoft.Maps.Pushpin).getTitle ===
+        typeof (this.map.entities.get(i) as any).getIcon ===
           "function"
       ) {
-        mapPins.push(this.map.entities.get(i) as Microsoft.Maps.Pushpin);
+        mapPins.push(this.map.entities.get(i) as any);
       }
     }
     if (this.newLocations.length === 0) {
@@ -448,7 +439,6 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!myMapPin || (myMapPin.length === 0 && newLocation.selected)) {
           mapPinsToAdd.push(
             new Microsoft.Maps.Pushpin(newLocation.location, {
-              title: "" + newLocation.id,
               icon: "assets/map-pin.png",
               anchor: new Microsoft.Maps.Point(12, 39),
             })
@@ -457,7 +447,7 @@ export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     }
     mapPinsToRemove.forEach((myPin) => this.map.entities.remove(myPin));
-    mapPinsToAdd.forEach((myPin) => this.map.entities.add(myPin));
+    mapPinsToAdd.forEach((myPin) => this.map.entities.push(myPin));
   }
 
   private openDeleteDialog(polygonMetaData: PolygonMetaData): void {

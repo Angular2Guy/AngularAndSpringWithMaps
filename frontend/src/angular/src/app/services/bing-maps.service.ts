@@ -32,11 +32,11 @@ export class BingMapsService {
     script.charset = "utf-8";
     document.head.appendChild(script);
     const scriptPromise = new Promise<boolean>((resolve, reject) => {
-      window[callBackName] = () => {
+      (window as any)[callBackName] = () => {
         this.initialized = true;
         resolve(true);
       };
-      script.onerror = (error: Event) => {
+      script.onerror = (error: Event | string) => {
         console.log(error);
         reject(false);
       };
