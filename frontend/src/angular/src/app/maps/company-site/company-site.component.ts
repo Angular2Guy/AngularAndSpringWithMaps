@@ -24,6 +24,7 @@ import {
   OnDestroy,
   DestroyRef,
   inject,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { CompanySiteService } from "../../services/company-site.service";
 import { ConfigurationService } from "../../services/configuration.service";
@@ -87,6 +88,7 @@ interface PolygonMetaData {
     MatDialogModule,],
     templateUrl: "./company-site.component.html",
     styleUrls: ["./company-site.component.scss"],
+    changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class CompanySiteComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild("bingMap")

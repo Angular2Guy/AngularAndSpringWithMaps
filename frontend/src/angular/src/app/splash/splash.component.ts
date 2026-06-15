@@ -12,7 +12,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Component, AfterViewInit } from "@angular/core";
+import { Component, AfterViewInit, ChangeDetectionStrategy } from "@angular/core";
 import { Router } from "@angular/router";
 import {
   trigger,
@@ -31,6 +31,7 @@ import { CommonModule } from "@angular/common";
         MatProgressSpinnerModule],
     templateUrl: "./splash.component.html",
     styleUrls: ["./splash.component.scss"],
+    changeDetection: ChangeDetectionStrategy.Eager,
     animations: [
         trigger("showSplash", [
             state("true", style({ opacity: 1 })),

@@ -10,7 +10,7 @@
    limitations under the License.
  */
 import { CommonModule } from "@angular/common";
-import { Component, Inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
@@ -47,6 +47,7 @@ export interface DialogMetaData {
     ],
     templateUrl: "./polygon-delete-dialog.component.html",
     styleUrls: ["./polygon-delete-dialog.component.scss"],    
+    changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class PolygonDeleteDialogComponent {
   protected dialogResults = MyDialogResult;
