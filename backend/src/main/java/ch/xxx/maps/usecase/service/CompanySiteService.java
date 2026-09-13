@@ -75,7 +75,7 @@ public class CompanySiteService {
 	}
 
 	public Optional<CompanySite> findCompanySiteByIdDetached(Long id) {
-		return Optional.ofNullable(id).flatMap(myId -> this.companySiteRepository.findById(myId)).stream()
+		return Optional.ofNullable(id).flatMap(this.companySiteRepository::findById).stream()
 				.findFirst();
 	}
 
@@ -137,7 +137,7 @@ public class CompanySiteService {
 
 	public LinkedHashMap<CompanySiteDto, List<Polygon>> fetchPolygonDtos(List<CompanySiteDto> companySiteDtos) {
 		List<Polygon> polygons = this.polygonRepository
-				.findAllByCompanySiteIds(companySiteDtos.stream().map(myDto -> myDto.getId()).toList())
+				.findAllByCompanySiteIds(companySiteDtos.stream().map(CompanySiteDto::getId).toList())
 				.stream().peek(this.entityManager::detach).toList();
 		return companySiteDtos.stream()
 				.map(myCs -> Map.entry(myCs, findPolygons(polygons, myCs.getId())))

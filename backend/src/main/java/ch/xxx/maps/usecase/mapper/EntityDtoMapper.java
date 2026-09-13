@@ -78,7 +78,7 @@ public class EntityDtoMapper {
 								.filter(myLocation -> myLocation.getId() != null && myLocationDto.getId() != null
 										&& myLocation.getId().equals(myLocationDto.getId()))
 								.findFirst().orElse(new Location()))))
-				.flatMap(tuple -> Stream.of(this.mapToEntity(tuple.dto(), tuple.entity(), null, entity)))
+				.flatMap(location -> Stream.of(this.mapToEntity(location.dto(), location.entity(), null, entity)))
 				.collect(Collectors.toSet()));
 		return entity;
 	}
