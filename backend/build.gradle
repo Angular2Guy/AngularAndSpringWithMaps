@@ -52,7 +52,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'com.graphql-java:graphql-java-extended-scalars:24.0'
-	implementation 'commons-net:commons-net:3.8.0'			
+	implementation 'commons-net:commons-net:3.9.0'
 	testImplementation 'com.tngtech.archunit:archunit-junit5:1.4.1'
 	
 	if(project.hasProperty('withAngular')) {
