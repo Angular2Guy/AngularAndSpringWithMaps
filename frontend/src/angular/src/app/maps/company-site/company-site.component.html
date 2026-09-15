@@ -18,12 +18,11 @@
               [displayWith]="displayTitle"
               (optionSelected)="updateMapByCompanySite()"
             >
-              <mat-option
-                *ngFor="let option of companySiteOptions | async"
-                [value]="option"
-              >
-                {{ option.title }}
-              </mat-option>
+              @for (option of companySiteOptions(); track option.id) {
+                <mat-option [value]="option">
+                  {{ option.title }}
+                </mat-option>
+              }
             </mat-autocomplete>
           </mat-form-field>
         </div>
@@ -50,17 +49,16 @@
         class="new-locations"
         (selectionChange)="newLocationsChanged($event)"
       >
-        <mat-list-option
-          *ngFor="let newLocation of newLocations"
-          [selected]="newLocation.selected"
-        >
-          {{ newLocation.id }}: {{ newLocation.location.latitude }} -
-          {{ newLocation.location.longitude }}
-        </mat-list-option>
+        @for (newLocation of newLocations(); track newLocation.id) {
+          <mat-list-option [selected]="newLocation.selected">
+            {{ newLocation.id }}: {{ newLocation.location.latitude }} -
+            {{ newLocation.location.longitude }}
+          </mat-list-option>
+        }
       </mat-selection-list>
     </div>
     <div class="form-container form-property-container">
-      <div *ngIf="newLocations.length > 0">
+      @if (newLocations().length > 0) {
         <mat-form-field class="input-property-name example-full-width">
           <mat-label i18n="@@companySite.property">Property</mat-label>
           <input
@@ -69,33 +67,36 @@
             formControlName="{{ PROPERTY }}"
           />
         </mat-form-field>
-      </div>
-      <div *ngIf="newLocations.length > 0" class="form-container-buttons">
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="upsertCompanySite()"
-          *ngIf="newLocationsValid()"
-          i18n="@@companySite.add"
-        >
-          Add
-        </button>
-        <button
-          mat-raised-button
-          (click)="clearMapPins()"
-          i18n="@@companySite.clear"
-        >
-          Clear
-        </button>
-        <button
-          mat-raised-button
-          (click)="resetDb()"
-          [disabled]="resetInProgress"
-          i18n="@@companySite.resetDb"
-        >
-          Reset DB
-        </button>
-      </div>
+      }
+      @if (newLocations().length > 0) {
+        <div class="form-container-buttons">
+          @if (newLocationsValid()) {
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="upsertCompanySite()"
+              i18n="@@companySite.add"
+            >
+              Add
+            </button>
+          }
+          <button
+            mat-raised-button
+            (click)="clearMapPins()"
+            i18n="@@companySite.clear"
+          >
+            Clear
+          </button>
+          <button
+            mat-raised-button
+            (click)="resetDb()"
+            [disabled]="resetInProgress()"
+            i18n="@@companySite.resetDb"
+          >
+            Reset DB
+          </button>
+        </div>
+      }
     </div>
   </form>
   <div #bingMap class="bing-map-container"></div>

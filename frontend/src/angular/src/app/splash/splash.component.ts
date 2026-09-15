@@ -12,7 +12,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Component, AfterViewInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, signal } from "@angular/core";
 import { Router } from "@angular/router";
 import {
   trigger,
@@ -22,16 +22,14 @@ import {
   style,
 } from "@angular/animations";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { CommonModule } from "@angular/common";
 
 @Component({
     selector: "app-splash",
     imports: [
-      CommonModule,        
         MatProgressSpinnerModule],
     templateUrl: "./splash.component.html",
     styleUrls: ["./splash.component.scss"],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
         trigger("showSplash", [
             state("true", style({ opacity: 1 })),
@@ -41,13 +39,11 @@ import { CommonModule } from "@angular/common";
         ]),
     ],
 })
-export class SplashComponent implements AfterViewInit {
-  myState = false;
+export class SplashComponent {
+  myState = signal(false);
 
-  constructor(private router: Router) {}
-
-  ngAfterViewInit(): void {
+  constructor(private router: Router) {
     this.router.navigate(["/maps"]);
-    setTimeout(() => (this.myState = true));
+    setTimeout(() => this.myState.set(true));
   }
 }
