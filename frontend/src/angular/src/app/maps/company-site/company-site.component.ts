@@ -245,6 +245,9 @@ export class CompanySiteComponent {
         title: this.componentForm.controls[this.PROPERTY].value,
         rings: [newRing],
       } as Polygon;
+      if (!myCompanySite.polygons) {
+        myCompanySite.polygons = [];
+      }
       myCompanySite.polygons.push(newPolygon);
       this.companySiteService
         .upsertCompanySite(myCompanySite)
