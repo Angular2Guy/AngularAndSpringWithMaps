@@ -8,5 +8,5 @@
     "types": ["vitest/globals", "node"],
     "noCheck": true
   },
-  "include": ["src/**/*.spec.ts", "src/**/*.d.ts", "src/test-setup.ts", "vitest.config.mts"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/test-setup.ts", "vitest.config.mts"]
 }

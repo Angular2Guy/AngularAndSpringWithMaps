@@ -2,15 +2,11 @@
 import { resolve } from "node:path";
 import angular from "@analogjs/vite-plugin-angular";
 import { defineConfig } from "vitest/config";
-import viteTsConfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   plugins: [
     angular({
       tsconfig: resolve(import.meta.dirname, "tsconfig.vitest.json"),
-    }),
-    viteTsConfigPaths({
-      projects: ["tsconfig.vitest.json"],
     }),
   ],
   test: {
