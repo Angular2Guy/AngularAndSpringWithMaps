@@ -14,13 +14,6 @@
  */
 import { Component, ChangeDetectionStrategy, signal } from "@angular/core";
 import { Router } from "@angular/router";
-import {
-  trigger,
-  state,
-  animate,
-  transition,
-  style,
-} from "@angular/animations";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 @Component({
@@ -30,14 +23,6 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
     templateUrl: "./splash.component.html",
     styleUrls: ["./splash.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [
-        trigger("showSplash", [
-            state("true", style({ opacity: 1 })),
-            state("false", style({ opacity: 0 })),
-            transition("1 => 0", animate("100ms")),
-            transition("0 => 1", animate("100ms")),
-        ]),
-    ],
 })
 export class SplashComponent {
   myState = signal(false);

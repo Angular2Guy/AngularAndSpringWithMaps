@@ -13,12 +13,11 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { ApplicationConfig, importProvidersFrom } from "@angular/core";
-import { provideAnimations } from "@angular/platform-browser/animations";
+import { ApplicationConfig } from "@angular/core";
 import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { provideRouter } from "@angular/router";
 import { routes } from "./app.routes";
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideAnimations(), provideHttpClient(withInterceptorsFromDi())]
+  providers: [provideRouter(routes), provideHttpClient(withInterceptorsFromDi())]
 };

@@ -13,13 +13,7 @@
 package ch.xxx.maps.usecase.service;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -172,7 +166,7 @@ public class CompanySiteService {
 
 	private List<Location> findLocations(List<Location> locations, Long myRiId) {
 		return locations.stream().filter(myLocation -> myLocation.getRing().getId().equals(myRiId))
-				.sorted((a,b) -> a.getOrderId().compareTo(b.getOrderId()))
+				.sorted(Comparator.comparing(Location::getOrderId))
 				.collect(Collectors.toList());
 	}
 }

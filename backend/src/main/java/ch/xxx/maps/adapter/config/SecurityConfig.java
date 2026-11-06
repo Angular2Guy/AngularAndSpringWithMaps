@@ -16,6 +16,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter.HeaderValue;
@@ -29,14 +31,14 @@ public class SecurityConfig {
 		HttpSecurity result = http
 				.authorizeHttpRequests(
 						authorize -> authorize.requestMatchers("/**").permitAll())
-				.csrf(myCsrf -> myCsrf.disable())
+				.csrf(AbstractHttpConfigurer::disable)
 				.sessionManagement(mySm -> mySm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.headers(myHeaders -> myHeaders.contentSecurityPolicy(myCsp -> myCsp.policyDirectives(
 						"default-src 'self' data: https://*.virtualearth.net https://*.bing.com; script-src 'self' https://*.virtualearth.net "
 								+ " https://*.bing.com 'unsafe-inline'; style-src 'self' https://*.bing.com 'unsafe-inline'; font-src 'self' "
 								+ " data: https://fonts.gstatic.com;")))
 				.headers(myHeaders -> myHeaders.xssProtection(myXss -> myXss.headerValue(HeaderValue.ENABLED)))
-				.headers(myHeaders -> myHeaders.frameOptions(myFo -> myFo.sameOrigin()));
+				.headers(myHeaders -> myHeaders.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 		return result.build();
 	}
 }

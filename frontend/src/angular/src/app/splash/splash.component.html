@@ -1,14 +1,16 @@
-<div class="container">
-  <div class="content" [@showSplash]="myState()" i18n="@@splash.welcome">
-    Welcome to AngularAndSpringWithMaps
+@if (myState()) {
+  <div class="container">
+    <div class="content" animate.enter="splash-enter" i18n="@@splash.welcome">
+      Welcome to AngularAndSpringWithMaps
+    </div>
   </div>
-</div>
-<div class="container">
-  <div class="content" [@showSplash]="myState()">
-    <mat-progress-spinner
-      class="example-margin"
-      mode="indeterminate"
-      color="primary"
-    ></mat-progress-spinner>
+  <div class="container">
+    <div class="content" animate.enter="splash-enter">
+      <mat-progress-spinner
+        class="example-margin"
+        mode="indeterminate"
+        color="primary"
+      ></mat-progress-spinner>
+    </div>
   </div>
-</div>
+}
